@@ -10,6 +10,7 @@ public class Entity {
 	private double dXPos;
 	private double dYPos;
 	private double dHeading;
+	public static final long ACTION_DURATION=0; //Initalize this to a 1 if we are doing any multiplication with it. Why did I initialize it? Eclipse gives me an error otherwise :(
 	EntityController encController;
 	
 	public Entity(int entityID, Entity baseEntity, double xPos, double yPos, double heading){
