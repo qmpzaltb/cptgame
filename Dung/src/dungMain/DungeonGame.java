@@ -15,8 +15,8 @@ public class DungeonGame {
 
 	public static DungeonGame theDungeonGame;
 	
-	public Dungeon currentDungeon;
-	public ArrayList<Entity> currentEntities;
+	public Dungeon dngCurrentDungeon;
+	public ArrayList<Entity> entalCurrentEntities;
 
 	private static int iMSPFOGmAdj; //Adjusted value for Milliseconds per Frame Operation to account for lag.
 	private static long lGameLoopStartTime;

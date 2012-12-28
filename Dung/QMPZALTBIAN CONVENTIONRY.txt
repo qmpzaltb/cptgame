@@ -1,0 +1,30 @@
+The Conventions of Qmpzaltb
+
+Variable names begin with their data type.
+For example, integers begin with i, resulting in variable names such as iAppleAmount, iAnswerToLife.
+
+Primitive data types typically begin with 1 character prefixing the variable name (with the exception of Byte because its funny)
+A LIST OF PRIMITIVE DATA TYPE VARIABLE NAME PREFIXES:
+Byte 		- by
+Boolean 	- b
+Integer 	- i
+Double		- d
+Short		- s
+Long 		- l
+
+Prefixes for object variable names should have three letters. For example (This list is incomplete. I will not list all the objects in Java):
+String 		- str
+Scanner		- scn
+Random		- rng (Random number generator. Sometimes this is more concise. I don't know)
+SkeletonLimb- skl
+Entity		- ent
+
+Rules for Array Naming Conventions
+After the initial prefix, make an "a" denoting that this is an array.
+For multidimensional arrays (2D +), add a number after the A to denote it as such.
+For example, a 2D array of dungeon tiles could look like this: dtla2DungeonTiles.
+(It looks neater when you do it with primitive data types, such as ia2Elevations)
+
+When you do array list, do "al" instead of a.
+
+QMPZALTB HAS WRITTEN.
