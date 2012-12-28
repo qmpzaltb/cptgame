@@ -1,8 +1,10 @@
 package dungUserInterface;
 
 public class GameActions {
-
+	
+	public static final long ACTION_DURATION=0; //Initalize this to a 1 if we are doing any multiplication with it. Why did I initialize it? Eclipse gives me an error otherwise :(
 	//Actions that trigger when the button is down, detrigger when the button is lifted.
+	public static final int NOTHING                     = -1;
 	public static final int MOVE_UP 					= 0;
 	public static final int MOVE_DOWN					= 1;
 	public static final int MOVE_LEFT 					= 2;
