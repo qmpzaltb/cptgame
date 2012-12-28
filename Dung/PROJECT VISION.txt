@@ -1,8 +1,11 @@
 Dungeon Game
 ------------
 
+* - Completed Tasks
+
+
 EVEN MORE PRIMARY GOALS:
-1. Do something
+* 1. Do something
 
 PRIMARY GOALS: (We must have these)
 
