@@ -1,5 +1,7 @@
 package dungMain;
 
+import java.util.ArrayList;
+
 import dungUserInterface.GameActions;
 import dungUserInterface.GameInput;
 import dungUserInterface.GameSettings;
@@ -50,8 +52,10 @@ public class DungeonGame {
 		
 		/*
 		 * for (counter; parsing through the entity array list; counter++){
-		 * 		entityarraylist.get()
-		 * 
+		 * 		entityarraylist.get(counter).doNextAction();
+		 * 		if (entityarraylist.get(counter).isDead()){
+		 * 			entityarraylist.delete(counter);
+		 *      }
 		 * }
 		 * 
 		 *  
