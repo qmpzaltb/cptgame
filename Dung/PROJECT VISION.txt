@@ -1,0 +1,41 @@
+Dungeon Game
+------------
+
+EVEN MORE PRIMARY GOALS:
+1. Do something
+
+PRIMARY GOALS: (We must have these)
+
+1. Mouse/Keyboard Input (generally complete)
+2. The While-True Game Loop 
+3. Graphics and its relevant loop
+4. A (main) menu.
+5. Simple simple AI.
+
+SECONDARY GOALS: (These would be good to have)
+
+1. Items 
+2. Network/Multiplayer
+3. Procedurally generated (random) dungeons.
+4. Dynamic dungeon environment (liquids, gases, and their effects)
+5. Levelling up, skills,
+
+TERTIARY GOALS: (We should add these if we have time or if it is super easy)
+
+1. At least 3x more inside joke, and more items (LAZERS. Robots, dinosaurs, swords and fairies. We are not sticking to a specific theme here. You're just stuck in a generic omni-dungeon dimension)
+2. Smart AI.
+3. Items and such loading through the ContentLoader (as in, we can add items and entities by adding text files to a folder)
+4. Configurable settings!
+5. Non-HP based combat? (Blood, broken bones, amputated limbs, replace organs with robot versions, change your gender, play as a giant rat. Things that make the game more sandboxxy)
+6. Line of sight? As in, you only see where you are facing. This would also allow us to put in Xray goggles and have a psychic powers skill.
+7. Dungeon dwelling civilizations? NPCs such as lost merchants that can totally barter with you for free stuff pl0x.
+8. Lures, decoys?
+9. PVP (friendly fire)
+10. Even better procedurally generated dungeons.
+11. Basic crafting.
+
+
+
+Keep in mind, I do not think we should have a specific "theme" for this game. It does not have to be purely fantasy, history, future, or modern.
+It can be ALL OF THE ABOVE.
+Six$

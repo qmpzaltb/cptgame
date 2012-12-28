@@ -1,0 +1,117 @@
+The Dungeon Game - Class by Class
+
+dungMain Package - 
+	DungeonGame -
+		That class is the main class. It initializes everything. It is most likely where the game loop will exist (but not necessarily - it may be better to put
+		the game loop elsewhere)
+			Interesting thing about DungeonGame is that it has a field "public static DungeonGame theDungeonGame"
+			This is useful for data control. Say you have an idea for an item that should affect the gases of a tile, then you would (hopefully) reference it like this:
+				DungeonGame.theDungeonGame.currentDungeon.dungeonTiles[x][y].methodmethodmethod(argumentslol);
+	Dungeon - 
+		That class is the class that defines the dungeon. The class is like an object. It holds dungeon tiles, other environmental data, etc. We may move this to
+		a different package if the dungeon needs more classes)
+	DungeonTile - 
+		The stuff that Dungeons are made of. Dungeons store DungeonTiles in a 2D array. DungeonTiles hold variables such as localized environmental data (the amount
+		of certain gases in a tile, for example)
+		
+dungUserInterface Package -
+	I will admit, this package may be overly complex, but JUST ROLL WITH IT. DON'T ASK QUESTIONS.
+	(ask questions, you must understand this)
+	
+	HOW DOES THE INPUT WORK?
+	LIKE THIS:
+	The way Java (KeyListener) does keys is that it gives each key a "code".
+	The "code" is an integer from like 0-255. (0x00 to 0xFF, thats why);
+	So, what I did is I made an array of 300!
+	The key's keycodes can therefore be indexes in this array of 300.
+	What is this array an array of?
+	Its an array of the action that the key represents.
+	But the actions are technically indexes in another array, a boolean array of actions.
+	
+	COMPLICATION HAS BEEN ACHEIVED; TL;DR VERSION:
+	
+	Java keycode is an index for an array.
+	That array is made of indexes for an action array.
+	The action array goes true or false, depending on whether the action is desired.
+	
+	GameActions -
+		Basically a class to store variables. It stores the indexes of actions. Why I extend this class to other classes?
+		I really didnt want to write "GameActions.ACTION_ACTION_ACTION"
+	GameGraphics -
+		This is where the Graphics class will be graphicated. Graphics graphics graphics. I have no idea where this class is going, but generally speaking,
+		you need a Graphics thingy if you want to do graphics on AWTs and JFrames.
+	GameInput -
+		Yeah. The only fancy thing about this class is that it stores the actions that the player wants to do.
+		Generally speaking, you're going to access this class's info as such:
+			GameInput.baActions[GameActions.ATTACK_USE_PRIMARY];
+		Also, if the action you're reading is a request like "OPEN_INVENTORY", make sure that after it is called and handled, you turn it back off like such:
+			GameInput.baActions[GameActions.OPEN_INVENTORY] = false;
+		you know, because the player isnt asking for the inventory to be opened anymore.
+		You don't have to worry about that for the trigger buttons such as WASD.
+		You DO have to worry about that for four of the six attack buttons - the ones dealing with RELEASE and TRIGGER.
+		OH AND ALSO:
+		GameInput has a method getHeading which basically gets the angle (in radians from the vertical) in which the mouse is from the center of the screen.
+		This can come in handy for figuring out where the character should attack, should shoot, should face, should see.
+	GameKeyboardInput - 
+		This thing is generally done. Its a KeyListener. Whenever a keyboard button is pressed (and the JFrame has the focus), the relevant method is called.
+		And what did I do with that? I made it call and uncall the baActions[] booleans. Don't worry about it.
+	GameMouseInput -
+		Generally the same thing as GameKeyboardInput but with the mouse.
+	GameSettings -
+		If we ever do settings, this is where they will be kept.
+		For now, the GameSettings class holds keybindings - as in, what action different keys trigger.
+	GameWindow -
+		The window of the game. Contains a JFrame, this is where you would add the listener componenents, the Graphics component. Yes.
+		
+dungContent -
+
+	ContentLibrary - 
+		This is where ArrayLists of images, of entities, of items, will be stored. So whenever you need to create a new RobotNerman enemy, you can say
+			Entity roboNerm = ContentLibrary.alEntities.get(WHATEVERINDEXITIS);
+		Or something along those lines. We will figure it out when this is made.
+	ContentLoader -
+		Class that contains methods that look through the files and puts the info/data in the ContentLibrary class.
+		Well, it should contain the methods soon enough. Quite a priority class, I would say.
+		
+dungEntity -
+
+	Entity - 
+		Anything that is in the game that is not the dungeon itself.
+		Flying arrows, bullets, LAZORS, players, enemies, Doors?
+		Its meant to be used like an object.
+	EntityController -
+		Its an INTERFACE!
+		Oh god now I have to explain interface.
+		See, not every entity is the same. Some entities are smart, such as players.
+		Some entities are dumb - (THE BULLET IS STUPID - Suvorov).
+		Now this makes things complicated. Dumb things die differently than smart entities.
+		Dumb things like arrows die when they've been stuck in some place for some time.
+		Smart things like players die when they have no HPs.
+		But this means we need different methods! Different methods that do the same thing!
+		How can I possibly ask if the entity should die or not using an isEntityAlive() method?
+		YOU USE AN INTERFACE.
+		See, the EntityController interface will have common methods that the Entity class will call!
+		Such as (subject to change):
+			isEntityAlive();
+			getNextPosition();
+			doNextAction();
+		Makes perfect sense!
+	ControllerAI - 
+		This is an EntityController that will be made for things like skeletons, roboNermans (HEY MARK WHAT ARE INTERFACES INTERFACE ENTERFACE I MUST ENTER YOUR FACE NOW), killer violins, poison penguins,
+		See? Because AIs act differently than players! They are not controlled by the keyboard!
+		Although this class will most likely be extended by other classes such as ControllerAIRanged for ranged units, ControllerAISuicideBomber for suicide-like units, ControllerAIPhalanx for enemies that fight in
+		ancient Greek formations. Maybe I am complicating things. Lets just stick to ControllerAI for now.
+	ControllerDumb - 
+		The bullet is stupid.
+		So are arrows.
+		These objects move wherever they were being moved to.
+		Unless, you know, homing missile. (HOMIE MISSILE YO YO YO DAWG)
+	ControllerNetwork - 
+		This class should get the actions from a network-handling class to see what the other network players are doing, stuff like that.
+		Fo shizzle.
+	ControllerPlayer - 
+		Aaaand this one gets the actions from the input classes. Also this one has inventories and such! WOW!
+		ARE YOU EXCITED? WHY ARE YOU NOT EXCITED?! I hate you.
+
+THATS ALL OF IT!
+for now.
