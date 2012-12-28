@@ -1,6 +1,6 @@
 package dungEntity;
 
-abstract class EntitySkeleton {
+public abstract class EntitySkeleton {
 
 	private SkeletonLimb[] sklaSkeleton;
 	

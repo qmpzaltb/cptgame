@@ -1,6 +1,6 @@
 package dungEntity;
 
-abstract class EntityController {
+public abstract class EntityController {
 	
 	private int iEntityID;
 	

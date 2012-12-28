@@ -1,25 +1,20 @@
-package dungEntity;
+package dungContent;
+
+import dungEntity.EntityController;
 
 public class ControllerPlayer extends EntityController{
 
-	private int iEntityID;
-	
-	private int iEntityHP
-	
-	
-	
-	
-	public ControllerPlayer(int entityID){
-		iEntityID = entityID;
+	@Override
+	public boolean isEntityDead() {
+		// TODO Auto-generated method stub
+		return false;
 	}
-	
-	public void isEntityDead() {
-		
-	}
-	
-	
+
+	@Override
 	public void doNextAction() {
+		// TODO Auto-generated method stub
 		
 	}
+	
 	
 }

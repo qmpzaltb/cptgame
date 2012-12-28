@@ -1,5 +1,7 @@
-package dungEntity;
+package dungContent;
 
-public class ControllerAI implements EntityController{
+import dungEntity.EntityController;
+
+public class ControllerAI extends EntityController{
 
 }

@@ -1,5 +1,7 @@
-package dungEntity;
+package dungContent;
 
-public class ControllerDumb implements EntityController{
+import dungEntity.EntityController;
+
+public class ControllerDumb extends EntityController{
 
 }

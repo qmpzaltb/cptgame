@@ -1,5 +1,7 @@
-package dungEntity;
+package dungContent;
 
-public class ControllerNetwork implements EntityController{
+import dungEntity.EntityController;
+
+public class ControllerNetwork extends EntityController{
 
 }
