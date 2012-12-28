@@ -4,6 +4,7 @@ import dungUserInterface.GameActions;
 import dungUserInterface.GameInput;
 import dungUserInterface.GameSettings;
 import dungUserInterface.GameWindow;
+import dungEntity.Entity;
 
 public class DungeonGame {
 
@@ -13,6 +14,7 @@ public class DungeonGame {
 	public static DungeonGame theDungeonGame;
 	
 	public Dungeon currentDungeon;
+	public ArrayList<Entity> currentEntities;
 
 	private static int iMSPFOGmAdj; //Adjusted value for Milliseconds per Frame Operation to account for lag.
 	private static long lGameLoopStartTime;
@@ -46,10 +48,21 @@ public class DungeonGame {
 		
 		lGameLoopStartTime = System.currentTimeMillis();
 		
+		/*
+		 * for (counter; parsing through the entity array list; counter++){
+		 * 		entityarraylist.get()
+		 * 
+		 * }
+		 * 
+		 *  
+		 * 
+		 */
 		
-		if (GameInput.baActions[GameActions.ATTACK_USE_PRIMARY]){
-			System.out.println("ATTACK");
-		}
+		
+		//Not pseudocode. This is testing stuff.
+		//if (GameInput.baActions[GameActions.ATTACK_USE_PRIMARY]){
+		//	System.out.println("ATTACK");
+		//}
 		
 		
 		lGameLoopEndTime = System.currentTimeMillis();
