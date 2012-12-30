@@ -11,27 +11,29 @@
 	 *                 Robot                                               ---- 0004
 	 *                 Zombie                                              ---- 0005
 	 *                 Dwarf                                               ---- 0006
-	 *                 Gool                                                ---- 0007
+	 *                 Ghoul                                                ---- 0007
 	 *                 Bat                                                 ---- 0008
 	 *                 Wolf                                                ---- 0009
 	 *                 Dog                                                 ---- 0010
 	 *                 Shark                                               ---- 0011
-	 *                 Whale                                               ---- 0012
-	 *                 Pikachu                                             ---- 0013
+	 *                 Whale                                               ---- 0012 
+	 *                 Pikachu                                             ---- 0013 So many things with so 
 	 * #### DUMB: --QUESTION: Can you dual weild? Because if you can do we count 2 swords as a seperate entity or do we combine 2 entities D: I suggest we don't do this because it will complicate things
 	 *                 Bow                                                 ---- 0014
 	 *                 Arrow                                               ---- 0015
 	 *                 Boots                                               ---- 0016
 	 *                 Armor                                               ---- 0017
-	 *                 Caps???????????????? TF2 ANYBODY? :D                ---- 0018
+	 *                 Caps???????????????? TF2 ANYBODY? :D                ---- 0018 You mean hats
 	 *                 Gun                                                 ---- 0019
 	 *                 Sword                                               ---- 0020
-	 *                 Shield                                              ---- 0021
-	 *                 Broken Bear Bottle                                  ---- 0022
+	 *                 Shield                                              ---- 0021 
+	 *                 Broken Bear Bottle                                  ---- 0022 (YES, BEAR bottle. Bottled Bears? Bear in a can.)
 	 *                 Unicorn Horn                                        ---- 0023
 	 *                 Bible (Yes Mark, for bonus marks from the teacher we need to add biblical morality) :)
 	 *                 (The Bible shows the player the "Correct Path" (to the nearest exit))
 	 *                 
+	 					Shehryar's trishool, which should be a 2 handed melee+ranged weapon.
+	 					
 	 *                                        
 	 * #### PLAYER:
 	 *                 Current PC Player (If we decide on doing a network) ---- 00?? 

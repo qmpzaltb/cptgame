@@ -1,22 +1,20 @@
 package dungMain;
 
 import java.util.ArrayList;
-
 import dungUserInterface.GameActions;
 import dungUserInterface.GameInput;
 import dungUserInterface.GameSettings;
 import dungUserInterface.GameWindow;
+import dungContent.ContentLibrary;
 import dungEntity.Entity;
 
 public class DungeonGame {
 
 
 	private static GameWindow mainGameWindow; 
-
-	public static DungeonGame theDungeonGame;
 	
-	public Dungeon dngCurrentDungeon;
-	public ArrayList<Entity> entalCurrentEntities;
+	public static Dungeon dngCurrentDungeon;
+	public static ArrayList<Entity> entalCurrentEntities;
 
 	private static int iMSPFOGmAdj; //Adjusted value for Milliseconds per Frame Operation to account for lag.
 	private static long lGameLoopStartTime;
@@ -28,7 +26,6 @@ public class DungeonGame {
 	public static void main(String[] args){
 
 		mainGameWindow = new GameWindow();
-		mainGameWindow.start();
 
 		GameInput.initGameInput();
 		GameSettings.initGameSettings();
@@ -39,6 +36,11 @@ public class DungeonGame {
 		iMSPFOGmAdj = GameSettings.iMSPFOGm;
 		lCurrentFrame = 0;
 		
+		entalCurrentEntities = new ArrayList<Entity>();
+		entalCurrentEntities.add(new Entity(0, ContentLibrary.humanPlayer, 50.0, 50.0, 0.0));
+		
+		
+		mainGameWindow.start();
 		while (true){
 			doGameLoop();
 			lCurrentFrame ++;

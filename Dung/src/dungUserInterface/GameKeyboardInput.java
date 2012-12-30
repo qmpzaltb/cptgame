@@ -8,7 +8,6 @@ public class GameKeyboardInput extends GameActions implements KeyListener{
 
 	public GameKeyboardInput (){
 		super();
-
 	}
 
 	public void keyPressed(KeyEvent key) {

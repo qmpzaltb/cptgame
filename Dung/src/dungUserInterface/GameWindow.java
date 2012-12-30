@@ -7,7 +7,7 @@ public class GameWindow extends Thread {
 	
 	public static final String NAME = "Dung";
 	
-	boolean runningRenderer;
+	//boolean runningRenderer;
 	
 	
 	JFrame frMainWindow;
@@ -16,7 +16,8 @@ public class GameWindow extends Thread {
 	GameMouseInput miMouseListener;
 	
 	public GameWindow(){
-		runningRenderer = false;
+		super("DungGFX");
+		//runningRenderer = false;
 		frMainWindow = new JFrame(NAME);
 		frMainWindow.setSize(640 , 480);
 		frMainWindow.setResizable(false);
@@ -52,6 +53,18 @@ public class GameWindow extends Thread {
 	}
 
 	public void run() {
+		
+		while(true){
+			System.out.println("I like paint");
+			frMainWindow.repaint();
+			try {
+				Thread.sleep(15);
+			} catch (InterruptedException e) {
+				System.err.println("Poopsicle sticks in the GameWindow class.");
+				e.printStackTrace();
+			}
+
+		}
 	}
 	
 	
