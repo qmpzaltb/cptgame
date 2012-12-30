@@ -1,6 +1,7 @@
 package dungContent;
 
 import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.Graphics2D;
 
 import dungEntity.SkeletonLimb;
@@ -17,6 +18,7 @@ public class LimbOval extends SkeletonLimb{
 		dRelativeLimbY1 = y1;
 		dLimbXSize = xSize;
 		dLimbYSize = ySize;
+		colLimbColor = Color.ORANGE;
 	}
 	
 	

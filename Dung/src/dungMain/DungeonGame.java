@@ -37,7 +37,7 @@ public class DungeonGame {
 		lCurrentFrame = 0;
 		
 		entalCurrentEntities = new ArrayList<Entity>();
-		entalCurrentEntities.add(new Entity(0, ContentLibrary.humanPlayer, 50.0, 50.0, 0.0));
+		entalCurrentEntities.add(new Entity(0, ContentLibrary.humanPlayer, 2.0, 2.0, 0.0));
 		
 		
 		mainGameWindow.start();

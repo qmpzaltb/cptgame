@@ -28,14 +28,19 @@ public class GameGraphics extends JPanel{
 			dEntityRelativeXShift = entToRender.dXPos * 64;
 			dEntityRelativeYShift = entToRender.dYPos * 64;
 			
+			System.out.println(dEntityRelativeXShift + " XSHIFT");
+			System.out.println(dEntityRelativeYShift + " YSHIFT");
+			
 			gfx2D.translate((int)(dEntityRelativeXShift), (int)(dEntityRelativeYShift));
+			gfx2D.drawString("It has nothing to do with translate.", 100, 100);
 			for (SkeletonLimb lmbToRender : entToRender.ensSkeleton.sklaSkeleton){
 				System.err.println("Trying to paint yo");
 				lmbToRender.drawLimb(gfx2D);
 			}
 			gfx2D.translate((-1) * (int)(dEntityRelativeXShift), (-1) * (int)(dEntityRelativeYShift));
 			
-			
+			gfx2D.drawString("The skeleton doesn't draw, but this shows up! What's up wit dat?", 269, 300);
+			gfx2D.drawString("WHATS UP WIT DAT!?!", 325, 350);
 		}
 		
 		

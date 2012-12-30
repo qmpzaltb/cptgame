@@ -1,5 +1,7 @@
 package dungContent;
 
+import java.awt.Color;
+
 import dungEntity.AnimationType;
 import dungEntity.EntitySkeleton;
 import dungEntity.SkeletonLimb;
@@ -19,6 +21,8 @@ public class SkeletonHumanoid extends EntitySkeleton{
 			new LimbLine(2f, -15.0, 0.0, -15.0, 5.0),//Left forearm
 			new LimbOval(-5.0, -5.0, 10.0, 10.0)//Head
 		};
+		
+		sklaSkeleton[7].colLimbColor = Color.YELLOW;
 	}
 	
 	
