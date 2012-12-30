@@ -8,6 +8,7 @@ import java.awt.Graphics2D;
 import javax.swing.JPanel;
 
 import dungEntity.Entity;
+import dungEntity.EntitySkeleton;
 import dungEntity.SkeletonLimb;
 import dungMain.DungeonGame;
 
@@ -33,7 +34,11 @@ public class GameGraphics extends JPanel{
 			
 			gfx2D.translate((int)(dEntityRelativeXShift), (int)(dEntityRelativeYShift));
 			gfx2D.drawString("It has nothing to do with translate.", 100, 100);
+			
+			entToRender.ensSkeleton.doMoveAnimation(DungeonGame.lCurrentFrame);
+			
 			for (SkeletonLimb lmbToRender : entToRender.ensSkeleton.sklaSkeleton){
+				
 				System.err.println("Trying to paint yo");
 				lmbToRender.drawLimb(gfx2D);
 			}

@@ -20,7 +20,7 @@ public class DungeonGame {
 	private static long lGameLoopStartTime;
 	private static long lGameLoopEndTime;
 	private static long lGameLoopTimeTaken;
-	private static long lCurrentFrame;
+	public static long lCurrentFrame; //Change this back to private later. Im doing some tests and I need some framing shit.
 	private static long lTimeToSleep;
 	
 	public static void main(String[] args){
