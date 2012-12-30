@@ -59,10 +59,12 @@ public class DungeonGame {
 		 * 			entityarraylist.delete(counter);
 		 *      }
 		 * }
-		 * 
-		 *  
-		 * 
 		 */
+		
+		for (Entity toUpdate : entalCurrentEntities){
+			toUpdate.encController.doNextAction();
+		}
+
 		
 		
 		//Not pseudocode. This is testing stuff.

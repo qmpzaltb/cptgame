@@ -1,6 +1,8 @@
 package dungContent;
 
 import dungEntity.EntityController;
+import dungMain.DungeonGame;
+import dungUserInterface.GameInput;
 
 public class ControllerPlayer extends EntityController{
 
@@ -12,8 +14,7 @@ public class ControllerPlayer extends EntityController{
 
 	@Override
 	public void doNextAction() {
-		// TODO Auto-generated method stub
-		
+		DungeonGame.entalCurrentEntities.get(0).dHeading = GameInput.getHeading();
 	}
 	
 	

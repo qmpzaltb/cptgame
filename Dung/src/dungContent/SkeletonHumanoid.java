@@ -17,8 +17,8 @@ public class SkeletonHumanoid extends EntitySkeleton{
 			new LimbOval(-10.0, -5.0, 20.0, 10.0),//Torso
 			new LimbLine(2f, +10.0, 0.0, +15.0, 0.0),//Right reararm
 			new LimbLine(2f, -10.0, 0.0, -15.0, 0.0),//Left reararm
-			new LimbLine(2f, +15.0, 0.0, +15.0, 5.0),//Right forearm
-			new LimbLine(2f, -15.0, 0.0, -15.0, 5.0),//Left forearm
+			new LimbLine(2f, +15.0, 0.0, +15.0, -5.0),//Right forearm
+			new LimbLine(2f, -15.0, 0.0, -15.0, -5.0),//Left forearm
 			new LimbOval(-5.0, -5.0, 10.0, 10.0)//Head
 		};
 		
@@ -37,7 +37,6 @@ public class SkeletonHumanoid extends EntitySkeleton{
 		int iTimeInAnimCycle = (int)(timeSinceAnimStart % 60);
 		sklaSkeleton[0].setDoubleY2(10 * Math.sin(0.104719755119 * iTimeInAnimCycle)); //0.104719755119 = 2PI / 60. Advanced functions, yeah!
 		sklaSkeleton[1].setDoubleY2(10 * Math.sin(-0.104719755119 * iTimeInAnimCycle));
-		
 	}
 
 	public void doIdleAnimation(long timeSinceAnimStart) {
