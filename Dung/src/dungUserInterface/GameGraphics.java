@@ -22,32 +22,49 @@ public class GameGraphics extends JPanel{
 		double dEntityRelativeXShift;
 		double dEntityRelativeYShift;
 		double dEntityHeadingRotate;
-		
+		double dViewXShift;
+		double dViewYShift;
 		
 		for (Entity entToRender : DungeonGame.entalCurrentEntities){
 			
+			Entity playerEntity = DungeonGame.entalCurrentEntities.get(dungContent.ControllerPlayer.iPlayerEntityID);
+			dViewXShift = getWidth() / 2 - playerEntity.dXPos * 64;
+			dViewYShift = getHeight() / 2 - playerEntity.dXPos * 64;
+			gfx2D.translate(dViewXShift, dViewYShift);
+			System.out.println("VXSHIFT: " + dViewXShift);
+			System.out.println("VYSHIFT: " + dViewYShift);
+			
+			//HERE BEGINS RENDERING OF DUNGEONS
+			//HERE ENDS RENDERING OF DUNGEONS
+			
+			//HERE BEGINS RENDERING OF ENTITIES
 			dEntityRelativeXShift = entToRender.dXPos * 64;
 			dEntityRelativeYShift = entToRender.dYPos * 64;
 			dEntityHeadingRotate = entToRender.dHeading;
-			System.out.println(dEntityRelativeXShift + " XSHIFT");
-			System.out.println(dEntityRelativeYShift + " YSHIFT");
 			
 			gfx2D.translate((int)(dEntityRelativeXShift), (int)(dEntityRelativeYShift));
 			gfx2D.rotate(dEntityHeadingRotate);
-			gfx2D.drawString("It has nothing to do with translate.", 100, 100);
 			
-			entToRender.ensSkeleton.doMoveAnimation(DungeonGame.lCurrentFrame);
+			gfx2D.rotate(Math.PI / -2);
+			gfx2D.drawString("8===D    I am so mature..", 8, 4);
+			gfx2D.rotate(Math.PI / 2);
 			
 			for (SkeletonLimb lmbToRender : entToRender.ensSkeleton.sklaSkeleton){
-				
-				System.err.println("Trying to paint yo");
 				lmbToRender.drawLimb(gfx2D);
 			}
 			gfx2D.rotate((-1) * dEntityHeadingRotate);
 			gfx2D.translate((-1) * (int)(dEntityRelativeXShift), (-1) * (int)(dEntityRelativeYShift));
 			
-			gfx2D.drawString("The skeleton doesn't draw, but this shows up! What's up wit dat?", 269, 300);
-			gfx2D.drawString("WHATS UP WIT DAT!?!", 325, 350);
+			gfx2D.translate((-1) * dViewXShift, (-1) * dViewYShift);
+			//HERE ENDS RENDERING OF ENTITIES
+			
+			//HERE BEGINS RENDERING OF GUITHINGS
+			
+			gfx2D.setColor(Color.RED);
+			gfx2D.drawString("Health: 69 $SEX ---  PROTIP: PRESS W TO ACTIVATE ANIMATION", 5, getHeight() - 20);
+			gfx2D.setColor(Color.BLACK);
+			gfx2D.drawString("Other shit: " + playerEntity.dHeading + " rad.", 5, getHeight() - 10);
+			//HERE ENDS RENDERING OF GUITHINGS
 		}
 		
 		

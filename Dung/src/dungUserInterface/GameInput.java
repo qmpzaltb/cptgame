@@ -22,8 +22,8 @@ public class GameInput extends GameActions{
 		int iXFromCenter = getMouseX() -DungeonGame.getCenterOfWindowX();
 		int iYFromCenter = DungeonGame.getCenterOfWindowY() - getMouseY();
 
-		System.out.println("X"+iXFromCenter);
-		System.out.println("Y"+iYFromCenter);
+		//System.out.println("X"+iXFromCenter);
+		//System.out.println("Y"+iYFromCenter);
 
 		return Math.atan2(iXFromCenter , iYFromCenter);
 	}

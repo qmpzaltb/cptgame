@@ -34,13 +34,22 @@ public class SkeletonHumanoid extends EntitySkeleton{
 
 	public void doMoveAnimation(long timeSinceAnimStart) {
 		// TODO Auto-generated method stub
-		int iTimeInAnimCycle = (int)(timeSinceAnimStart % 60);
+		int iTimeInAnimCycle = (int)(timeSinceAnimStart % 60); //60 because 60. Arbitrary period of the animation.
 		sklaSkeleton[0].setDoubleY2(10 * Math.sin(0.104719755119 * iTimeInAnimCycle)); //0.104719755119 = 2PI / 60. Advanced functions, yeah!
 		sklaSkeleton[1].setDoubleY2(10 * Math.sin(-0.104719755119 * iTimeInAnimCycle));
 	}
 
 	public void doIdleAnimation(long timeSinceAnimStart) {
-		// TODO Auto-generated method stub
+		sklaSkeleton[0].setDoubleX1(+5.0);
+		sklaSkeleton[0].setDoubleY1(0.0);
+		sklaSkeleton[0].setDoubleX2(+5.0);
+		sklaSkeleton[0].setDoubleY2(0.0);
+		sklaSkeleton[1].setDoubleX1(-5.0);
+		sklaSkeleton[1].setDoubleY1(0.0);
+		sklaSkeleton[1].setDoubleX2(-5.0);
+		sklaSkeleton[1].setDoubleY2(0.0);
+		
+		//And then arms stuff if applicable.
 	}
 
 	public void doDeathAnimation(long timeSinceAnimStart) {

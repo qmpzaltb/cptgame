@@ -2,7 +2,7 @@ package dungEntity;
 
 public abstract class EntityController {
 	
-	private int iEntityID;
+	protected int iEntityID;
 	
 	abstract public boolean isEntityDead();
 	abstract public void doNextAction();

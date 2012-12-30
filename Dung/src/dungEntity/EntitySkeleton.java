@@ -12,10 +12,5 @@ public abstract class EntitySkeleton {
 	abstract public void doIdleAnimation(long timeSinceAnimStart);
 	abstract public void doDeathAnimation(long timeSinceAnimStart);
 	
-	public SkeletonLimb getLimb(int limbIndex){
-		return sklaSkeleton[limbIndex];
-	}
-	
-	
 	
 }

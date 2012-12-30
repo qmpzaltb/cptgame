@@ -20,7 +20,7 @@ public class DungeonGame {
 	private static long lGameLoopStartTime;
 	private static long lGameLoopEndTime;
 	private static long lGameLoopTimeTaken;
-	public static long lCurrentFrame; //Change this back to private later. Im doing some tests and I need some framing shit.
+	private static long lCurrentFrame;
 	private static long lTimeToSleep;
 	
 	public static void main(String[] args){
@@ -85,7 +85,7 @@ public class DungeonGame {
 			}
 		}
 		
-		System.out.println(lGameLoopTimeTaken);
+		System.out.println("ms for gameplay frame: " + lGameLoopTimeTaken);
 		lTimeToSleep = iMSPFOGmAdj - lGameLoopTimeTaken;
 		if (lTimeToSleep > 0){ //Because we don't want to sleep for negative times. Because we don't know what that does.
 			try {
@@ -103,6 +103,12 @@ public class DungeonGame {
 	}
 	public static int getCenterOfWindowY(){
 		return mainGameWindow.getPositionY() + (mainGameWindow.getSizeY() / 2);
+	}
+	public static int getWindowSizeX(){
+		return mainGameWindow.getSizeX();
+	}
+	public static int getWindowSizeY(){
+		return mainGameWindow.getSizeY();
 	}
 	
 }

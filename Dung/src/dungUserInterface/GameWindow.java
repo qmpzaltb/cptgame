@@ -24,6 +24,7 @@ public class GameWindow extends Thread {
 		frMainWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		grGraphicsRenderer = new GameGraphics();
 		frMainWindow.add(grGraphicsRenderer);
+		//frMainWindow.setUndecorated(true);
 		
 		kiKeyboardListener = new GameKeyboardInput();
 		miMouseListener = new GameMouseInput();
@@ -55,7 +56,7 @@ public class GameWindow extends Thread {
 	public void run() {
 		
 		while(true){
-			System.out.println("I like paint");
+			//System.out.println("I like paint");
 			frMainWindow.repaint();
 			try {
 				Thread.sleep(15);
