@@ -29,8 +29,8 @@ public class GameSettings {
 	
 	public static void setDefaultKeyBindings(){
 		iaActionOfButton[KeyEvent.VK_W] 		= GameActions.MOVE_UP;
-		iaActionOfButton[KeyEvent.VK_A] 		= GameActions.MOVE_DOWN;
-		iaActionOfButton[KeyEvent.VK_S] 		= GameActions.MOVE_BACKWARD;
+		iaActionOfButton[KeyEvent.VK_A] 		= GameActions.MOVE_LEFT;
+		iaActionOfButton[KeyEvent.VK_S] 		= GameActions.MOVE_DOWN;
 		iaActionOfButton[KeyEvent.VK_D] 		= GameActions.MOVE_RIGHT;
 		iaActionOfButton[KeyEvent.VK_UP] 		= GameActions.MOVE_FORWARD;
 		iaActionOfButton[KeyEvent.VK_DOWN] 		= GameActions.MOVE_BACKWARD;

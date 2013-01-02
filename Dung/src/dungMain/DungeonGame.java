@@ -15,7 +15,7 @@ public class DungeonGame {
 	
 	public static Dungeon dngCurrentDungeon;
 	public static Vector<Entity> entveCurrentEntities;
-
+	
 	private static int iMSPFOGmAdj; //Adjusted value for Milliseconds per Frame Operation to account for lag.
 	private static long lGameLoopStartTime;
 	private static long lGameLoopEndTime;
@@ -23,8 +23,11 @@ public class DungeonGame {
 	private static long lCurrentFrame;
 	private static long lTimeToSleep;
 	
+	public static int iGameReadinessState;
+	
 	public static void main(String[] args){
 
+		iGameReadinessState = -1;
 		mainGameWindow = new GameWindow();
 
 		GameInput.initGameInput();
@@ -35,12 +38,15 @@ public class DungeonGame {
 		
 		iMSPFOGmAdj = GameSettings.iMSPFOGm;
 		lCurrentFrame = 0;
+		mainGameWindow.start();
+		
 		
 		entveCurrentEntities = new Vector<Entity>();
-		entveCurrentEntities.add(new Entity(0, ContentLibrary.humanPlayer, 2.0, 2.0, 0.0));
+		entveCurrentEntities.add(new Entity(0, ContentLibrary.humanPlayer, 2.5, 2.5, 0.0));
 		
+		dngCurrentDungeon = new Dungeon(69);
 		
-		mainGameWindow.start();
+		iGameReadinessState += 1;
 		while (true){
 			doGameLoop();
 			lCurrentFrame ++;

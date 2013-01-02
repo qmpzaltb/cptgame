@@ -2,7 +2,7 @@ package dungEntity;
 
 public class Entity {
 	
-	private int iEntityID;
+	public int iEntityID;
 	
 	
 	public int iEntityIntegrity; //This will be health and stuff (40% health remaining and stuff...) The reason why I named this EntityStatus because entities like arrows can be like 50% used (this means arrow is broken and done with) or 50% unused (you haven't shot this arrow yet)
@@ -19,11 +19,13 @@ public class Entity {
 	public double dXPos;
 	public double dYPos;
 	public double dHeading;
+	public double dSpeed;
 	
 	public EntityController encController;
 	public EntitySkeleton ensSkeleton;
 	public Entity(int entityID, Entity baseEntity, double xPos, double yPos, double heading){
 		dRadius = baseEntity.dRadius;
+		dSpeed = baseEntity.dSpeed;
 		encController = baseEntity.encController;
 		encController.setEntityID(entityID);
 		ensSkeleton = baseEntity.ensSkeleton;
@@ -32,9 +34,10 @@ public class Entity {
 		dHeading = heading;
 	}
 	
-	public Entity(int entityID, double radius, EntityController controller, EntitySkeleton skeleton){
+	public Entity(int entityID, double radius, EntityController controller, EntitySkeleton skeleton, double speed){
 		iEntityID = entityID;
 		dRadius = radius;
+		dSpeed = speed;
 		encController = controller;
 		encController.setEntityID(entityID);
 		ensSkeleton = skeleton;

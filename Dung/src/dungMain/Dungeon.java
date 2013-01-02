@@ -21,67 +21,112 @@ public class Dungeon {
 	public static final int MAXIMUM_DIMENSION = 100;
 	
 	int iSeed;
-	Vector<Vector<DungeonTile>> dtlve2DungeonTiles;
-	int iDungeonXSize;
-	int iDungeonYSize;
+	public Vector<Vector<DungeonTile>> dtlve2DungeonTiles;
+	public int iDungeonXSize;
+	public int iDungeonYSize;
 	Random rngDungeon;
 	
 	public Dungeon(int seed){
+		DungeonGame.iGameReadinessState -= 1;
 		iSeed = seed;
 		rngDungeon = new Random(seed);
 		
 		iDungeonXSize = rngDungeon.nextInt(MAXIMUM_DIMENSION - MINIMUM_DIMENSION + 1) + MINIMUM_DIMENSION;
 		iDungeonYSize = rngDungeon.nextInt(MAXIMUM_DIMENSION - MINIMUM_DIMENSION + 1) + MINIMUM_DIMENSION;
 		
+		
+		System.out.println(iDungeonXSize + " X");
+		System.out.println(iDungeonYSize + " Y");
+		
 		dtlve2DungeonTiles = new Vector<Vector<DungeonTile>>(iDungeonXSize);
 		
+		System.out.println(dtlve2DungeonTiles.capacity());
+		System.out.println(dtlve2DungeonTiles.size());
+		
 		for (int iuP1 = 0; iuP1 < iDungeonXSize; iuP1 ++){
-			dtlve2DungeonTiles.set(iuP1, new Vector<DungeonTile>(iDungeonYSize));
+			dtlve2DungeonTiles.add( new Vector<DungeonTile>(iDungeonYSize));
 		}
 		
 		for (int iuP1 = 0; iuP1 < iDungeonXSize; iuP1 ++){
 			for (int iuP2 = 0; iuP2 < iDungeonYSize; iuP2 ++){
-				dtlve2DungeonTiles.get(iuP1).set(iuP2 , new DungeonTile(TileType.WALL));
+				dtlve2DungeonTiles.get(iuP1).add(new DungeonTile(TileType.WALL));
 			}
 		}
 		
-		int iDungeonPointAmt = rngDungeon.nextInt(iDungeonXSize + iDungeonYSize / 4) + 5;
+		int iDungeonPointAmt = rngDungeon.nextInt((int)Math.pow(iDungeonXSize * iDungeonXSize + iDungeonYSize * iDungeonYSize, 0.2)) + 5;
 		int[] iaPointXWeb = new int[iDungeonPointAmt];
 		int[] iaPointYWeb = new int[iDungeonPointAmt];
 		
+		DungeonGame.entveCurrentEntities.get(dungContent.ControllerPlayer.iPlayerEntityID).dXPos = iaPointXWeb[0] + 0.5;
+		DungeonGame.entveCurrentEntities.get(dungContent.ControllerPlayer.iPlayerEntityID).dXPos = iaPointYWeb[0] + 0.5;
+		
 		for (int iuP1 = 0; iuP1 < iDungeonPointAmt; iuP1 ++){
 			iaPointXWeb[iuP1] = rngDungeon.nextInt(iDungeonXSize);
+			System.out.println("XWEBP#"+iuP1+": " + iaPointXWeb[iuP1]);
 			iaPointYWeb[iuP1] = rngDungeon.nextInt(iDungeonYSize);
+			System.out.println("YWEBP#"+iuP1+": " + iaPointYWeb[iuP1]);
 		}
 		
 		for (int iuP1 = 0; iuP1 < iDungeonPointAmt; iuP1 ++){
 			for (int iuP2 = 0; iuP2 < iDungeonPointAmt; iuP2 ++){
+				System.out.println("Path " + iuP1 + "-" + iuP2);
 				makePath(iaPointXWeb[iuP1] , iaPointYWeb[iuP1] , iaPointXWeb[iuP2] , iaPointYWeb[iuP2]);
 			}
 		}
 		
 		
-		
-		
+		DungeonGame.iGameReadinessState += 1;
 	}
 	
 	private void makePath(int startX, int startY, int endX, int endY){
-		double dLineM = ((double)(endY - startY)) / ((double)(endX - endY)); //Slope
-		double dLineB = (startY + 0.5) - (dLineM * (startX + 0.5)); //Y-Intercept
-		double yValue;
-		double xValue;
 		
-		for (xValue = (double)startX; xValue < endY + 0.5; xValue += 1.0){
-			yValue = (xValue * dLineM) + dLineB;
-			dtlve2DungeonTiles.get((int)xValue).get((int)yValue).setTileType(TileType.FLOOR);
-			dtlve2DungeonTiles.get((int)xValue).get((int)yValue + 1);
+		dtlve2DungeonTiles.get(startX).get(startY).setTileType(TileType.FLOOR);
+		dtlve2DungeonTiles.get(endX).get(endY).setTileType(TileType.FLOOR);
+		
+		int iVerticalShift = 1;
+		int iHorizontalShift = 1;
+		
+		int iCurrentX = startX;
+		int iCurrentY = startY;
+		
+		if (startX > endX){
+			iHorizontalShift = -1;
+		}
+		if (startY > endY){
+			iVerticalShift = -1;
 		}
 		
-		for (yValue = (double)startY; yValue < endX + 0.5; yValue += 1.0){
-			xValue = (yValue - dLineB) / (dLineM);
-			dtlve2DungeonTiles.get((int)xValue).get((int)yValue).setTileType(TileType.FLOOR);
-			dtlve2DungeonTiles.get((int)xValue + 1).get((int)yValue).setTileType(TileType.FLOOR);
+		double dRandPerc;
+		
+		while (iCurrentX != endX && iCurrentY != endY){
+			if (iCurrentX == endX){
+				iCurrentY += iVerticalShift;
+			} else if (iCurrentY == endY){
+				iCurrentX += iHorizontalShift;
+			} else {
+				dRandPerc = rngDungeon.nextDouble();
+				if (dRandPerc < 0.5){
+					if (dRandPerc < 0.125 && iCurrentX > 0 && iCurrentX < iDungeonXSize - 1){
+						iCurrentX -= iHorizontalShift;
+					} else {
+						iCurrentX += iHorizontalShift;
+					}
+				} else {
+					if (dRandPerc < 0.625 && iCurrentY > 0 && iCurrentY < iDungeonYSize - 1){
+						iCurrentY -= iVerticalShift;
+					} else {
+						iCurrentY += iVerticalShift;
+					}
+					
+				}
+			}
+			
+			dtlve2DungeonTiles.get(iCurrentX).get(iCurrentY).setTileType(TileType.FLOOR);
+			
+			
 		}
+		
+		
 		
 	}
 	

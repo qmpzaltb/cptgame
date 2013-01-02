@@ -28,18 +28,23 @@ public class ControllerPlayer extends EntityController{
 	public void doNextAction() {
 		
 		DungeonGame.entveCurrentEntities.get(iEntityID).dHeading = GameInput.getHeading();
-		
+		DungeonGame.entveCurrentEntities.get(iEntityID).bEntityMoving = false;
 		
 		if (GameInput.baActions[GameActions.MOVE_UP]){
 			DungeonGame.entveCurrentEntities.get(iEntityID).bEntityMoving = true;
-		} else if (GameInput.baActions[GameActions.MOVE_DOWN]) {
+			DungeonGame.entveCurrentEntities.get(iEntityID).dYPos -= DungeonGame.entveCurrentEntities.get(iEntityID).dSpeed;
+		}
+		if (GameInput.baActions[GameActions.MOVE_DOWN]) {
 			DungeonGame.entveCurrentEntities.get(iEntityID).bEntityMoving = true;
-		} else if (GameInput.baActions[GameActions.MOVE_LEFT]){
+			DungeonGame.entveCurrentEntities.get(iEntityID).dYPos += DungeonGame.entveCurrentEntities.get(iEntityID).dSpeed;
+		}
+		if (GameInput.baActions[GameActions.MOVE_LEFT]){
 			DungeonGame.entveCurrentEntities.get(iEntityID).bEntityMoving = true;
-		} else if (GameInput.baActions[GameActions.MOVE_RIGHT]){
+			DungeonGame.entveCurrentEntities.get(iEntityID).dXPos -= DungeonGame.entveCurrentEntities.get(iEntityID).dSpeed;
+		}
+		if (GameInput.baActions[GameActions.MOVE_RIGHT]){
 			DungeonGame.entveCurrentEntities.get(iEntityID).bEntityMoving = true;
-		} else {
-			DungeonGame.entveCurrentEntities.get(iEntityID).bEntityMoving = false;
+			DungeonGame.entveCurrentEntities.get(iEntityID).dXPos += DungeonGame.entveCurrentEntities.get(iEntityID).dSpeed;
 		}
 		
 		if (DungeonGame.entveCurrentEntities.get(iEntityID).bEntityMoving){

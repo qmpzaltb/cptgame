@@ -4,7 +4,7 @@ public class DungeonTile {
 	
 	private static final int DEFAULT_GAS_CAPACITY = 1000000;
 	
-	private TileType tileType;
+	public TileType tileType;
 	boolean bCanHaveGas;
 	private int iGasCapacity;
 	//private int iLiquidCapacity;
