@@ -54,6 +54,12 @@ public class Dungeon {
 			iaPointYWeb[iuP1] = rngDungeon.nextInt(iDungeonYSize);
 		}
 		
+		for (int iuP1 = 0; iuP1 < iDungeonPointAmt; iuP1 ++){
+			for (int iuP2 = 0; iuP2 < iDungeonPointAmt; iuP2 ++){
+				makePath(iaPointXWeb[iuP1] , iaPointYWeb[iuP1] , iaPointXWeb[iuP2] , iaPointYWeb[iuP2]);
+			}
+		}
+		
 		
 		
 		
@@ -67,7 +73,14 @@ public class Dungeon {
 		
 		for (xValue = (double)startX; xValue < endY + 0.5; xValue += 1.0){
 			yValue = (xValue * dLineM) + dLineB;
-			dtlve2DungeonTiles.get(xValue);
+			dtlve2DungeonTiles.get((int)xValue).get((int)yValue).setTileType(TileType.FLOOR);
+			dtlve2DungeonTiles.get((int)xValue).get((int)yValue + 1);
+		}
+		
+		for (yValue = (double)startY; yValue < endX + 0.5; yValue += 1.0){
+			xValue = (yValue - dLineB) / (dLineM);
+			dtlve2DungeonTiles.get((int)xValue).get((int)yValue).setTileType(TileType.FLOOR);
+			dtlve2DungeonTiles.get((int)xValue + 1).get((int)yValue).setTileType(TileType.FLOOR);
 		}
 		
 	}

@@ -72,5 +72,9 @@ public class DungeonTile {
 		return (((double)(iaGases[gasID])) / ((double)(iTotalGas)));
 
 	}
+	
+	public void setTileType(TileType type){
+		tileType = type;
+	}
 
 }
