@@ -21,7 +21,7 @@ public class GameWindow extends Thread {
 		super("DungGFX");
 		//runningRenderer = false;
 		frMainWindow = new JFrame(NAME);
-		frMainWindow.setSize(1280 , 1024);
+		frMainWindow.setSize(1024, 768);
 		frMainWindow.setResizable(false);
 		frMainWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		grGraphicsRenderer = new GameGraphics();
