@@ -58,8 +58,8 @@ public class GameGraphics extends JPanel{
 			gfx2D.translate(dViewXShift, dViewYShift);
 			gfx2D.translate((-1) * dPlayerXPos * 64, (-1) * dPlayerYPos * 64);
 
-			for (int iuP1 = 0; iuP1 < DungeonGame.dngCurrentDungeon.iDungeonXSize; iuP1 ++){
-				for (int iuP2 = 0; iuP2 < DungeonGame.dngCurrentDungeon.iDungeonYSize; iuP2 ++){
+			for (int iuP1 = 0; iuP1 < DungeonGame.dngCurrentDungeon.getXSize(); iuP1 ++){
+				for (int iuP2 = 0; iuP2 < DungeonGame.dngCurrentDungeon.getYSize(); iuP2 ++){
 
 					switch (DungeonGame.dngCurrentDungeon.dtlve2DungeonTiles.get(iuP1).get(iuP2).tileType){
 

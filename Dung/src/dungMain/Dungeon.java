@@ -23,7 +23,7 @@ public class Dungeon {
 	
 	int iSeed; //the seed will represent a different spawn point of an enormous map
 	boolean isOneExitInstance = false; //check if there is already an exit point in the map in order to go to the next level
-	Vector<Vector<DungeonTile>> dtlve2DungeonTiles;
+	public Vector<Vector<DungeonTile>> dtlve2DungeonTiles;
 	int iDungeonXSize; //the max range of the x co-ordinates of the map
 	int iDungeonYSize; //the max range of the y co-ordinates of the map
 	Random rngDungeon; //random seed for the dungeon
@@ -54,12 +54,10 @@ public class Dungeon {
 			}
 		}
 		
-		int iDungeonPointAmt = rngDungeon.nextInt((int)Math.pow(iDungeonXSize * iDungeonXSize + iDungeonYSize * iDungeonYSize, 0.2)) + 5;
+		int iDungeonPointAmt = rngDungeon.nextInt(7) + 5;
 		int[] iaPointXWeb = new int[iDungeonPointAmt];
 		int[] iaPointYWeb = new int[iDungeonPointAmt];
 		
-		DungeonGame.entveCurrentEntities.get(dungContent.ControllerPlayer.iPlayerEntityID).dXPos = iaPointXWeb[0] + 0.5;
-		DungeonGame.entveCurrentEntities.get(dungContent.ControllerPlayer.iPlayerEntityID).dXPos = iaPointYWeb[0] + 0.5;
 		
 		for (int iuP1 = 0; iuP1 < iDungeonPointAmt; iuP1 ++){
 			iaPointXWeb[iuP1] = rngDungeon.nextInt(iDungeonXSize);
@@ -83,6 +81,8 @@ public class Dungeon {
 		
 		dtlve2DungeonTiles.get(startX).get(startY).setTileType(TileType.FLOOR);
 		dtlve2DungeonTiles.get(endX).get(endY).setTileType(TileType.FLOOR);
+		
+		
 		
 		int iVerticalShift = 1;
 		int iHorizontalShift = 1;
@@ -151,4 +151,15 @@ public class Dungeon {
 			isOneExitInstance = true;
 		}
 	}
+	
+	
+	
+	public int getXSize(){
+		return iDungeonXSize;
+	}
+	public int getYSize(){
+		return iDungeonYSize;
+	}
+	
+	
 }
