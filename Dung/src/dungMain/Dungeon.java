@@ -131,6 +131,12 @@ public class Dungeon {
 		
 	}
 	
+	//Puts a border around the map,
+	private void makeWallEdges() {
+		for()
+		
+	}
+	
 	private void makeChamber() {
 		//for ()
 		

@@ -75,7 +75,7 @@ public class DungeonGame {
 		
 		//Not pseudocode. This is testing stuff.
 		//if (GameInput.baActions[GameActions.ATTACK_USE_PRIMARY]){
-		//	System.out.println("ATTACK");
+		//	System.out.println("ATTACK");1
 		//}
 		
 		

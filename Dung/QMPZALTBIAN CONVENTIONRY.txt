@@ -27,4 +27,7 @@ For example, a 2D array of dungeon tiles could look like this: dtla2DungeonTiles
 
 When you do array list, do "al" instead of a.
 
-QMPZALTB HAS WRITTEN.
+QMPZALTB HAS WRITTEN. 
+
+
+COOL STORY BRO.

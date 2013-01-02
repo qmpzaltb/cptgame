@@ -142,7 +142,7 @@ public class GameGraphics extends JPanel{
 			gfx2D.drawString("Health: 69 $SEX ---  PROTIP: PRESS W TO ACTIVATE ANIMATION", 5, getHeight() - 20);
 			gfx2D.setColor(Color.BLACK);
 			gfx2D.drawString("Other shit: " + playerEntity.dHeading + " rad.", 5, getHeight() - 10);
-			//HERE ENDS RENDERING OF GUITHINGS
+			//HERE ENDS RENDERING OF GUITHINGS1111
 		} else {
 			
 			
