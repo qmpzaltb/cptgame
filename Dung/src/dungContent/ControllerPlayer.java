@@ -1,9 +1,11 @@
 package dungContent;
 
 import dungEntity.EntityController;
+import dungEntity.AnimationType;
 import dungMain.DungeonGame;
 import dungUserInterface.GameActions;
 import dungUserInterface.GameInput;
+
 
 public class ControllerPlayer extends EntityController{
 
@@ -24,21 +26,34 @@ public class ControllerPlayer extends EntityController{
 	
 	@Override
 	public void doNextAction() {
-		DungeonGame.entalCurrentEntities.get(iEntityID).dHeading = GameInput.getHeading();
+		
+		DungeonGame.entveCurrentEntities.get(iEntityID).dHeading = GameInput.getHeading();
 		
 		
 		if (GameInput.baActions[GameActions.MOVE_UP]){
-			DungeonGame.entalCurrentEntities.get(iEntityID).bEntityMoving = true;
+			DungeonGame.entveCurrentEntities.get(iEntityID).bEntityMoving = true;
+		} else if (GameInput.baActions[GameActions.MOVE_DOWN]) {
+			DungeonGame.entveCurrentEntities.get(iEntityID).bEntityMoving = true;
+		} else if (GameInput.baActions[GameActions.MOVE_LEFT]){
+			DungeonGame.entveCurrentEntities.get(iEntityID).bEntityMoving = true;
+		} else if (GameInput.baActions[GameActions.MOVE_RIGHT]){
+			DungeonGame.entveCurrentEntities.get(iEntityID).bEntityMoving = true;
 		} else {
-			DungeonGame.entalCurrentEntities.get(iEntityID).bEntityMoving = false;
+			DungeonGame.entveCurrentEntities.get(iEntityID).bEntityMoving = false;
 		}
 		
-		if (DungeonGame.entalCurrentEntities.get(iEntityID).bEntityMoving){
-			DungeonGame.entalCurrentEntities.get(iEntityID).lEntityMovingTime ++;
+		if (DungeonGame.entveCurrentEntities.get(iEntityID).bEntityMoving){
+			DungeonGame.entveCurrentEntities.get(iEntityID).lEntityMovingTime ++;
 		} else {
-			DungeonGame.entalCurrentEntities.get(iEntityID).lEntityMovingTime = 0;
+			DungeonGame.entveCurrentEntities.get(iEntityID).lEntityMovingTime = 0;
 		}
-		DungeonGame.entalCurrentEntities.get(iEntityID).ensSkeleton.doMoveAnimation(DungeonGame.entalCurrentEntities.get(iEntityID).lEntityMovingTime);
+		DungeonGame.entveCurrentEntities.get(iEntityID).ensSkeleton.doAnimation( AnimationType.MOVE , DungeonGame.entveCurrentEntities.get(iEntityID).lEntityMovingTime);
+		
+	}
+
+	@Override
+	public void doIntersectionAction() {
+		// TODO Auto-generated method stub
 		
 	}
 	

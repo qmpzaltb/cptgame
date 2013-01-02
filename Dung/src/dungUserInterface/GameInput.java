@@ -19,8 +19,8 @@ public class GameInput extends GameActions{
 	}
 	
 	public static double getHeading(){ // where 0.0PI heading is up, 0.5PI heading is right, 1.0PI heading is down -1.0PI heading is down, -0.5PI heading is right.
-		int iXFromCenter = getMouseX() -DungeonGame.getCenterOfWindowX();
-		int iYFromCenter = DungeonGame.getCenterOfWindowY() - getMouseY();
+		int iXFromCenter = getMouseX() - (DungeonGame.getInsetLocationX() + GameGraphics.getXSize()/2);
+		int iYFromCenter = (DungeonGame.getInsetLocationY() + (GameGraphics.getYSize()/2)) - getMouseY();
 
 		//System.out.println("X"+iXFromCenter);
 		//System.out.println("Y"+iYFromCenter);

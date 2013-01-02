@@ -1,6 +1,7 @@
 package dungMain;
 
 import java.util.Random;
+import java.util.Vector;
 
 public class Dungeon {
 
@@ -8,18 +9,28 @@ public class Dungeon {
 	public static final int MINIMUM_DIMENSION = 20;
 	public static final int MAXIMUM_DIMENSION = 100;
 	
-	DungeonTile[][] dtla2DungeonTiles;
+	Vector<Vector<DungeonTile>> dtlve2DungeonTiles;
+	int iDungeonXSize;
+	int iDungeonYSize;
 	Random rngDungeon;
 	
 	public Dungeon(int seed){
 		rngDungeon = new Random(seed);
-		dtla2DungeonTiles = new DungeonTile[rngDungeon.nextInt(MAXIMUM_DIMENSION - MINIMUM_DIMENSION + 1) + MINIMUM_DIMENSION][rngDungeon.nextInt(MAXIMUM_DIMENSION - MINIMUM_DIMENSION + 1) + MINIMUM_DIMENSION];
-		for (int iuP1 = 0; iuP1 < dtla2DungeonTiles.length; iuP1 ++){
-			for (int iuP2 = 0; iuP2 < dtla2DungeonTiles[0].length; iuP2 ++){
-				dtla2DungeonTiles[iuP1][iuP2] = new DungeonTile(DungeonTile.TYPE_WALL);
-			}
+		
+		iDungeonXSize = rngDungeon.nextInt(MAXIMUM_DIMENSION - MINIMUM_DIMENSION + 1) + MINIMUM_DIMENSION;
+		iDungeonYSize = rngDungeon.nextInt(MAXIMUM_DIMENSION - MINIMUM_DIMENSION + 1) + MINIMUM_DIMENSION;
+		
+		dtlve2DungeonTiles = new Vector<Vector<DungeonTile>>(iDungeonXSize);
+		
+		for (int iuP1 = 0; iuP1 < iDungeonXSize; iuP1 ++){
+			dtlve2DungeonTiles.set(iuP1, new Vector<DungeonTile>(iDungeonYSize));
 		}
 		
+		for (int iuP1 = 0; iuP1 < iDungeonXSize; iuP1 ++){
+			for (int iuP2 = 0; iuP2 < iDungeonYSize; iuP2 ++){
+				dtlve2DungeonTiles.get(iuP1).set(iuP2 , new DungeonTile(TileType.WALL));
+			}
+		}
 		
 		
 		

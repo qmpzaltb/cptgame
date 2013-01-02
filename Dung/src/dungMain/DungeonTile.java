@@ -3,13 +3,8 @@ package dungMain;
 public class DungeonTile {
 	
 	private static final int DEFAULT_GAS_CAPACITY = 1000000;
-
-	public static final int TYPE_WALL		= 0;
-	public static final int TYPE_WALKABLE 	= 1;
-	public static final int TYPE_START 		= 2;
-	public static final int TYPE_END 		= 3;
 	
-	private int iTileType;
+	private TileType tileType;
 	boolean bCanHaveGas;
 	private int iGasCapacity;
 	//private int iLiquidCapacity;
@@ -17,6 +12,7 @@ public class DungeonTile {
 	//private int[] iaLiquids;
 	//private int iTemperature;
 
+	//These are indices to the array iaGases. Sortof like enums, maybe not really, but similar.
 	public static final int GAS_OXYGEN 			= 0;
 	public static final int GAS_CARBON_DIOXIDE 	= 1;
 	public static final int GAS_NITROGEN 		= 2;
@@ -33,10 +29,10 @@ public class DungeonTile {
 	
 	//private static final int LIQUID_VARIETY 	= 5;
 
-	public DungeonTile(int tileType){
-		iTileType = tileType;
+	public DungeonTile(TileType type){
+		tileType = type;
 		
-		if (tileType == TYPE_WALKABLE){
+		if (tileType == TileType.FLOOR){
 			bCanHaveGas = true;
 		}
 		

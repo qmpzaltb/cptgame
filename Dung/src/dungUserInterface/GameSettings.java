@@ -4,7 +4,7 @@ import java.awt.event.KeyEvent;
 
 public class GameSettings {
 	
-	public static int iMSPFOGr = 16; //Milliseconds Per Frame Operation for Graphics
+	public static int iMSPFOGfx = 16; //Milliseconds Per Frame Operation for Graphics
 	public static int iMSPFOGm = 16; //Milliseconds Per Frame Operation for Gameplay
 	
 	public static int iFPSRegulationPeriod = 100; // Every "this" amount of frames, regulate the framerate accordingly.

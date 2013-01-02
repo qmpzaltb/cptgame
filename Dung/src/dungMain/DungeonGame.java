@@ -1,6 +1,6 @@
 package dungMain;
 
-import java.util.ArrayList;
+import java.util.Vector;
 import dungUserInterface.GameActions;
 import dungUserInterface.GameInput;
 import dungUserInterface.GameSettings;
@@ -14,7 +14,7 @@ public class DungeonGame {
 	private static GameWindow mainGameWindow; 
 	
 	public static Dungeon dngCurrentDungeon;
-	public static ArrayList<Entity> entalCurrentEntities;
+	public static Vector<Entity> entveCurrentEntities;
 
 	private static int iMSPFOGmAdj; //Adjusted value for Milliseconds per Frame Operation to account for lag.
 	private static long lGameLoopStartTime;
@@ -36,8 +36,8 @@ public class DungeonGame {
 		iMSPFOGmAdj = GameSettings.iMSPFOGm;
 		lCurrentFrame = 0;
 		
-		entalCurrentEntities = new ArrayList<Entity>();
-		entalCurrentEntities.add(new Entity(0, ContentLibrary.humanPlayer, 2.0, 2.0, 0.0));
+		entveCurrentEntities = new Vector<Entity>();
+		entveCurrentEntities.add(new Entity(0, ContentLibrary.humanPlayer, 2.0, 2.0, 0.0));
 		
 		
 		mainGameWindow.start();
@@ -61,7 +61,7 @@ public class DungeonGame {
 		 * }
 		 */
 		
-		for (Entity toUpdate : entalCurrentEntities){
+		for (Entity toUpdate : entveCurrentEntities){
 			toUpdate.encController.doNextAction();
 		}
 
@@ -85,7 +85,7 @@ public class DungeonGame {
 			}
 		}
 		
-		System.out.println("ms for gameplay frame: " + lGameLoopTimeTaken);
+		//System.out.println("ms for gameplay frame: " + lGameLoopTimeTaken);
 		lTimeToSleep = iMSPFOGmAdj - lGameLoopTimeTaken;
 		if (lTimeToSleep > 0){ //Because we don't want to sleep for negative times. Because we don't know what that does.
 			try {
@@ -95,7 +95,6 @@ public class DungeonGame {
 			}
 		}
 		
-		
 	}
 
 	public static int getCenterOfWindowX(){
@@ -104,11 +103,21 @@ public class DungeonGame {
 	public static int getCenterOfWindowY(){
 		return mainGameWindow.getPositionY() + (mainGameWindow.getSizeY() / 2);
 	}
+	public static int getInsetLocationX(){
+		return mainGameWindow.getPositionX() + mainGameWindow.getInsetLeft();
+	}
+	public static int getInsetLocationY(){
+		return mainGameWindow.getPositionY() + mainGameWindow.getInsetTop();
+	}
+	
 	public static int getWindowSizeX(){
 		return mainGameWindow.getSizeX();
 	}
 	public static int getWindowSizeY(){
 		return mainGameWindow.getSizeY();
+	}
+	public static int getMillisecondsPerGameplayFrame(){
+		return iMSPFOGmAdj;
 	}
 	
 }

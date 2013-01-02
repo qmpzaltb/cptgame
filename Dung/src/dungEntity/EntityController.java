@@ -6,6 +6,7 @@ public abstract class EntityController {
 	
 	abstract public boolean isEntityDead();
 	abstract public void doNextAction();
+	abstract public void doIntersectionAction();
 	
 	public void setEntityID(int entityID){
 		iEntityID = entityID;

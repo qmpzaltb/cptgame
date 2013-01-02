@@ -1,6 +1,8 @@
 package dungUserInterface;
 
 
+import java.awt.Insets;
+
 import javax.swing.JFrame;
 
 public class GameWindow extends Thread {
@@ -52,19 +54,44 @@ public class GameWindow extends Thread {
 	public int getPositionY(){
 		return frMainWindow.getY();
 	}
+	public int getInsetTop(){
+		return frMainWindow.getInsets().top;
+	}
+	public int getInsetBottom(){
+		return frMainWindow.getInsets().bottom;
+	}
+	public int getInsetLeft(){
+		return frMainWindow.getInsets().left;
+	}
+	public int getInsetRight(){
+		return frMainWindow.getInsets().right;
+	}
 
 	public void run() {
 		
+		long lGfxLoopStartTime;
+		long lGfxLoopEndTime;
+		long lGfxLoopTimeTaken;
+		long lTimeToSleep;
+		
 		while(true){
-			//System.out.println("I like paint");
+			
+			lGfxLoopStartTime = System.currentTimeMillis();
 			frMainWindow.repaint();
-			try {
-				Thread.sleep(15);
-			} catch (InterruptedException e) {
-				System.err.println("Poopsicle sticks in the GameWindow class.");
-				e.printStackTrace();
-			}
+			lGfxLoopEndTime = System.currentTimeMillis();
+			lGfxLoopTimeTaken = lGfxLoopEndTime - lGfxLoopStartTime;
+			lTimeToSleep = GameSettings.iMSPFOGfx - lGfxLoopTimeTaken;
 
+			if (lTimeToSleep > 0){
+				try {
+					Thread.sleep(lTimeToSleep);
+				} catch (InterruptedException e) {
+					System.err.println("Poopsicle sticks in the GameWindow class.");
+					e.printStackTrace();
+				}
+			}
+			
+			
 		}
 	}
 	
