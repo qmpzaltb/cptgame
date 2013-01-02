@@ -22,11 +22,15 @@ public class GameGraphics extends JPanel{
 	
 	private Font fntGuiFont;
 	
+	private long lGfxLoopStartTime;
+	private long lGfxLoopEndTime;
+	
 	public GameGraphics(){
 		fntGuiFont = new Font("Courier New" , Font.BOLD, 12); //I don't even know. Just make sure its a good, readable, preferrably monospaced, font.
 	}
 	
 	public void paintComponent(Graphics g){
+		lGfxLoopStartTime = System.currentTimeMillis();
 		Graphics2D gfx2D = (Graphics2D)(g);
 		gfx2D.setFont(fntGuiFont);
 		gfx2D.setBackground(Color.GRAY);
@@ -129,9 +133,10 @@ public class GameGraphics extends JPanel{
 
 			//This is a very basic GUI. We will (WE MUST) change it.
 			gfx2D.setColor(Color.MAGENTA);
+			gfx2D.drawString("MSPFO (gfx): " + (lGfxLoopEndTime - lGfxLoopStartTime) + ", which means that FPS: " + 1000.0 / (lGfxLoopEndTime - lGfxLoopStartTime) , 5, getHeight() - 65);
 			gfx2D.drawString("PLAYER X: " + playerEntity.dXPos , 5 , getHeight() - 55);
 			gfx2D.drawString("PLAYER Y: " + playerEntity.dYPos , 5 , getHeight() - 45);
-			gfx2D.drawString("MSPFO: " + DungeonGame.getMillisecondsPerGameplayFrame() + ", which means that FPS: " + 1000.0 / DungeonGame.getMillisecondsPerGameplayFrame() , 5, getHeight() - 35);
+			gfx2D.drawString("MSPFO (game): " + DungeonGame.getMillisecondsPerGameplayFrame() + ", which means that FPS: " + 1000.0 / DungeonGame.getMillisecondsPerGameplayFrame() , 5, getHeight() - 35);
 
 			gfx2D.setColor(Color.RED);
 			gfx2D.drawString("Health: 69 $SEX ---  PROTIP: PRESS W TO ACTIVATE ANIMATION", 5, getHeight() - 20);
@@ -144,7 +149,7 @@ public class GameGraphics extends JPanel{
 			gfx2D.drawString("Loading...", 20, 20);
 			
 		}
-		
+		lGfxLoopEndTime = System.currentTimeMillis();
 	}
 	private void drawTile(Graphics2D g, int tileX, int tileY){
 		g.fillRect(tileX * 64, tileY * 64, 64, 64);

@@ -52,6 +52,23 @@ public class ControllerPlayer extends EntityController{
 		} else {
 			DungeonGame.entveCurrentEntities.get(iEntityID).lEntityMovingTime = 0;
 		}
+		
+		if (DungeonGame.entveCurrentEntities.get(iEntityID).lEntityActionTime <= 0){
+			DungeonGame.entveCurrentEntities.get(iEntityID).iEntityAction = -1;
+			DungeonGame.entveCurrentEntities.get(iEntityID).lEntityActionTime = 0;
+			DungeonGame.entveCurrentEntities.get(iEntityID).ensSkeleton.doAnimation(AnimationType.IDLE, 0);
+		}
+		
+		if (DungeonGame.entveCurrentEntities.get(iEntityID).iEntityAction == -1){
+			if (GameInput.baActions[GameActions.ATTACK_USE_PRIMARY]){
+					DungeonGame.entveCurrentEntities.get(iEntityID).lEntityActionTime = 30;
+					DungeonGame.entveCurrentEntities.get(iEntityID).iEntityAction = GameActions.ATTACK_USE_PRIMARY;
+			}
+		}
+		
+		DungeonGame.entveCurrentEntities.get(iEntityID).ensSkeleton.doAnimation(AnimationType.ATTACK_SPEAR_RIGHTHAND, DungeonGame.entveCurrentEntities.get(iEntityID).lEntityActionTime);
+		DungeonGame.entveCurrentEntities.get(iEntityID).lEntityActionTime -= 1;
+		
 		DungeonGame.entveCurrentEntities.get(iEntityID).ensSkeleton.doAnimation( AnimationType.MOVE , DungeonGame.entveCurrentEntities.get(iEntityID).lEntityMovingTime);
 		
 	}
