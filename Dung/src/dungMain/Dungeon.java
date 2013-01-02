@@ -132,7 +132,7 @@ public class Dungeon {
 	}
 	
 	private void makeChamber() {
-		for ()
+		//for ()
 		
 	}
 	//
@@ -140,8 +140,9 @@ public class Dungeon {
 		
 	}
 	private void makeHallway() {
-		for 
-		
+		//for (int iuP1 = 0; iuP1 < iDungeonPointAmt; iuP1 ++){
+			
+		//}
 	}
 	private void makeExit() {
 		if (isOneExitInstance = false) {
