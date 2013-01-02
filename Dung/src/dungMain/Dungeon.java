@@ -1,12 +1,3 @@
-/*
- * Justin Baradi
- * Dungeon.java
- * Creates the environment for the entities to work on
- * January 1, 2013 
- * ICS 4U1
- */
-
-
 package dungMain;
 
 import java.util.Random;
@@ -60,15 +51,17 @@ public class Dungeon {
 	private void makePath(int startX, int startY, int endX, int endY){
 		double dLineM = ((double)(endY - startY)) / ((double)(endX - endY)); //Slope
 		double dLineB = (startY + 0.5) - (dLineM * (startX + 0.5)); //Y-Intercept
+		double yValue;
+		double xValue;
 		
-		for (double xValue = (double)startX; xValue < endY + 0.5; xValue += 1.0){
-			
+		for (xValue = (double)startX; xValue < endY + 0.5; xValue += 1.0){
+			yValue = (xValue * dLineM) + dLineB;
+			dtlve2DungeonTiles.get(xValue);
 		}
 		
 	}
 	
 	private void makeChamber(){
-		
 	}
 	
 }
