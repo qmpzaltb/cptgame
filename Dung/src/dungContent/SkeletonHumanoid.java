@@ -52,12 +52,12 @@ public class SkeletonHumanoid extends EntitySkeleton{
 			int iTimeInAnimCycle = (int)(timeSinceAnimStart);
 			if (iTimeInAnimCycle < 15){
 				sklaSkeleton[3].setDoubleY2(5 * Math.sin((2 * Math.PI / 15) * iTimeInAnimCycle));
-				sklaSkeleton[4].setDoubleY1(5 * Math.sin((2 * Math.PI / 15) * iTimeInAnimCycle));
-				sklaSkeleton[4].setDoubleY2(5 * Math.sin((2 * Math.PI / 15) * iTimeInAnimCycle) - 5);
+				sklaSkeleton[5].setDoubleY1(5 * Math.sin((2 * Math.PI / 15) * iTimeInAnimCycle));
+				sklaSkeleton[5].setDoubleY2(5 * Math.sin((2 * Math.PI / 15) * iTimeInAnimCycle) - 5);
 			} else if (iTimeInAnimCycle < 30){
 				sklaSkeleton[3].setDoubleY2(-5 * Math.cos((2 * Math.PI / 7.5) * iTimeInAnimCycle));
-				sklaSkeleton[4].setDoubleY1(-5 * Math.cos((2 * Math.PI / 7.5) * iTimeInAnimCycle));
-				sklaSkeleton[4].setDoubleY2(-5 * Math.cos((2 * Math.PI / 7.5) * iTimeInAnimCycle) - 5);
+				sklaSkeleton[5].setDoubleY1(-5 * Math.cos((2 * Math.PI / 7.5) * iTimeInAnimCycle));
+				sklaSkeleton[5].setDoubleY2(-5 * Math.cos((2 * Math.PI / 7.5) * iTimeInAnimCycle) - 5);
 			}
 			break;
 		}
