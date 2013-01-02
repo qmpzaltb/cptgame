@@ -132,7 +132,7 @@ public class Dungeon {
 	}
 	
 	private void makeChamber() {
-		for ()
+		//for ()
 		
 	}
 	//
