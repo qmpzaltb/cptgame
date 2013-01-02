@@ -1,5 +1,6 @@
 /*
- * Justin Baradi
+ * Mark, Justin, Nerman
+ * Justin's Part of the Program - Environment
  * Dungeon.java
  * Creates the environment for the entities to work on
  * January 1, 2013 
@@ -23,8 +24,8 @@ public class Dungeon {
 	int iSeed; //the seed will represent a different spawn point of an enormous map
 	boolean isOneExitInstance = false; //check if there is already an exit point in the map in order to go to the next level
 	Vector<Vector<DungeonTile>> dtlve2DungeonTiles;
-	int iDungeonXSize; //the x co-ordinates of the map you are standing on
-	int iDungeonYSize; //the y co-ordinates of the map you are standing on
+	int iDungeonXSize; //the max range of the x co-ordinates of the map
+	int iDungeonYSize; //the max range of the y co-ordinates of the map
 	Random rngDungeon; //random seed for the dungeon
 	
 	public Dungeon(int seed){
@@ -136,10 +137,10 @@ public class Dungeon {
 	}
 	//
 	private void makeRoom() {
-		iSeed 
+		
 	}
 	private void makeHallway() {
-	
+		for 
 		
 	}
 	private void makeExit() {
