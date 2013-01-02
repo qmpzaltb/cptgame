@@ -20,17 +20,17 @@ public class Dungeon {
 	public static final int MINIMUM_DIMENSION = 20;
 	public static final int MAXIMUM_DIMENSION = 100;
 	
-	int iSeed;
-	public Vector<Vector<DungeonTile>> dtlve2DungeonTiles;
-	public int iDungeonXSize;
-	public int iDungeonYSize;
-	Random rngDungeon;
+	int iSeed; //the seed will represent a different spawn point of an enormous map
+	boolean isOneExitInstance = false; //check if there is already an exit point in the map in order to go to the next level
+	Vector<Vector<DungeonTile>> dtlve2DungeonTiles;
+	int iDungeonXSize; //the x co-ordinates of the map you are standing on
+	int iDungeonYSize; //the y co-ordinates of the map you are standing on
+	Random rngDungeon; //random seed for the dungeon
 	
 	public Dungeon(int seed){
 		DungeonGame.iGameReadinessState -= 1;
 		iSeed = seed;
 		rngDungeon = new Random(seed);
-		
 		iDungeonXSize = rngDungeon.nextInt(MAXIMUM_DIMENSION - MINIMUM_DIMENSION + 1) + MINIMUM_DIMENSION;
 		iDungeonYSize = rngDungeon.nextInt(MAXIMUM_DIMENSION - MINIMUM_DIMENSION + 1) + MINIMUM_DIMENSION;
 		
@@ -130,7 +130,24 @@ public class Dungeon {
 		
 	}
 	
-	private void makeChamber(){
+	private void makeChamber() {
+		for ()
+		
 	}
+	//
+	private void makeRoom() {
+		iSeed 
+	}
+	private void makeHallway() {
 	
+		
+	}
+	private void makeExit() {
+		if (isOneExitInstance = false) {
+			
+			
+			
+			isOneExitInstance = true;
+		}
+	}
 }
