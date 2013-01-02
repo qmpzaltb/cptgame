@@ -32,20 +32,20 @@ public class ControllerPlayer extends EntityController{
 		
 		if (GameInput.baActions[GameActions.MOVE_UP] && GameInput.baActions[GameActions.MOVE_LEFT]){ //Moves Up Left
 			DungeonGame.entveCurrentEntities.get(iEntityID).bEntityMoving = true;
-			DungeonGame.entveCurrentEntities.get(iEntityID).dYPos -= DungeonGame.entveCurrentEntities.get(iEntityID).dSpeed / 2; //Up Reduced Speed
-			DungeonGame.entveCurrentEntities.get(iEntityID).dXPos -= DungeonGame.entveCurrentEntities.get(iEntityID).dSpeed / 2; //Left Reduced Speed
+			DungeonGame.entveCurrentEntities.get(iEntityID).dYPos -= DungeonGame.entveCurrentEntities.get(iEntityID).dSpeed / 1.5; //Up Reduced Speed
+			DungeonGame.entveCurrentEntities.get(iEntityID).dXPos -= DungeonGame.entveCurrentEntities.get(iEntityID).dSpeed / 1.5; //Left Reduced Speed
 		} else if (GameInput.baActions[GameActions.MOVE_UP] && GameInput.baActions[GameActions.MOVE_RIGHT]) { //Moves Up Right
 			DungeonGame.entveCurrentEntities.get(iEntityID).bEntityMoving = true;
-			DungeonGame.entveCurrentEntities.get(iEntityID).dYPos -= DungeonGame.entveCurrentEntities.get(iEntityID).dSpeed / 2; //Up Reduced Speed
-			DungeonGame.entveCurrentEntities.get(iEntityID).dXPos += DungeonGame.entveCurrentEntities.get(iEntityID).dSpeed / 2; //Right Reduced Speed
+			DungeonGame.entveCurrentEntities.get(iEntityID).dYPos -= DungeonGame.entveCurrentEntities.get(iEntityID).dSpeed / 1.5; //Up Reduced Speed
+			DungeonGame.entveCurrentEntities.get(iEntityID).dXPos += DungeonGame.entveCurrentEntities.get(iEntityID).dSpeed / 1.5; //Right Reduced Speed
 		} else if (GameInput.baActions[GameActions.MOVE_DOWN] && GameInput.baActions[GameActions.MOVE_LEFT]) { //Moves Down Left
 			DungeonGame.entveCurrentEntities.get(iEntityID).bEntityMoving = true;
-			DungeonGame.entveCurrentEntities.get(iEntityID).dYPos += DungeonGame.entveCurrentEntities.get(iEntityID).dSpeed / 2; //Down Reduced Speed
-			DungeonGame.entveCurrentEntities.get(iEntityID).dXPos -= DungeonGame.entveCurrentEntities.get(iEntityID).dSpeed / 2; //Left Reduced Speed
+			DungeonGame.entveCurrentEntities.get(iEntityID).dYPos += DungeonGame.entveCurrentEntities.get(iEntityID).dSpeed / 1.5; //Down Reduced Speed
+			DungeonGame.entveCurrentEntities.get(iEntityID).dXPos -= DungeonGame.entveCurrentEntities.get(iEntityID).dSpeed / 1.5; //Left Reduced Speed
 		} else if (GameInput.baActions[GameActions.MOVE_DOWN] && GameInput.baActions[GameActions.MOVE_RIGHT]) { //Moves Down Right
 			DungeonGame.entveCurrentEntities.get(iEntityID).bEntityMoving = true;
-			DungeonGame.entveCurrentEntities.get(iEntityID).dYPos += DungeonGame.entveCurrentEntities.get(iEntityID).dSpeed / 2; //Down Reduced Speed
-			DungeonGame.entveCurrentEntities.get(iEntityID).dXPos += DungeonGame.entveCurrentEntities.get(iEntityID).dSpeed / 2; //Right Reduced Speed
+			DungeonGame.entveCurrentEntities.get(iEntityID).dYPos += DungeonGame.entveCurrentEntities.get(iEntityID).dSpeed / 1.5; //Down Reduced Speed
+			DungeonGame.entveCurrentEntities.get(iEntityID).dXPos += DungeonGame.entveCurrentEntities.get(iEntityID).dSpeed / 1.5; //Right Reduced Speed
 		} else {
 			if (GameInput.baActions[GameActions.MOVE_UP]){
 				DungeonGame.entveCurrentEntities.get(iEntityID).bEntityMoving = true;
