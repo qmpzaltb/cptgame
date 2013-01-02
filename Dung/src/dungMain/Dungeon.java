@@ -1,3 +1,14 @@
+/*
+ * Justin Baradi
+ * Dungeon.java
+ * Creates the environment for the entities to work on
+ * January 1, 2013 
+ * ICS 4U1
+ */
+
+
+
+
 package dungMain;
 
 import java.util.Random;
