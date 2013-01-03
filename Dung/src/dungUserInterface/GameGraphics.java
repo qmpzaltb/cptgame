@@ -105,8 +105,8 @@ public class GameGraphics extends JPanel{
 					entToRender = playerEntity;
 				}
 				
-				dEntityRelativeXShift = entToRender.dXPos * 64;
-				dEntityRelativeYShift = entToRender.dYPos * 64;
+				dEntityRelativeXShift = entToRender.getXPos() * 64;
+				dEntityRelativeYShift = entToRender.getYPos() * 64;
 				dEntityHeadingRotate = entToRender.dHeading;
 
 				gfx2D.translate((int)(dEntityRelativeXShift), (int)(dEntityRelativeYShift));

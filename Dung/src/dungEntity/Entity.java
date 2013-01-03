@@ -19,13 +19,16 @@ public class Entity {
 	public double dXPos;
 	public double dYPos;
 	public double dHeading;
-	public double dSpeed;
+	public double dNormalSpeed;
+	
+	public double dMovementDirection;
+	public double dMovementMagnitude;
 	
 	public EntityController encController;
 	public EntitySkeleton ensSkeleton;
 	public Entity(int entityID, Entity baseEntity, double xPos, double yPos, double heading){
 		dRadius = baseEntity.dRadius;
-		dSpeed = baseEntity.dSpeed;
+		dNormalSpeed = baseEntity.dNormalSpeed;
 		encController = baseEntity.encController;
 		encController.setEntityID(entityID);
 		ensSkeleton = baseEntity.ensSkeleton;
@@ -37,10 +40,31 @@ public class Entity {
 	public Entity(int entityID, double radius, EntityController controller, EntitySkeleton skeleton, double speed){
 		iEntityID = entityID;
 		dRadius = radius;
-		dSpeed = speed;
+		dNormalSpeed = speed;
 		encController = controller;
 		encController.setEntityID(entityID);
 		ensSkeleton = skeleton;
 	}
 	
+	public double getXPos(){
+		return dXPos;
+	}
+	public double getYPos(){
+		return dYPos;
+	}
+	public double getMovementDirection(){
+		return dMovementDirection;
+	}
+	public double getMovementMagnitude(){
+		return dMovementMagnitude;
+	}
+	
+	
+	
+	public void shiftXPos(double shift){
+		dXPos += shift;
+	}
+	public void shiftYPos(double shift){
+		dYPos += shift;
+	}
 }

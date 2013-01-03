@@ -1,7 +1,6 @@
 package dungMain;
 
 import java.util.Vector;
-import dungUserInterface.GameActions;
 import dungUserInterface.GameInput;
 import dungUserInterface.GameSettings;
 import dungUserInterface.GameWindow;
@@ -75,7 +74,7 @@ public class DungeonGame {
 		
 		//Not pseudocode. This is testing stuff.
 		//if (GameInput.baActions[GameActions.ATTACK_USE_PRIMARY]){
-		//	System.out.println("ATTACK");1
+		//	System.out.println("ATTACK");
 		//}
 		
 		
@@ -102,6 +101,20 @@ public class DungeonGame {
 		}
 		
 	}
+	
+	public static void moveEntity(int iEntityID){
+		entveCurrentEntities.get(iEntityID).shiftXPos();
+		entveCurrentEntities.get(iEntityID).shiftYPos();
+	}
+	
+	public static Entity handleEntity(int entityID){
+		return entveCurrentEntities.get(entityID);
+	}
+	
+	
+	
+	
+	
 
 	public static int getCenterOfWindowX(){
 		return mainGameWindow.getPositionX() + (mainGameWindow.getSizeX() / 2);

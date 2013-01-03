@@ -28,10 +28,10 @@ public class SkeletonHumanoid extends EntitySkeleton{
 	
 	
 	
-	public void doAnimation(AnimationType animType, long timeSinceAnimStart) {
+	public void doAnimation(AnimationType animType, long animTime) {
 		switch (animType){
 		case MOVE:{
-			int iTimeInAnimCycle = (int)(timeSinceAnimStart % 60); //60 because 60. Arbitrary period of the animation.
+			int iTimeInAnimCycle = (int)(animTime % 60); //60 because 60. Arbitrary period of the animation.
 			sklaSkeleton[0].setDoubleY2(10 * Math.sin((2 * Math.PI / 60) * iTimeInAnimCycle)); //0.104719755119 = 2PI / 60. Advanced functions, yeah!
 			sklaSkeleton[1].setDoubleY2(10 * Math.sin((-2 * Math.PI / 60) * iTimeInAnimCycle));
 			break;
@@ -49,7 +49,7 @@ public class SkeletonHumanoid extends EntitySkeleton{
 			//And then arms stuff if applicable.
 		}
 		case ATTACK_SPEAR_RIGHTHAND:{
-			int iTimeInAnimCycle = (int)(timeSinceAnimStart);
+			int iTimeInAnimCycle = 30 - (int)(animTime);
 			if (iTimeInAnimCycle < 15){
 				sklaSkeleton[3].setDoubleY2(5 * Math.sin((2 * Math.PI / 15) * iTimeInAnimCycle));
 				sklaSkeleton[5].setDoubleY1(5 * Math.sin((2 * Math.PI / 15) * iTimeInAnimCycle));
