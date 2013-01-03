@@ -103,8 +103,10 @@ public class DungeonGame {
 	}
 	
 	public static void moveEntity(int iEntityID){
+		//TODO if (wall then go fck off)
 		handleEntity(iEntityID).shiftXPos(Math.sin(handleEntity(iEntityID).getMovementDirection()) * handleEntity(iEntityID).dMovementMagnitude);
 		handleEntity(iEntityID).shiftYPos((-1) * Math.cos(handleEntity(iEntityID).getMovementDirection()) * handleEntity(iEntityID).dMovementMagnitude);
+	
 	}
 	
 	public static Entity handleEntity(int entityID){
