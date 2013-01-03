@@ -113,7 +113,7 @@ public class GameGraphics extends JPanel{
 				gfx2D.rotate(dEntityHeadingRotate);
 
 				gfx2D.rotate(Math.PI / -2);
-				gfx2D.drawString("8===D    I am so mature..", 10, 4);
+				gfx2D.drawString("Pneumonoultramicroscopicsilicovolcanoconiosis <-- LONGEST WORD IN THE ENGLISH DICTIONARY", 10, 4);
 				gfx2D.rotate(Math.PI / 2);
 
 				for (SkeletonLimb lmbToRender : entToRender.ensSkeleton.sklaSkeleton){

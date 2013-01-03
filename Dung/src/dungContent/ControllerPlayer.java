@@ -41,21 +41,23 @@ public class ControllerPlayer extends EntityController{
 			DungeonGame.handleEntity(iEntityID).setMovementDirection( 3 * Math.PI / (-4));
 		} else if (GameInput.baActions[GameActions.MOVE_DOWN] && GameInput.baActions[GameActions.MOVE_RIGHT]) { //Moves Down Right
 			DungeonGame.handleEntity(iEntityID).bEntityMoving = true;
-			DungeonGame.handleEntity(iEntityID).setMovementDirection( 3 * Math.PI / (4));//Right Reduced Speed
-		} else if (GameInput.baActions[GameActions.MOVE_UP]){
+			DungeonGame.handleEntity(iEntityID).setMovementDirection( 3 * Math.PI / (4));
+		} else {
+			if (GameInput.baActions[GameActions.MOVE_UP]){
 				DungeonGame.handleEntity(iEntityID).bEntityMoving = true;
 				DungeonGame.handleEntity(iEntityID).setMovementDirection(0);
-		} else if (GameInput.baActions[GameActions.MOVE_LEFT]){
+			} else if (GameInput.baActions[GameActions.MOVE_LEFT]){
 				DungeonGame.handleEntity(iEntityID).bEntityMoving = true;
 				DungeonGame.handleEntity(iEntityID).setMovementDirection(Math.PI / -2);
-		} else if (GameInput.baActions[GameActions.MOVE_DOWN]) {
+			} else if (GameInput.baActions[GameActions.MOVE_DOWN]) {
 				DungeonGame.handleEntity(iEntityID).bEntityMoving = true;
 				DungeonGame.handleEntity(iEntityID).setMovementDirection(Math.PI);
-		} else if (GameInput.baActions[GameActions.MOVE_RIGHT]){
+			} else if (GameInput.baActions[GameActions.MOVE_RIGHT]){
 				DungeonGame.handleEntity(iEntityID).bEntityMoving = true;
 				DungeonGame.handleEntity(iEntityID).setMovementDirection(Math.PI / 2);
+			}
 		}
-		
+
 		
 		if (DungeonGame.handleEntity(iEntityID).bEntityMoving){
 			DungeonGame.handleEntity(iEntityID).lEntityMovingTime ++;
