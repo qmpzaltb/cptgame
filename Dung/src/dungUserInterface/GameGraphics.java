@@ -78,11 +78,13 @@ public class GameGraphics extends JPanel{
 						break;
 					}
 					case ENTRANCE:{
-
+						gfx2D.setColor(Color.YELLOW);
+						drawTile(gfx2D,iuP1,iuP2);
 						break;
 					}
 					case EXIT:{
-
+						gfx2D.setColor(Color.BLUE);
+						drawTile(gfx2D,iuP1,iuP2);
 						break;
 					}
 
