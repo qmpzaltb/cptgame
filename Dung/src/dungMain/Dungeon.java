@@ -7,7 +7,16 @@
  * ICS 4U1
  */
 
-
+//Things to remember:
+	//sets spawn point
+	//DungeonGame.handleEntity(PlayerController.iPlayerEntityID).dXPos = yourXValue;
+	//DungeonGame.handleEntity(PlayerController.iPlayerEntityID).dXPos = yourYValue;
+			
+	//sets TileType
+	//dtlve2DungeonTiles.get(XCOORD).get(YCOORD).setTileType(TileType.TILETYPEHERE);
+			
+	//gets TileType
+	//DungeonGame.dngCurrentDungeon.dtlve2DungeonTiles.get(iuP1).get(iuP2).tileType;
 
 
 package dungMain;
@@ -73,6 +82,7 @@ public class Dungeon {
 			}
 		}
 		
+		makeWallEdges();
 		
 		DungeonGame.iGameReadinessState += 1;
 	}
@@ -118,23 +128,26 @@ public class Dungeon {
 					} else {
 						iCurrentY += iVerticalShift;
 					}
-					
+
 				}
 			}
-			
 			dtlve2DungeonTiles.get(iCurrentX).get(iCurrentY).setTileType(TileType.FLOOR);
-			
-			
 		}
-		
+
 		
 		
 	}
 	
 	//Puts a border around the map,
 	private void makeWallEdges() {
-		//for()
-		
+		for (int iDungX = 0; iDungX < iDungeonXSize; iDungX++) {
+			dtlve2DungeonTiles.get(iDungX).get(0).setTileType(TileType.WALLEDGE);
+			dtlve2DungeonTiles.get(iDungX).get(iDungeonYSize - 1).setTileType(TileType.WALLEDGE);
+		}
+		for (int iDungY = 0; iDungY < iDungeonYSize; iDungY++) {
+			dtlve2DungeonTiles.get(0).get(iDungY).setTileType(TileType.WALLEDGE);
+			dtlve2DungeonTiles.get(iDungeonXSize - 1).get(iDungY).setTileType(TileType.WALLEDGE);
+		}
 	}
 	
 	private void makeChamber() {
