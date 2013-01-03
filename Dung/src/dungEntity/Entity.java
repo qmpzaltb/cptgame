@@ -35,6 +35,7 @@ public class Entity {
 		dXPos = xPos;
 		dYPos = yPos;
 		dHeading = heading;
+		dMovementMagnitude = dNormalSpeed; //TEMPORARY LINE. THIS SHOULD GO ELSEWHERE?
 	}
 	
 	public Entity(int entityID, double radius, EntityController controller, EntitySkeleton skeleton, double speed){
@@ -57,6 +58,12 @@ public class Entity {
 	}
 	public double getMovementMagnitude(){
 		return dMovementMagnitude;
+	}
+	public void setMovementDirection(double direction){
+		dMovementDirection = direction;
+	}
+	public double getNormalSpeed(){
+		return dNormalSpeed;
 	}
 	
 	
