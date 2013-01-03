@@ -7,8 +7,6 @@ import dungEntity.EntitySkeleton;
 import dungEntity.SkeletonLimb;
 
 public class SkeletonHumanoid extends EntitySkeleton{
-
-	
 	
 	public SkeletonHumanoid(){
 		sklaSkeleton = new SkeletonLimb[]{
