@@ -10,7 +10,6 @@ import dungUserInterface.GameInput;
 public class ControllerPlayer extends EntityController{
 
 	public static int iPlayerEntityID;
-	private static boolean isRunning = false;
 	
 	@Override
 	public boolean isEntityDead() {
@@ -36,7 +35,7 @@ public class ControllerPlayer extends EntityController{
 =======
 		
 		if(GameInput.baActions[GameActions.SPEED_MODIFIER]){
-			DungeonGame.handleEntity(iEntityID).dMovementMagnitude += 20000;
+			DungeonGame.handleEntity(iEntityID).dMovementMagnitude += 200;
 		}
 		
 >>>>>>> c224843a6043eaa76794e67d74136bed6ebad7f5
