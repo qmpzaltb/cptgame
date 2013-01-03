@@ -29,17 +29,13 @@ public class ControllerPlayer extends EntityController{
 	public void doNextAction() {
 		DungeonGame.entveCurrentEntities.get(iEntityID).dHeading = GameInput.getHeading();
 		DungeonGame.entveCurrentEntities.get(iEntityID).bEntityMoving = false;
-<<<<<<< HEAD
-		if(GameInput.baActions[GameActions.SPEED_MODIFIER]){
-            DungeonGame.handleEntity(iEntityID).dMovementMagnitude *= 2;
-        }
-=======
 		
 		if(GameInput.baActions[GameActions.SPEED_MODIFIER]){
-			DungeonGame.handleEntity(iEntityID).dMovementMagnitude += 20000;
+			DungeonGame.handleEntity(iEntityID).dMovementMagnitude = DungeonGame.handleEntity(iEntityID).dNormalSpeed * 2;
+		} else {
+			DungeonGame.handleEntity(iEntityID).dMovementMagnitude = DungeonGame.handleEntity(iEntityID).dNormalSpeed;
 		}
 		
->>>>>>> c224843a6043eaa76794e67d74136bed6ebad7f5
 		if (GameInput.baActions[GameActions.MOVE_UP] && GameInput.baActions[GameActions.MOVE_LEFT]){ //Moves Up Left
 			DungeonGame.handleEntity(iEntityID).bEntityMoving = true;
 			DungeonGame.handleEntity(iEntityID).setMovementDirection(Math.PI / (-4));
