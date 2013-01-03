@@ -10,7 +10,6 @@ import dungUserInterface.GameInput;
 public class ControllerPlayer extends EntityController{
 
 	public static int iPlayerEntityID;
-	private static boolean isRunning = false;
 	
 	@Override
 	public boolean isEntityDead() {
@@ -31,9 +30,13 @@ public class ControllerPlayer extends EntityController{
 		DungeonGame.entveCurrentEntities.get(iEntityID).bEntityMoving = false;
 		
 		if(GameInput.baActions[GameActions.SPEED_MODIFIER]){
+<<<<<<< HEAD
 			DungeonGame.handleEntity(iEntityID).dMovementMagnitude = DungeonGame.handleEntity(iEntityID).dNormalSpeed * 2;
 		} else {
 			DungeonGame.handleEntity(iEntityID).dMovementMagnitude = DungeonGame.handleEntity(iEntityID).dNormalSpeed;
+=======
+			DungeonGame.handleEntity(iEntityID).dMovementMagnitude += 200;
+>>>>>>> 4f1860984cc4fe0cf695a6853c638fcc890f2128
 		}
 		
 		if (GameInput.baActions[GameActions.MOVE_UP] && GameInput.baActions[GameActions.MOVE_LEFT]){ //Moves Up Left
