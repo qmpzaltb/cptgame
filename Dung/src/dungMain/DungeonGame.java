@@ -39,11 +39,9 @@ public class DungeonGame {
 		lCurrentFrame = 0;
 		mainGameWindow.start();
 		
-		
 		entveCurrentEntities = new Vector<Entity>();
 		entveCurrentEntities.add(new Entity(0, ContentLibrary.humanPlayer, 2.5, 2.5, 0.0));
 		entveCurrentEntities.add(new Entity(0, ContentLibrary.nermanAbomination , 4.0, 4.0, 0.0));
-		
 		dngCurrentDungeon = new Dungeon(69);
 		
 		iGameReadinessState += 1;

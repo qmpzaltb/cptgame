@@ -72,6 +72,11 @@ public class GameGraphics extends JPanel{
 						drawTile(gfx2D,iuP1,iuP2);
 						break;
 					}
+					case WALLEDGE:{
+						gfx2D.setColor(Color.PINK);
+						drawTile(gfx2D,iuP1,iuP2);
+						break;
+					}
 					case FLOOR:{
 						gfx2D.setColor(Color.LIGHT_GRAY);
 						drawTile(gfx2D,iuP1,iuP2);
@@ -83,7 +88,7 @@ public class GameGraphics extends JPanel{
 						break;
 					}
 					case EXIT:{
-						gfx2D.setColor(Color.BLUE);
+						gfx2D.setColor(Color.ORANGE);
 						drawTile(gfx2D,iuP1,iuP2);
 						break;
 					}
@@ -144,7 +149,7 @@ public class GameGraphics extends JPanel{
 			gfx2D.drawString("Health: 69 $SEX ---  PROTIP: PRESS W TO ACTIVATE ANIMATION", 5, getHeight() - 20);
 			gfx2D.setColor(Color.BLACK);
 			gfx2D.drawString("Other shit: " + playerEntity.dHeading + " rad.", 5, getHeight() - 10);
-			//HERE ENDS RENDERING OF GUITHINGS1111
+			//HERE ENDS RENDERING OF GUITHINGS
 		} else {
 			
 			
