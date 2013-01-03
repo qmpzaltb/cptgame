@@ -10,4 +10,5 @@ public enum AnimationType {
 	MOVE,
 	IDLE,
 	DEATH,
+	CREATURE_ATTACK, //Because Creatures also have irresistable urges to attack anyone that isn't like themselves (xenophobia) 
 }
