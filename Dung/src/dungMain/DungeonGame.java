@@ -82,7 +82,7 @@ public class DungeonGame {
 		lGameLoopTimeTaken = (lGameLoopEndTime - lGameLoopStartTime);
 		
 		//Framerate regulator for stable gameplay.
-		if (lCurrentFrame % GameSettings.iFPSRegulationPeriod == 0){ //Every "GameSettings.iFPSRegulationPeriod" amount of frames,
+		if (lCurrentFrame % GameSettings.iFPSRegulationPeriod == 0){ //Every "GameSett1123ings.iFPSRegulationPeriod" amount of frames,
 			if (iMSPFOGmAdj < lGameLoopTimeTaken){ //If the current framerate is insufficient,
 				iMSPFOGmAdj ++; //slow the game down.
 			} else if (lGameLoopTimeTaken > GameSettings.iMSPFOGm){ //But if the framerate is slower than the max and the framerate is more than sufficient,
