@@ -1,9 +1,11 @@
 package dungUserInterface;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 
 import javax.swing.JPanel;
 
@@ -22,16 +24,39 @@ public class GameGraphics extends JPanel{
 	
 	private Font fntGuiFont;
 	
+	private RenderingHints rhiRenderingSettings;
+	private RenderingHints rhiHintsEntities;
+	private RenderingHints rhiHintsMap;
+	private RenderingHints rhiHintsGUI;
+	
 	private long lGfxLoopStartTime;
 	private long lGfxLoopEndTime;
+	private long lGfxLoopActualMSPFO;
 	
 	public GameGraphics(){
 		fntGuiFont = new Font("Courier New" , Font.BOLD, 12); //I don't even know. Just make sure its a good, readable, preferrably monospaced, font.
+		
+		rhiRenderingSettings = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON); //Smoother shapes, but map becomes buggy. WORKAROUND: I extended tile pixel width/height by one pixel. Still 64 wide though, if you know what I mean.
+		rhiRenderingSettings.put(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON); //Smoother text
+		rhiRenderingSettings.put(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_OFF); //No known effect
+		rhiRenderingSettings.put(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE); //No known effect
+		rhiRenderingSettings.put(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR); //No known effect
+		rhiRenderingSettings.put(RenderingHints.KEY_DITHERING, RenderingHints.VALUE_DITHER_ENABLE); //No known effect
+		
+		//rhiHintsEntities = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
+		//rhiHintsEntities.put(RenderingHints.KEY_RENDERING , RenderingHints.VALUE_RENDER_QUALITY);
+		
+		//rhiHintsMap = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
+		
+		//rhiHintsGUI = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		//rhiHintsGUI = new RenderingHints(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+		//Turns out multiple rendering hints don't work in the same render sequence. Oh well.
 	}
 	
 	public void paintComponent(Graphics g){
 		lGfxLoopStartTime = System.currentTimeMillis();
 		Graphics2D gfx2D = (Graphics2D)(g);
+		gfx2D.setRenderingHints(rhiRenderingSettings);
 		gfx2D.setFont(fntGuiFont);
 		gfx2D.setBackground(Color.GRAY);
 		double dEntityRelativeXShift;
@@ -49,8 +74,10 @@ public class GameGraphics extends JPanel{
 		
 		
 		
+		
 		if (DungeonGame.iGameReadinessState >= 0){
 
+			//gfx2D.setRenderingHints(rhiHintsMap);
 			Entity playerEntity = DungeonGame.entveCurrentEntities.get(dungContent.ControllerPlayer.iPlayerEntityID);
 			dPlayerXPos = playerEntity.dXPos;
 			dPlayerYPos = playerEntity.dYPos;
@@ -61,7 +88,6 @@ public class GameGraphics extends JPanel{
 			//HERE BEGINS RENDERING OF DUNGEONS
 			gfx2D.translate(dViewXShift, dViewYShift);
 			gfx2D.translate((-1) * dPlayerXPos * 64, (-1) * dPlayerYPos * 64);
-
 			for (int iuP1 = 0; iuP1 < DungeonGame.dngCurrentDungeon.getXSize(); iuP1 ++){
 				for (int iuP2 = 0; iuP2 < DungeonGame.dngCurrentDungeon.getYSize(); iuP2 ++){
 
@@ -106,16 +132,18 @@ public class GameGraphics extends JPanel{
 
 			//HERE BEGINS RENDERING OF ENTITIES
 
+			//gfx2D.setRenderingHints(rhiHintsEntities);
+			
 			for (int iuP1 = 0; iuP1 < DungeonGame.entveCurrentEntities.size(); iuP1 ++){
 				Entity entToRender = DungeonGame.entveCurrentEntities.get(iuP1);
-				System.out.println(iuP1);
-				System.out.println("Rendering: " + entToRender.iEntityID);
+				//System.out.println(iuP1);
+				//System.out.println("Rendering: " + entToRender.iEntityID);
 				
 				dEntityRelativeXShift = entToRender.getXPos() * 64;
 				dEntityRelativeYShift = entToRender.getYPos() * 64;
 				dEntityHeadingRotate = entToRender.dHeading;
 
-				gfx2D.translate((int)(dEntityRelativeXShift), (int)(dEntityRelativeYShift));
+				gfx2D.translate((dEntityRelativeXShift), (dEntityRelativeYShift));
 				gfx2D.rotate(dEntityHeadingRotate);
 
 				gfx2D.rotate(Math.PI / -2);
@@ -125,8 +153,10 @@ public class GameGraphics extends JPanel{
 				for (SkeletonLimb lmbToRender : entToRender.ensSkeleton.sklaSkeleton){
 					lmbToRender.drawLimb(gfx2D);
 				}
+				
+				gfx2D.setStroke(new BasicStroke());
 				gfx2D.rotate((-1) * dEntityHeadingRotate);
-				gfx2D.translate((-1) * (int)(dEntityRelativeXShift), (-1) * (int)(dEntityRelativeYShift));
+				gfx2D.translate((-1) * (dEntityRelativeXShift), (-1) * (dEntityRelativeYShift));
 
 
 
@@ -134,12 +164,14 @@ public class GameGraphics extends JPanel{
 
 			gfx2D.translate((-1) * dViewXShift, (-1) * dViewYShift);
 			//HERE ENDS RENDERING OF ENTITIES
-
+			
+			//gfx2D.setRenderingHints(rhiHintsGUI);
+			
 			//HERE BEGINS RENDERING OF GUITHINGS
 
 			//This is a very basic GUI. We will (WE MUST) change it.
 			gfx2D.setColor(Color.MAGENTA);
-			gfx2D.drawString("MSPFO (gfx): " + (lGfxLoopEndTime - lGfxLoopStartTime) + ", which means that FPS: " + 1000.0 / (lGfxLoopEndTime - lGfxLoopStartTime) , 5, getHeight() - 65);
+			gfx2D.drawString("MSPFO (gfx): " + (lGfxLoopActualMSPFO) + ", which means that FPS: " + 1000.0 / (lGfxLoopActualMSPFO) , 5, getHeight() - 65);
 			gfx2D.drawString("PLAYER X: " + playerEntity.dXPos , 5 , getHeight() - 55);
 			gfx2D.drawString("PLAYER Y: " + playerEntity.dYPos , 5 , getHeight() - 45);
 			gfx2D.drawString("MSPFO (game): " + DungeonGame.getMillisecondsPerGameplayFrame() + ", which means that FPS: " + 1000.0 / DungeonGame.getMillisecondsPerGameplayFrame() , 5, getHeight() - 35);
@@ -156,9 +188,14 @@ public class GameGraphics extends JPanel{
 			
 		}
 		lGfxLoopEndTime = System.currentTimeMillis();
+		lGfxLoopActualMSPFO = lGfxLoopEndTime - lGfxLoopStartTime;
+		
+		//gfx2D.dispose(); //I don't even know
+		//g.dispose();
+		
 	}
 	private void drawTile(Graphics2D g, int tileX, int tileY){
-		g.fillRect(tileX * 64, tileY * 64, 64, 64);
+		g.fillRect(tileX * 64, tileY * 64, 65, 65);
 	}
 	
 	public static int getXLoc(){

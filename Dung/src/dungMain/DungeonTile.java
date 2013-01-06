@@ -76,5 +76,8 @@ public class DungeonTile {
 	public void setTileType(TileType type){
 		tileType = type;
 	}
+	public TileType getTileType(){
+		return tileType;
+	}
 
 }

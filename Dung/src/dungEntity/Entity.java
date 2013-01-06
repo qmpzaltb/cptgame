@@ -65,7 +65,9 @@ public class Entity {
 	public double getNormalSpeed(){
 		return dNormalSpeed;
 	}
-	
+	public double getSize(){
+		return dRadius;
+	}
 	
 	
 	public void shiftXPos(double shift){

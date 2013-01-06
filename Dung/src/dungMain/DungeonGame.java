@@ -69,7 +69,6 @@ public class DungeonGame {
 		for (Entity toUpdate : entveCurrentEntities){
 			toUpdate.encController.doNextAction();
 		}
-
 		
 		
 		//Not pseudocode. This is testing stuff.
@@ -104,17 +103,55 @@ public class DungeonGame {
 	
 	public static void moveEntity(int iEntityID){
 		//TODO if (wall then go fck off)
-		handleEntity(iEntityID).shiftXPos(Math.sin(handleEntity(iEntityID).getMovementDirection()) * handleEntity(iEntityID).dMovementMagnitude);
-		handleEntity(iEntityID).shiftYPos((-1) * Math.cos(handleEntity(iEntityID).getMovementDirection()) * handleEntity(iEntityID).dMovementMagnitude);
+		//TODO Finish this method with map collision detection, entity collision detection.
+		double dEntityXShift = Math.sin(handleEntity(iEntityID).getMovementDirection()) * handleEntity(iEntityID).dMovementMagnitude;
+		double dEntityYShift = (-1) * Math.cos(handleEntity(iEntityID).getMovementDirection()) * handleEntity(iEntityID).dMovementMagnitude;
+		double dCurrentXPos = handleEntity(iEntityID).getXPos();
+		double dCurrentYPos = handleEntity(iEntityID).getYPos();
+		double dCurrentSize = handleEntity(iEntityID).getSize();
+		
+		double dNewXPosRight = dCurrentXPos + dEntityXShift + dCurrentSize;
+		double dNewXPosLeft = dCurrentXPos + dEntityXShift - dCurrentSize;
+		double dNewYPosTop = dCurrentYPos + dEntityYShift - dCurrentSize;
+		double dNewYPosBot = dCurrentYPos + dEntityYShift + dCurrentSize;
+		
+		//if (isWalkable(handleTile((int)(dNewXPosRight), (int)(dCurrentYPos + dEntityYShift)).getTileType())){
+		//	
+		//}
+		
+		
+		handleEntity(iEntityID).shiftXPos(dEntityXShift);
+		handleEntity(iEntityID).shiftYPos(dEntityYShift);
 	
 	}
 	
 	public static Entity handleEntity(int entityID){
 		return entveCurrentEntities.get(entityID);
 	}
+	public static DungeonTile handleTile(int x, int y){
+		return dngCurrentDungeon.dtlve2DungeonTiles.get(x).get(y);
+	}
 	
 	
-	
+	public static boolean isWalkable(TileType type){
+		switch (type){
+		case FLOOR:{
+			return true;
+		}
+		case ENTRANCE:{
+			return true;
+		}
+		case EXIT:{
+			return true;
+		}
+		default:{
+			return false;
+		}
+
+
+
+		}
+	}
 	
 	
 
