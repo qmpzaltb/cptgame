@@ -34,7 +34,7 @@ public class GameGraphics extends JPanel{
 	private long lGfxLoopActualMSPFO;
 	
 	public GameGraphics(){
-		fntGuiFont = new Font("Courier New" , Font.BOLD, 12); //I don't even know. Just make sure its a good, readable, preferrably monospaced, font.
+		fntGuiFont = new Font("Consolas" , Font.BOLD, 12); //I don't even know. Just make sure its a good, readable, preferrably monospaced, font.
 		
 		rhiRenderingSettings = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON); //Smoother shapes, but map becomes buggy. WORKAROUND: I extended tile pixel width/height by one pixel. Still 64 wide though, if you know what I mean.
 		rhiRenderingSettings.put(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON); //Smoother text
