@@ -100,7 +100,7 @@ public class GameGraphics extends JPanel{
 						break;
 					}
 					case WALLEDGE:{
-						gfx2D.setColor(Color.PINK);
+						gfx2D.setColor(Color.BLUE);
 						drawTile(gfx2D,iuP1,iuP2);
 						break;
 					}
