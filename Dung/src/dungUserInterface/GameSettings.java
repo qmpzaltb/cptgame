@@ -9,6 +9,9 @@ public class GameSettings {
 	
 	public static int iFPSRegulationPeriod = 100; // Every "this" amount of frames, regulate the framerate accordingly.
 
+	public static boolean bModifiersAreToggled;
+	
+	
 	public static int[] iaActionOfButton;
 	// From 0 - 255, reserved for indices of VK keys.
 	// 260 - Left Click (Mouse Button 1)
@@ -25,6 +28,7 @@ public class GameSettings {
 		for (int iuP1 = 0; iuP1 < iaActionOfButton.length; iuP1 ++){
 			iaActionOfButton[iuP1] = -1;
 		}
+		bModifiersAreToggled = true;
 	}
 	
 	public static void setDefaultKeyBindings(){

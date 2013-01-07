@@ -8,12 +8,12 @@ public class Entity {
 	public int iEntityIntegrity; //This will be health and stuff (40% health remaining and stuff...) The reason why I named this EntityStatus because entities like arrows can be like 50% used (this means arrow is broken and done with) or 50% unused (you haven't shot this arrow yet)
 	//The reason why I renamed it to EntityIntegrity is because it can be applied to any object - how integritous(?) is the arrow? the human? the laser bullet?
 	//Or maybe we should just call it health?
-	public int iEntityAction; //The entity's current action. Try to use the values from GameActions from here.
 	public long lEntityActionTime; //Time left in the Entity's current action
 	//Should we have a variable called EntityCurrAction? and use a coding system (like used in EntityID) to make specific actions like Attack, Heal, Defend, Move, Use Item/Potion, Call Chuck Norris, etc...
 	public boolean bEntityMoving;
 	public long lEntityMovingTime;
 	
+	public AnimationType entityAction; //The entity's current action. Use the enums from AnimationType.
 	
 	public double dRadius;
 	public double dXPos;
@@ -76,4 +76,5 @@ public class Entity {
 	public void shiftYPos(double shift){
 		dYPos += shift;
 	}
+	
 }

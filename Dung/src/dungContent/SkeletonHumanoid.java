@@ -38,27 +38,57 @@ public class SkeletonHumanoid extends EntitySkeleton{
 			break;
 		}
 		case IDLE:{
-			sklaSkeleton[0].setDoubleX1(+5.0);
-			sklaSkeleton[0].setDoubleY1(0.0);
-			sklaSkeleton[0].setDoubleX2(+5.0);
-			sklaSkeleton[0].setDoubleY2(0.0);
-			sklaSkeleton[1].setDoubleX1(-5.0);
-			sklaSkeleton[1].setDoubleY1(0.0);
-			sklaSkeleton[1].setDoubleX2(-5.0);
-			sklaSkeleton[1].setDoubleY2(0.0);
+			sklaSkeleton[3].setDoubleX1(+10.0);
+			sklaSkeleton[3].setDoubleY1(0.0);
+			sklaSkeleton[3].setDoubleX2(+15.0);
+			sklaSkeleton[3].setDoubleY2(0.0);
+			sklaSkeleton[4].setDoubleX1(-10.0);
+			sklaSkeleton[4].setDoubleY1(0.0);
+			sklaSkeleton[4].setDoubleX2(-15.0);
+			sklaSkeleton[4].setDoubleY2(0.0);
+			sklaSkeleton[5].setDoubleX1(+15.0);
+			sklaSkeleton[5].setDoubleY1(0.0);
+			sklaSkeleton[5].setDoubleX2(+15.0);
+			sklaSkeleton[5].setDoubleY2(-5.0);
+			sklaSkeleton[6].setDoubleX1(-15.0);
+			sklaSkeleton[6].setDoubleY1(0.0);
+			sklaSkeleton[6].setDoubleX2(-15.0);
+			sklaSkeleton[6].setDoubleY2(-5.0);
 			break;
 			//And then arms stuff if applicable.
 		}
 		case ATTACK_SPEAR_RIGHTHAND:{
-			int iTimeInAnimCycle = 30 - (int)(animTime);
-			if (iTimeInAnimCycle < 15){
-				sklaSkeleton[3].setDoubleY2(5 * Math.sin((2 * Math.PI / 15) * iTimeInAnimCycle));
-				sklaSkeleton[5].setDoubleY1(5 * Math.sin((2 * Math.PI / 15) * iTimeInAnimCycle));
-				sklaSkeleton[5].setDoubleY2(5 * Math.sin((2 * Math.PI / 15) * iTimeInAnimCycle) - 5);
-			} else if (iTimeInAnimCycle < 30){
-				sklaSkeleton[3].setDoubleY2(-5 * Math.cos((2 * Math.PI / 7.5) * iTimeInAnimCycle));
-				sklaSkeleton[5].setDoubleY1(-5 * Math.cos((2 * Math.PI / 7.5) * iTimeInAnimCycle));
-				sklaSkeleton[5].setDoubleY2(-5 * Math.cos((2 * Math.PI / 7.5) * iTimeInAnimCycle) - 5);
+			int iAnimTime = 45 - (int)(animTime);
+			if (iAnimTime < 15){
+				sklaSkeleton[3].setDoubleY2(5 * Math.sin((2 * Math.PI / 60) * iAnimTime));
+				sklaSkeleton[5].setDoubleY1(5 * Math.sin((2 * Math.PI / 60) * iAnimTime));
+				sklaSkeleton[5].setDoubleY2(5 * Math.sin((2 * Math.PI / 60) * iAnimTime) - 5);
+			} else if (iAnimTime < 30){
+				sklaSkeleton[3].setDoubleY2(-10 * Math.cos((2 * Math.PI / 60) * (iAnimTime - 15)) - 5);
+				sklaSkeleton[5].setDoubleY1(-10 * Math.cos((2 * Math.PI / 60) * (iAnimTime - 15)) - 5);
+				sklaSkeleton[5].setDoubleY2(-10 * Math.cos((2 * Math.PI / 60) * (iAnimTime - 15)) - 5 - 5);
+			} else if (iAnimTime < 45){
+				sklaSkeleton[3].setDoubleY2(-5.0 * Math.cos((2 * Math.PI / 60) * (iAnimTime - 30)));
+				sklaSkeleton[5].setDoubleY1(-5.0 * Math.cos((2 * Math.PI / 60) * (iAnimTime - 30)));
+				sklaSkeleton[5].setDoubleY2(-5.0 * Math.cos((2 * Math.PI / 60) * (iAnimTime - 30)) - 5);
+			}
+			break;
+		}
+		
+		case ATTACK_SPEAR_LEFTHAND:{
+			int iAnimTime = 45 - (int)(animTime);
+			if (iAnimTime < 15){
+				sklaSkeleton[4].setDoubleY2(5 * Math.sin((2 * Math.PI / 60) * iAnimTime));
+				sklaSkeleton[6].setDoubleY1(5 * Math.sin((2 * Math.PI / 60) * iAnimTime));
+				sklaSkeleton[6].setDoubleY2(5 * Math.sin((2 * Math.PI / 60) * iAnimTime) - 5);
+			} else if (iAnimTime < 30){
+				sklaSkeleton[4].setDoubleY2(-10 * Math.cos((2 * Math.PI / 60) * (iAnimTime - 15)) - 5);
+				sklaSkeleton[6].setDoubleY1(-10 * Math.cos((2 * Math.PI / 60) * (iAnimTime - 15)) - 5);
+				sklaSkeleton[6].setDoubleY2(-10 * Math.cos((2 * Math.PI / 60) * (iAnimTime - 15)) - 5 - 5);
+			} else if (iAnimTime < 45){
+				sklaSkeleton[4].setDoubleY2(-5.0 * Math.cos((2 * Math.PI / 60) * (iAnimTime - 30)));
+				sklaSkeleton[6].setDoubleY1(-5.0 * Math.cos((2 * Math.PI / 60) * (iAnimTime - 30)));
+				sklaSkeleton[6].setDoubleY2(-5.0 * Math.cos((2 * Math.PI / 60) * (iAnimTime - 30)) - 5);
 			}
 			break;
 		}

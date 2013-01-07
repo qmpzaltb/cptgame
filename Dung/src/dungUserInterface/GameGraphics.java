@@ -33,6 +33,14 @@ public class GameGraphics extends JPanel{
 	private long lGfxLoopEndTime;
 	private long lGfxLoopActualMSPFO;
 	
+	double dEntityRelativeXShift;
+	double dEntityRelativeYShift;
+	double dEntityHeadingRotate;
+	double dViewXShift;
+	double dViewYShift;
+	double dPlayerXPos;
+	double dPlayerYPos;
+	
 	public GameGraphics(){
 		fntGuiFont = new Font("Consolas" , Font.BOLD, 12); //I don't even know. Just make sure its a good, readable, preferrably monospaced, font.
 		
@@ -59,13 +67,6 @@ public class GameGraphics extends JPanel{
 		gfx2D.setRenderingHints(rhiRenderingSettings);
 		gfx2D.setFont(fntGuiFont);
 		gfx2D.setBackground(Color.GRAY);
-		double dEntityRelativeXShift;
-		double dEntityRelativeYShift;
-		double dEntityHeadingRotate;
-		double dViewXShift;
-		double dViewYShift;
-		double dPlayerXPos;
-		double dPlayerYPos;
 		
 		iCanvasXSize = getWidth();
 		iCanvasYSize = getHeight();
@@ -147,7 +148,8 @@ public class GameGraphics extends JPanel{
 				gfx2D.rotate(dEntityHeadingRotate);
 
 				gfx2D.rotate(Math.PI / -2);
-				gfx2D.drawString("Pneumonoultramicroscopicsilicovolcanoconiosis <-- LONGEST WORD IN THE ENGLISH DICTIONARY", 10, 4);
+				gfx2D.setColor(Color.RED);
+				gfx2D.drawString("The m's in Consolas are weird at this small of a font.", 10, 4);
 				gfx2D.rotate(Math.PI / 2);
 
 				for (SkeletonLimb lmbToRender : entToRender.ensSkeleton.sklaSkeleton){
@@ -170,16 +172,19 @@ public class GameGraphics extends JPanel{
 			//HERE BEGINS RENDERING OF GUITHINGS
 
 			//This is a very basic GUI. We will (WE MUST) change it.
-			gfx2D.setColor(Color.MAGENTA);
-			gfx2D.drawString("MSPFO (gfx): " + (lGfxLoopActualMSPFO) + ", which means that FPS: " + 1000.0 / (lGfxLoopActualMSPFO) , 5, getHeight() - 65);
-			gfx2D.drawString("PLAYER X: " + playerEntity.dXPos , 5 , getHeight() - 55);
-			gfx2D.drawString("PLAYER Y: " + playerEntity.dYPos , 5 , getHeight() - 45);
+			//gfx2D.setColor(Color.WHITE);
+			//gfx2D.fillRect(0, getHeight() - 75, 400, 75);
+			gfx2D.setColor(Color.GREEN);
+			
+			gfx2D.drawString("PLAYER X: " + playerEntity.dXPos , 5 , getHeight() - 65);
+			gfx2D.drawString("PLAYER Y: " + playerEntity.dYPos , 5 , getHeight() - 55);
+			gfx2D.drawString("MSPFO (gfx): " + (lGfxLoopActualMSPFO) + ", which means that FPS: " + 1000.0 / (lGfxLoopActualMSPFO) , 5, getHeight() - 45);
 			gfx2D.drawString("MSPFO (game): " + DungeonGame.getMillisecondsPerGameplayFrame() + ", which means that FPS: " + 1000.0 / DungeonGame.getMillisecondsPerGameplayFrame() , 5, getHeight() - 35);
 
 			gfx2D.setColor(Color.RED);
-			gfx2D.drawString("Health: 69 $SEX ---  PROTIP: PRESS W TO ACTIVATE ANIMATION", 5, getHeight() - 20);
+			gfx2D.drawString("Health: sqrt(1/0) ---  PROTIP: PRESS WASD, M1, M2, SHIFT.", 5, getHeight() - 20);
 			gfx2D.setColor(Color.BLACK);
-			gfx2D.drawString("Other shit: " + playerEntity.dHeading + " rad.", 5, getHeight() - 10);
+			gfx2D.drawString("Heading : " + playerEntity.dHeading + " rad.", 5, getHeight() - 10);
 			//HERE ENDS RENDERING OF GUITHINGS
 		} else {
 			
@@ -190,8 +195,7 @@ public class GameGraphics extends JPanel{
 		lGfxLoopEndTime = System.currentTimeMillis();
 		lGfxLoopActualMSPFO = lGfxLoopEndTime - lGfxLoopStartTime;
 		
-		//gfx2D.dispose(); //I don't even know
-		//g.dispose();
+		gfx2D.dispose();
 		
 	}
 	private void drawTile(Graphics2D g, int tileX, int tileY){
