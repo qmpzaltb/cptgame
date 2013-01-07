@@ -102,7 +102,7 @@ public class DungeonGame {
 	}
 	
 	public static void moveEntity(int iEntityID){
-		//TODO if (wall then go fck off)
+		//TODO if (wall then block all collisions or lose 20% of health per half second)
 		//TODO Finish this method with map collision detection, entity collision detection.
 		double dEntityXShift = Math.sin(handleEntity(iEntityID).getMovementDirection()) * handleEntity(iEntityID).dMovementMagnitude;
 		double dEntityYShift = (-1) * Math.cos(handleEntity(iEntityID).getMovementDirection()) * handleEntity(iEntityID).dMovementMagnitude;
@@ -115,9 +115,9 @@ public class DungeonGame {
 		double dNewYPosTop = dCurrentYPos + dEntityYShift - dCurrentSize;
 		double dNewYPosBot = dCurrentYPos + dEntityYShift + dCurrentSize;
 		
-		//if (isWalkable(handleTile((int)(dNewXPosRight), (int)(dCurrentYPos + dEntityYShift)).getTileType())){
-		//	
-		//}
+		if (!isWalkable(handleTile((int)(dNewXPosRight), (int)(dCurrentYPos + dEntityYShift)).getTileType())){
+			
+		}
 		
 		
 		handleEntity(iEntityID).shiftXPos(dEntityXShift);
@@ -135,6 +135,13 @@ public class DungeonGame {
 	
 	public static boolean isWalkable(TileType type){
 		switch (type){
+		//added the wall types just in case you guys wanted to do something different when the player walks near or over it
+		case WALL:{
+			return false;
+		}
+		case WALLEDGE:{
+			return false;
+		}
 		case FLOOR:{
 			return true;
 		}
