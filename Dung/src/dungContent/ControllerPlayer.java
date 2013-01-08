@@ -29,11 +29,7 @@ public class ControllerPlayer extends EntityController{
 		DungeonGame.handleEntity(iEntityID).dHeading = GameInput.getHeading();
 		DungeonGame.handleEntity(iEntityID).bEntityMoving = false;
 		
-		if(GameInput.baActions[GameActions.SPEED_MODIFIER]){
-			DungeonGame.handleEntity(iEntityID).dMovementMagnitude = DungeonGame.handleEntity(iEntityID).dNormalSpeed *2;
-		} else {
-			DungeonGame.handleEntity(iEntityID).dMovementMagnitude = DungeonGame.handleEntity(iEntityID).dNormalSpeed;
-		}
+		
 		
 		
 		//MOVEMENT HANDLING FROM INPUT BEGINS
@@ -63,6 +59,13 @@ public class ControllerPlayer extends EntityController{
 				DungeonGame.handleEntity(iEntityID).bEntityMoving = true;
 				DungeonGame.handleEntity(iEntityID).setMovementDirection(Math.PI / 2);
 			}
+		}
+		
+		//Glitch : the speed modified will continue even if shift is not pressed. This is done by holding shift, then pressing and holding down any WASD keys, then releasing the shift key. 
+		if(GameInput.baActions[GameActions.SPEED_MODIFIER]){
+			DungeonGame.handleEntity(iEntityID).dMovementMagnitude = DungeonGame.handleEntity(iEntityID).dNormalSpeed *2;
+		} else {
+			DungeonGame.handleEntity(iEntityID).dMovementMagnitude = DungeonGame.handleEntity(iEntityID).dNormalSpeed;
 		}
 		//END OF MOVEMENT HANDLING
 		
