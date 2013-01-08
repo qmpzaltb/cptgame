@@ -41,7 +41,7 @@ public class DungeonGame {
 		
 		entveCurrentEntities = new Vector<Entity>();
 		entveCurrentEntities.add(new Entity(0, ContentLibrary.humanPlayer, 2.5, 2.5, 0.0));
-		entveCurrentEntities.add(new Entity(1, ContentLibrary.nermanAbomination , 4.0, 4.0, 0.0));
+		entveCurrentEntities.add(new Entity(1, ContentLibrary.nermanCreature , 4.0, 4.0, 0.0));
 		
 		dngCurrentDungeon = new Dungeon(69);
 		
@@ -95,7 +95,7 @@ public class DungeonGame {
 			try {
 				Thread.sleep(iMSPFOGmAdj - lGameLoopTimeTaken);
 			} catch (InterruptedException e) {
-				System.err.println("HOW DID THIS HAPPEN I DID NOT INTERRUPT ANYTHING DAMMIT NERMAN YOU CHANGED THE CODE AROUND DIDN'T YOU GAAAAH NOW I HAVE TO FIX IT. HOLY. THIS IS THE OPPOSITE OF BLESSED. MY DOLLARS DO NOT BESTOW THEMSELVES UPON YOU.");
+				System.err.println("Who interrupted the main thread's slumber?");
 			}
 		}
 		

@@ -88,7 +88,7 @@ public class GameWindow extends Thread {
 				try {
 					Thread.sleep(lTimeToSleep);
 				} catch (InterruptedException e) {
-					System.err.println("Poopsicle sticks in the GameWindow class.");
+					System.err.println("Interruption error in the GameWindow class. How?");
 					e.printStackTrace();
 				}
 			}

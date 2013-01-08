@@ -1,3 +1,36 @@
+IDEAS V2:
+
+Nonviolence is a crucial aspect of the game.
+How do we have a dungeon game with nonviolence?
+BY PROMOTING CLEANLINESS AND RAT EXTERMINATION.
+
+HP -> Cleanliness/Dirtiness (high levels of dirty -> pass out from the dirt)
+Attack -> Clean!
+
+Classes that you can start off as?:
+	MAID - Good against dirty things. Starts off with a dust swiffer(?) or vaccum cleaner or broom or windex bottle. Maybe starts off with cleaning items/cleaning skills (heals) (like an AP character in league?)
+	EXTERMINATOR - Good against vermin. Starts off with basic extermination gear. Skill points in poison-gas-resistance OR they start with a gas mask. (like a ranged AD carry in league?)
+	SLOB - Tank. Can absorb a lot of dirtiness before collapsing. (like a tank in league?)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+----------------------------------
+OLD IDEAS:
+
+
+
 
 	/* Entity List. -- This is just to refer to what entity is what and its corresponding code.
 	 * ----------------------------------------------------------------------------------------

@@ -16,6 +16,12 @@ import dungMain.DungeonGame;
 public class GameGraphics extends JPanel{
 	
 	private static final long serialVersionUID = 990000001;
+	
+	
+	public static final Color TRANSPARENT_GRAY = new Color(0.5f ,0.5f , 0.5f , 0.5f ); //CONSTRUCTOR - ( Red , Green, Blue, Alpha)
+	
+	
+	
 
 	private static int iCanvasXSize;
 	private static int iCanvasYSize;
@@ -25,9 +31,9 @@ public class GameGraphics extends JPanel{
 	private Font fntGuiFont;
 	
 	private RenderingHints rhiRenderingSettings;
-	private RenderingHints rhiHintsEntities;
-	private RenderingHints rhiHintsMap;
-	private RenderingHints rhiHintsGUI;
+	//private RenderingHints rhiHintsEntities;
+	//private RenderingHints rhiHintsMap;
+	//private RenderingHints rhiHintsGUI;
 	
 	private long lGfxLoopStartTime;
 	private long lGfxLoopEndTime;
@@ -172,8 +178,8 @@ public class GameGraphics extends JPanel{
 			//HERE BEGINS RENDERING OF GUITHINGS
 
 			//This is a very basic GUI. We will (WE MUST) change it.
-			//gfx2D.setColor(Color.WHITE);
-			//gfx2D.fillRect(0, getHeight() - 75, 400, 75);
+			gfx2D.setColor(TRANSPARENT_GRAY);
+			gfx2D.fillRect(0, getHeight() - 75, 400, 75);
 			gfx2D.setColor(Color.GREEN);
 			
 			gfx2D.drawString("PLAYER X: " + playerEntity.dXPos , 5 , getHeight() - 65);

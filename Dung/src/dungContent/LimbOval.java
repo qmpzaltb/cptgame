@@ -18,6 +18,7 @@ public class LimbOval extends SkeletonLimb{
 		dRelativeLimbY1 = y1;
 		dLimbXSize = xSize;
 		dLimbYSize = ySize;
+		//TODO Add limb-coloring functionality elsewhere.
 		colLimbColor = Color.ORANGE;
 	}
 	

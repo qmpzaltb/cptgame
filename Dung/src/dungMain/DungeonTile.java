@@ -17,7 +17,7 @@ public class DungeonTile {
 	public static final int GAS_CARBON_DIOXIDE 	= 1;
 	public static final int GAS_NITROGEN 		= 2;
 	public static final int GAS_COUGH 			= 3;
-	public static final int GAS_DEATH 			= 4;
+	public static final int GAS_DIRTY 			= 4;
 	
 	private static final int GAS_VARIETY 		= 5;
 
