@@ -45,22 +45,26 @@ public class ControllerPlayer extends EntityController{
 		} else if (GameInput.baActions[GameActions.MOVE_DOWN] && GameInput.baActions[GameActions.MOVE_RIGHT]) { //Moves Down Right
 			DungeonGame.handleEntity(iEntityID).bEntityMoving = true;
 			DungeonGame.handleEntity(iEntityID).setMovementDirection( 3 * Math.PI / (4));
-		} else {
-			if (GameInput.baActions[GameActions.MOVE_UP]){
-				DungeonGame.handleEntity(iEntityID).bEntityMoving = true;
-				DungeonGame.handleEntity(iEntityID).setMovementDirection(0);
-			} else if (GameInput.baActions[GameActions.MOVE_LEFT]){
-				DungeonGame.handleEntity(iEntityID).bEntityMoving = true;
-				DungeonGame.handleEntity(iEntityID).setMovementDirection(Math.PI / -2);
-			} else if (GameInput.baActions[GameActions.MOVE_DOWN]) {
-				DungeonGame.handleEntity(iEntityID).bEntityMoving = true;
-				DungeonGame.handleEntity(iEntityID).setMovementDirection(Math.PI);
-			} else if (GameInput.baActions[GameActions.MOVE_RIGHT]){
-				DungeonGame.handleEntity(iEntityID).bEntityMoving = true;
-				DungeonGame.handleEntity(iEntityID).setMovementDirection(Math.PI / 2);
-			}
+		} else if (GameInput.baActions[GameActions.MOVE_UP]){
+			DungeonGame.handleEntity(iEntityID).bEntityMoving = true;
+			DungeonGame.handleEntity(iEntityID).setMovementDirection(0);
+		} else if (GameInput.baActions[GameActions.MOVE_LEFT]){
+			DungeonGame.handleEntity(iEntityID).bEntityMoving = true;
+			DungeonGame.handleEntity(iEntityID).setMovementDirection(Math.PI / -2);
+		} else if (GameInput.baActions[GameActions.MOVE_DOWN]) {
+			DungeonGame.handleEntity(iEntityID).bEntityMoving = true;
+			DungeonGame.handleEntity(iEntityID).setMovementDirection(Math.PI);
+		} else if (GameInput.baActions[GameActions.MOVE_RIGHT]){
+			DungeonGame.handleEntity(iEntityID).bEntityMoving = true;
+			DungeonGame.handleEntity(iEntityID).setMovementDirection(Math.PI / 2);
+		} else if (GameInput.baActions[GameActions.MOVE_FORWARD]){
+			DungeonGame.handleEntity(iEntityID).bEntityMoving = true;
+			DungeonGame.handleEntity(iEntityID).setMovementDirection(DungeonGame.handleEntity(iEntityID).dHeading);
+		} else if (GameInput.baActions[GameActions.MOVE_BACKWARD]){
+			DungeonGame.handleEntity(iEntityID).bEntityMoving = true;
+			DungeonGame.handleEntity(iEntityID).setMovementDirection(DungeonGame.handleEntity(iEntityID).dHeading + Math.PI);
 		}
-		
+
 		//Glitch : the speed modified will continue even if shift is not pressed. This is done by holding shift, then pressing and holding down any WASD keys, then releasing the shift key.
 		//That is a feature, not a glitch. Instead of being a push-to-sprint, the game can also be a toggle-to-sprint. This is controllable in GameSettings with the boolean bModifiersAreToggled.
 		//Why did I make this feature? Key ghosting. My keyboard can't sprint up-right, because it doesnt allow those three keys to be pressed at the same time.

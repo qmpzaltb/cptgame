@@ -17,7 +17,7 @@ public class GameGraphics extends JPanel{
 	
 	private static final long serialVersionUID = 990000001;
 	
-	
+	//We should move these colours to a different class? One dedicated to public static final Color?
 	public static final Color TRANSPARENT_GRAY = new Color(0.5f ,0.5f , 0.5f , 0.5f ); //CONSTRUCTOR - ( Red , Green, Blue, Alpha)
 	
 	
@@ -88,8 +88,8 @@ public class GameGraphics extends JPanel{
 			Entity playerEntity = DungeonGame.entveCurrentEntities.get(dungContent.ControllerPlayer.iPlayerEntityID);
 			dPlayerXPos = playerEntity.dXPos;
 			dPlayerYPos = playerEntity.dYPos;
-			dViewXShift = iCanvasXSize / 2 - dPlayerXPos * 64;
-			dViewYShift = iCanvasYSize / 2 - dPlayerYPos * 64;
+			dViewXShift = (iCanvasXSize / 2) - (dPlayerXPos * 64);
+			dViewYShift = (iCanvasYSize / 2) - (dPlayerYPos * 64);
 
 
 			//HERE BEGINS RENDERING OF DUNGEONS
@@ -188,7 +188,7 @@ public class GameGraphics extends JPanel{
 			gfx2D.drawString("MSPFO (game): " + DungeonGame.getMillisecondsPerGameplayFrame() + ", which means that FPS: " + 1000.0 / DungeonGame.getMillisecondsPerGameplayFrame() , 5, getHeight() - 35);
 
 			gfx2D.setColor(Color.RED);
-			gfx2D.drawString("Health: sqrt(1/0) ---  PROTIP: PRESS WASD, M1, M2, SHIFT.", 5, getHeight() - 20);
+			gfx2D.drawString("Health: sqrt(1/0) ---  PROTIP: PRESS WASD, M1, M2, SHIFT, UP, DOWN.", 5, getHeight() - 20);
 			gfx2D.setColor(Color.BLACK);
 			gfx2D.drawString("Heading : " + playerEntity.dHeading + " rad.", 5, getHeight() - 10);
 			//HERE ENDS RENDERING OF GUITHINGS
