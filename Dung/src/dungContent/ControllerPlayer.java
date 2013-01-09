@@ -110,6 +110,8 @@ public class ControllerPlayer extends EntityController{
 			
 		}
 		
+		
+		
 		DungeonGame.handleEntity(iEntityID).lEntityActionTime -= 1;
 		//END OF ANIMATING SPECIAL ACTIONS
 		

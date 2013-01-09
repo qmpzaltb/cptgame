@@ -1,6 +1,9 @@
 package dungMain;
 
 import java.util.Vector;
+
+import dungUserInterface.GameActions;
+import dungUserInterface.GameGraphics;
 import dungUserInterface.GameInput;
 import dungUserInterface.GameSettings;
 import dungUserInterface.GameWindow;
@@ -14,7 +17,7 @@ public class DungeonGame {
 
 	public static Dungeon dngCurrentDungeon;
 	public static Vector<Entity> entveCurrentEntities;
-
+	
 	private static int iMSPFOGmAdj; //Adjusted value for Milliseconds per Frame Operation to account for lag.
 	private static long lGameLoopStartTime;
 	private static long lGameLoopEndTime;
@@ -53,7 +56,7 @@ public class DungeonGame {
 
 	}
 
-	public static void doGameLoop() {
+	private static void doGameLoop() {
 
 		lGameLoopStartTime = System.currentTimeMillis();
 
@@ -70,6 +73,7 @@ public class DungeonGame {
 			toUpdate.encController.doNextAction();
 		}
 
+		doNonGameplayInput();
 
 		//Not pseudocode. This is testing stuff.
 		//if (GameInput.baActions[GameActions.ATTACK_USE_PRIMARY]){
@@ -166,6 +170,17 @@ public class DungeonGame {
 
 
 
+		}
+	}
+	
+	private static void doNonGameplayInput(){
+		if (GameInput.baActions[GameActions.ZOOM_IN]){
+			GameGraphics.increaseZoom();
+			GameInput.baActions[GameActions.ZOOM_IN] = false;
+		}
+		if (GameInput.baActions[GameActions.ZOOM_OUT]){
+			GameGraphics.decreaseZoom();
+			GameInput.baActions[GameActions.ZOOM_OUT] = false;
 		}
 	}
 

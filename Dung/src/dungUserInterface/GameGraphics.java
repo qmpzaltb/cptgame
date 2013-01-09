@@ -47,7 +47,7 @@ public class GameGraphics extends JPanel{
 	double dPlayerXPos;
 	double dPlayerYPos;
 	
-	double dGameZoomScale = 0.5;
+	private static double dGameZoomScale = 1.0;
 	
 	public GameGraphics(){
 		fntGuiFont = new Font("Courier New" , Font.BOLD, 12); //I don't even know. Just make sure its a good, readable, preferrably monospaced, font.
@@ -76,13 +76,12 @@ public class GameGraphics extends JPanel{
 		gfx2D.setFont(fntGuiFont);
 		gfx2D.setBackground(Color.GRAY);
 		
-
+gfx2D.scale(dGameZoomScale,  dGameZoomScale);
 		
 		iCanvasXSize = getWidth();
 		iCanvasYSize = getHeight();
 		iCanvasXLoc = getX();
 		iCanvasYLoc = getY();
-		
 		
 		
 		
@@ -92,13 +91,14 @@ public class GameGraphics extends JPanel{
 			Entity playerEntity = DungeonGame.entveCurrentEntities.get(dungContent.ControllerPlayer.iPlayerEntityID);
 			dPlayerXPos = playerEntity.dXPos;
 			dPlayerYPos = playerEntity.dYPos;
-			dViewXShift = (iCanvasXSize / 2) - (dPlayerXPos * 64);
-			dViewYShift = (iCanvasYSize / 2) - (dPlayerYPos * 64);
+			dViewXShift = (iCanvasXSize / 2) * (1/dGameZoomScale) - (dPlayerXPos * 64);
+			dViewYShift = (iCanvasYSize / 2) * (1/dGameZoomScale) - (dPlayerYPos * 64) ;
 
 
 			//HERE BEGINS RENDERING OF DUNGEONS
 			gfx2D.translate(dViewXShift, dViewYShift);
 			
+		
 			for (int iuP1 = 0; iuP1 < DungeonGame.dngCurrentDungeon.getXSize(); iuP1 ++){
 				for (int iuP2 = 0; iuP2 < DungeonGame.dngCurrentDungeon.getYSize(); iuP2 ++){
 
@@ -134,6 +134,7 @@ public class GameGraphics extends JPanel{
 					}
 
 				}
+				
 			}
 
 
@@ -178,7 +179,7 @@ public class GameGraphics extends JPanel{
 			//gfx2D.setRenderingHints(rhiHintsGUI);
 			
 			//HERE BEGINS RENDERING OF GUITHINGS
-			gfx2D.scale(1 / dGameZoomScale , 1 / dGameZoomScale);
+			gfx2D.scale(1 / dGameZoomScale, 1 /  dGameZoomScale);
 
 
 			//This is a very basic GUI. We will (WE MUST) change it.
@@ -209,6 +210,7 @@ public class GameGraphics extends JPanel{
 		
 	}
 	private void drawTile(Graphics2D g, int tileX, int tileY){
+	
 		g.fillRect(tileX * 64, tileY * 64, 65, 65);
 	}
 	
@@ -225,5 +227,14 @@ public class GameGraphics extends JPanel{
 		return iCanvasYSize;
 	}
 	
+	public static void increaseZoom(){
+		dGameZoomScale -= 0.01;
+	}
+	public static void decreaseZoom(){
+		dGameZoomScale += 0.01;
+	}
+	public static void resetZoom(){
+		dGameZoomScale = 1;
+	}
 	
 }
