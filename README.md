@@ -17,7 +17,7 @@ TODO (codewise):
   WIP   - Work in Progress
   MC    - Mostly complete
   DONE  - Complete
-  *     - Not good enough
+  (..)* - Not good enough
 
   - Get primary things done.
     This includes:
