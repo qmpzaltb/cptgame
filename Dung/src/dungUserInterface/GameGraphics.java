@@ -47,8 +47,10 @@ public class GameGraphics extends JPanel{
 	double dPlayerXPos;
 	double dPlayerYPos;
 	
+	double dGameZoomScale = 0.5;
+	
 	public GameGraphics(){
-		fntGuiFont = new Font("Consolas" , Font.BOLD, 12); //I don't even know. Just make sure its a good, readable, preferrably monospaced, font.
+		fntGuiFont = new Font("Courier New" , Font.BOLD, 12); //I don't even know. Just make sure its a good, readable, preferrably monospaced, font.
 		
 		rhiRenderingSettings = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON); //Smoother shapes, but map becomes buggy. WORKAROUND: I extended tile pixel width/height by one pixel. Still 64 wide though, if you know what I mean.
 		rhiRenderingSettings.put(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON); //Smoother text
@@ -74,6 +76,8 @@ public class GameGraphics extends JPanel{
 		gfx2D.setFont(fntGuiFont);
 		gfx2D.setBackground(Color.GRAY);
 		
+
+		
 		iCanvasXSize = getWidth();
 		iCanvasYSize = getHeight();
 		iCanvasXLoc = getX();
@@ -94,7 +98,7 @@ public class GameGraphics extends JPanel{
 
 			//HERE BEGINS RENDERING OF DUNGEONS
 			gfx2D.translate(dViewXShift, dViewYShift);
-			gfx2D.translate((-1) * dPlayerXPos * 64, (-1) * dPlayerYPos * 64);
+			
 			for (int iuP1 = 0; iuP1 < DungeonGame.dngCurrentDungeon.getXSize(); iuP1 ++){
 				for (int iuP2 = 0; iuP2 < DungeonGame.dngCurrentDungeon.getYSize(); iuP2 ++){
 
@@ -131,8 +135,6 @@ public class GameGraphics extends JPanel{
 
 				}
 			}
-
-			gfx2D.translate(dPlayerXPos * 64,dPlayerYPos * 64);
 
 
 			//HERE ENDS RENDERING OF DUNGEONS
@@ -176,6 +178,8 @@ public class GameGraphics extends JPanel{
 			//gfx2D.setRenderingHints(rhiHintsGUI);
 			
 			//HERE BEGINS RENDERING OF GUITHINGS
+			gfx2D.scale(1 / dGameZoomScale , 1 / dGameZoomScale);
+
 
 			//This is a very basic GUI. We will (WE MUST) change it.
 			gfx2D.setColor(TRANSPARENT_GRAY);

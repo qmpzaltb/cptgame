@@ -11,19 +11,19 @@ public class DungeonGame {
 
 
 	private static GameWindow mainGameWindow; 
-	
+
 	public static Dungeon dngCurrentDungeon;
 	public static Vector<Entity> entveCurrentEntities;
-	
+
 	private static int iMSPFOGmAdj; //Adjusted value for Milliseconds per Frame Operation to account for lag.
 	private static long lGameLoopStartTime;
 	private static long lGameLoopEndTime;
 	private static long lGameLoopTimeTaken;
 	private static long lCurrentFrame;
 	private static long lTimeToSleep;
-	
+
 	public static int iGameReadinessState;
-	
+
 	public static void main(String[] args){
 
 		iGameReadinessState = -1;
@@ -34,29 +34,29 @@ public class DungeonGame {
 		GameSettings.setDefaultKeyBindings();
 		mainGameWindow.show();
 
-		
+
 		iMSPFOGmAdj = GameSettings.iMSPFOGm;
 		lCurrentFrame = 0;
 		mainGameWindow.start();
-		
+
 		entveCurrentEntities = new Vector<Entity>();
 		entveCurrentEntities.add(new Entity(0, ContentLibrary.humanPlayer, 2.5, 2.5, 0.0));
 		entveCurrentEntities.add(new Entity(1, ContentLibrary.nermanCreature , 4.0, 4.0, 0.0));
-		
-		dngCurrentDungeon = new Dungeon(69);
-		
+
+		dngCurrentDungeon = new Dungeon(-1);
+
 		iGameReadinessState += 1;
 		while (true){
 			doGameLoop();
 			lCurrentFrame ++;
 		}
-		
+
 	}
-	
+
 	public static void doGameLoop() {
-		
+
 		lGameLoopStartTime = System.currentTimeMillis();
-		
+
 		/*
 		 * for (counter; parsing through the entity array list; counter++){
 		 * 		entityarraylist.get(counter).doNextAction();
@@ -65,21 +65,21 @@ public class DungeonGame {
 		 *      }
 		 * }
 		 */
-		
+
 		for (Entity toUpdate : entveCurrentEntities){
 			toUpdate.encController.doNextAction();
 		}
-		
-		
+
+
 		//Not pseudocode. This is testing stuff.
 		//if (GameInput.baActions[GameActions.ATTACK_USE_PRIMARY]){
 		//	System.out.println("ATTACK");
 		//}
-		
-		
+
+
 		lGameLoopEndTime = System.currentTimeMillis();
 		lGameLoopTimeTaken = (lGameLoopEndTime - lGameLoopStartTime);
-		
+
 		//Framerate regulator for stable gameplay.
 		if (lCurrentFrame % GameSettings.iFPSRegulationPeriod == 0){ //Every "GameSettings.iFPSRegulationPeriod" amount of frames,
 			if (iMSPFOGmAdj < lGameLoopTimeTaken){ //If the current framerate is insufficient,
@@ -88,7 +88,7 @@ public class DungeonGame {
 				iMSPFOGmAdj --; //speed the game up.
 			}
 		}
-		
+
 		//System.out.println("ms for gameplay frame: " + lGameLoopTimeTaken);
 		lTimeToSleep = iMSPFOGmAdj - lGameLoopTimeTaken;
 		if (lTimeToSleep > 0){ //Because we don't want to sleep for negative times. Because we don't know what that does.
@@ -98,9 +98,9 @@ public class DungeonGame {
 				System.err.println("Who interrupted the main thread's slumber?");
 			}
 		}
-		
+
 	}
-	
+
 	public static void moveEntity(int iEntityID){
 		//TODO if (wall then block all collisions or lose 20% of health per half second)
 		//TODO Finish this method with map collision detection, entity collision detection.
@@ -109,30 +109,39 @@ public class DungeonGame {
 		double dCurrentXPos = handleEntity(iEntityID).getXPos();
 		double dCurrentYPos = handleEntity(iEntityID).getYPos();
 		double dCurrentSize = handleEntity(iEntityID).getSize();
+
+		double dNewXPosCenter = dCurrentXPos + dEntityXShift;
+		double dNewXPosRight = dNewXPosCenter + dCurrentSize;
+		double dNewXPosLeft = dNewXPosCenter - dCurrentSize;
+		double dNewYPosCenter = dCurrentYPos + dEntityYShift;
+		double dNewYPosTop = dNewYPosCenter - dCurrentSize;
+		double dNewYPosBot = dNewYPosCenter + dCurrentSize;
 		
-		double dNewXPosRight = dCurrentXPos + dEntityXShift + dCurrentSize;
-		double dNewXPosLeft = dCurrentXPos + dEntityXShift - dCurrentSize;
-		double dNewYPosTop = dCurrentYPos + dEntityYShift - dCurrentSize;
-		double dNewYPosBot = dCurrentYPos + dEntityYShift + dCurrentSize;
-		
-		if (!isWalkable(handleTile((int)(dNewXPosRight), (int)(dCurrentYPos + dEntityYShift)).getTileType())){
-			
+		if (dNewXPosRight < DungeonGame.dngCurrentDungeon.getXSize() && dNewXPosLeft >= 0 && dNewYPosBot < DungeonGame.dngCurrentDungeon.getYSize() && dNewYPosTop >= 0){
+
+		}
+		else {
+			dEntityXShift = 0;
+			dEntityYShift = 0;
 		}
 		
-		
+		if (!isWalkable(handleTile((int)(dNewXPosCenter), (int)(dNewYPosCenter)).getTileType())){
+
+		}
+
 		handleEntity(iEntityID).shiftXPos(dEntityXShift);
 		handleEntity(iEntityID).shiftYPos(dEntityYShift);
-	
+
 	}
-	
+
 	public static Entity handleEntity(int entityID){
 		return entveCurrentEntities.get(entityID);
 	}
 	public static DungeonTile handleTile(int x, int y){
 		return dngCurrentDungeon.dtlve2DungeonTiles.get(x).get(y);
 	}
-	
-	
+
+
 	public static boolean isWalkable(TileType type){
 		switch (type){
 		//added the wall types just in case you guys wanted to do something different when the player walks near or over it
@@ -159,8 +168,8 @@ public class DungeonGame {
 
 		}
 	}
-	
-	
+
+
 
 	public static int getCenterOfWindowX(){
 		return mainGameWindow.getPositionX() + (mainGameWindow.getSizeX() / 2);
@@ -174,7 +183,7 @@ public class DungeonGame {
 	public static int getInsetLocationY(){
 		return mainGameWindow.getPositionY() + mainGameWindow.getInsetTop();
 	}
-	
+
 	public static int getWindowSizeX(){
 		return mainGameWindow.getSizeX();
 	}
@@ -184,5 +193,5 @@ public class DungeonGame {
 	public static int getMillisecondsPerGameplayFrame(){
 		return iMSPFOGmAdj;
 	}
-	
+
 }

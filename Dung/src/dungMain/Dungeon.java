@@ -24,6 +24,8 @@ package dungMain;
 import java.util.Random;
 import java.util.Vector;
 
+import dungContent.ControllerPlayer;
+
 public class Dungeon {
 
 	
@@ -81,6 +83,9 @@ public class Dungeon {
 				makePath(iaPointXWeb[iuP1] , iaPointYWeb[iuP1] , iaPointXWeb[iuP2] , iaPointYWeb[iuP2]);
 			}
 		}
+		
+		DungeonGame.handleEntity(ControllerPlayer.iPlayerEntityID).dXPos = iaPointXWeb[0] + 0.5;
+		DungeonGame.handleEntity(ControllerPlayer.iPlayerEntityID).dYPos = iaPointYWeb[0] + 0.5;
 		
 		makeWallEdges();
 		
