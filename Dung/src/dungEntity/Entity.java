@@ -21,12 +21,14 @@ public class Entity {
 	public double dHeading;
 	public double dNormalSpeed;
 	
+	private int iAlleigance;
+	
 	public double dMovementDirection;
 	public double dMovementMagnitude;
 	
 	public EntityController encController;
 	public EntitySkeleton ensSkeleton;
-	public Entity(int entityID, Entity baseEntity, double xPos, double yPos, double heading){
+	public Entity(int entityID, Entity baseEntity, double xPos, double yPos, double heading, int alleigance){
 		dRadius = baseEntity.dRadius;
 		dNormalSpeed = baseEntity.dNormalSpeed;
 		encController = baseEntity.encController;
@@ -36,6 +38,7 @@ public class Entity {
 		dYPos = yPos;
 		dHeading = heading;
 		dMovementMagnitude = dNormalSpeed; //TEMPORARY LINE. THIS SHOULD GO ELSEWHERE?
+		iAlleigance = alleigance;
 	}
 	
 	public Entity(int entityID, double radius, EntityController controller, EntitySkeleton skeleton, double speed){
@@ -62,11 +65,20 @@ public class Entity {
 	public void setMovementDirection(double direction){
 		dMovementDirection = direction;
 	}
+	public void setFacingDirection(double direction){
+		dHeading = direction;
+	}
 	public double getNormalSpeed(){
 		return dNormalSpeed;
 	}
 	public double getSize(){
 		return dRadius;
+	}
+	public int getAlleigance(){
+		return iAlleigance;
+	}
+	public void setAlleigance(byte alleigance){
+		iAlleigance = alleigance;
 	}
 	
 	

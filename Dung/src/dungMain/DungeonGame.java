@@ -17,7 +17,7 @@ public class DungeonGame {
 
 	public static Dungeon dngCurrentDungeon;
 	public static Vector<Entity> entveCurrentEntities;
-	
+
 	private static int iMSPFOGmAdj; //Adjusted value for Milliseconds per Frame Operation to account for lag.
 	private static long lGameLoopStartTime;
 	private static long lGameLoopEndTime;
@@ -43,8 +43,10 @@ public class DungeonGame {
 		mainGameWindow.start();
 
 		entveCurrentEntities = new Vector<Entity>();
-		entveCurrentEntities.add(new Entity(0, ContentLibrary.humanPlayer, 2.5, 2.5, 0.0));
-		entveCurrentEntities.add(new Entity(1, ContentLibrary.nermanCreature , 4.0, 4.0, 0.0));
+		entveCurrentEntities.add(new Entity(0, ContentLibrary.humanPlayer, 2.5, 2.5, 0.0 , 0));
+		entveCurrentEntities.add(new Entity(1, ContentLibrary.nermanCreature , 4.0, 4.0, 0.0 , 1));
+		entveCurrentEntities.add(new Entity(2, ContentLibrary.dirtyBubble, 10.0 , 10.0 , 0.0 , 1));
+
 
 		dngCurrentDungeon = new Dungeon(-1);
 
@@ -120,7 +122,7 @@ public class DungeonGame {
 		double dNewYPosCenter = dCurrentYPos + dEntityYShift;
 		double dNewYPosTop = dNewYPosCenter - dCurrentSize;
 		double dNewYPosBot = dNewYPosCenter + dCurrentSize;
-		
+
 		if (dNewXPosRight < DungeonGame.dngCurrentDungeon.getXSize() && dNewXPosLeft >= 0 && dNewYPosBot < DungeonGame.dngCurrentDungeon.getYSize() && dNewYPosTop >= 0){
 
 		}
@@ -128,11 +130,11 @@ public class DungeonGame {
 			dEntityXShift = 0;
 			dEntityYShift = 0;
 		}
-		
+
 		if (!isWalkable(handleTile((int)(dNewXPosCenter), (int)(dNewYPosCenter)).getTileType())){
 
 		}
-
+		System.out.println("DUDE " + iEntityID + " IS TOTALLY MOVING");
 		handleEntity(iEntityID).shiftXPos(dEntityXShift);
 		handleEntity(iEntityID).shiftYPos(dEntityYShift);
 
@@ -172,7 +174,7 @@ public class DungeonGame {
 
 		}
 	}
-	
+
 	private static void doNonGameplayInput(){
 		if (GameInput.baActions[GameActions.ZOOM_IN]){
 			GameGraphics.increaseZoom();
