@@ -176,11 +176,11 @@ public class DungeonGame {
 	private static void doNonGameplayInput(){
 		if (GameInput.baActions[GameActions.ZOOM_IN]){
 			GameGraphics.increaseZoom();
-			GameInput.baActions[GameActions.ZOOM_IN] = false;
+			//GameInput.baActions[GameActions.ZOOM_IN] = false;
 		}
 		if (GameInput.baActions[GameActions.ZOOM_OUT]){
 			GameGraphics.decreaseZoom();
-			GameInput.baActions[GameActions.ZOOM_OUT] = false;
+			//GameInput.baActions[GameActions.ZOOM_OUT] = false;
 		}
 	}
 

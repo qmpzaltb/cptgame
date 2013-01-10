@@ -14,31 +14,36 @@ import dungEntity.SkeletonLimb;
 import dungMain.DungeonGame;
 
 public class GameGraphics extends JPanel{
-	
+
 	private static final long serialVersionUID = 990000001;
-	
+
+
+	public static final double MAX_ZOOM = 1.85;
+	public static final double MIN_ZOOM = 0.15;
+
 	//We should move these colours to a different class? One dedicated to public static final Color?
 	public static final Color TRANSPARENT_GRAY = new Color(0.5f ,0.5f , 0.5f , 0.5f ); //CONSTRUCTOR - ( Red , Green, Blue, Alpha)
-	
-	
-	
+
+
+
 
 	private static int iCanvasXSize;
 	private static int iCanvasYSize;
 	private static int iCanvasXLoc;
 	private static int iCanvasYLoc;
-	
+
 	private Font fntGuiFont;
-	
+
 	private RenderingHints rhiRenderingSettings;
 	//private RenderingHints rhiHintsEntities;
 	//private RenderingHints rhiHintsMap;
 	//private RenderingHints rhiHintsGUI;
-	
+	private static int iAntiAliasingTileSizeAdjustment = 1;
+
 	private long lGfxLoopStartTime;
 	private long lGfxLoopEndTime;
 	private long lGfxLoopActualMSPFO;
-	
+
 	double dEntityRelativeXShift;
 	double dEntityRelativeYShift;
 	double dEntityHeadingRotate;
@@ -46,45 +51,51 @@ public class GameGraphics extends JPanel{
 	double dViewYShift;
 	double dPlayerXPos;
 	double dPlayerYPos;
-	
+
+
 	private static double dGameZoomScale = 1.0;
-	
+	private static double dNextGameZoomScale = dGameZoomScale;
+
 	public GameGraphics(){
+
+
 		fntGuiFont = new Font("Courier New" , Font.BOLD, 12); //I don't even know. Just make sure its a good, readable, preferrably monospaced, font.
-		
+
 		rhiRenderingSettings = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON); //Smoother shapes, but map becomes buggy. WORKAROUND: I extended tile pixel width/height by one pixel. Still 64 wide though, if you know what I mean.
 		rhiRenderingSettings.put(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON); //Smoother text
 		rhiRenderingSettings.put(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_OFF); //No known effect
 		rhiRenderingSettings.put(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE); //No known effect
 		rhiRenderingSettings.put(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR); //No known effect
 		rhiRenderingSettings.put(RenderingHints.KEY_DITHERING, RenderingHints.VALUE_DITHER_ENABLE); //No known effect
-		
+
 		//rhiHintsEntities = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
 		//rhiHintsEntities.put(RenderingHints.KEY_RENDERING , RenderingHints.VALUE_RENDER_QUALITY);
-		
+
 		//rhiHintsMap = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
-		
+
 		//rhiHintsGUI = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		//rhiHintsGUI = new RenderingHints(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 		//Turns out multiple rendering hints don't work in the same render sequence. Oh well.
 	}
-	
+
 	public void paintComponent(Graphics g){
 		lGfxLoopStartTime = System.currentTimeMillis();
+		dGameZoomScale = dNextGameZoomScale;
+		iAntiAliasingTileSizeAdjustment = Math.max((int)Math.round(1 / dGameZoomScale) , 1);
 		Graphics2D gfx2D = (Graphics2D)(g);
 		gfx2D.setRenderingHints(rhiRenderingSettings);
 		gfx2D.setFont(fntGuiFont);
 		gfx2D.setBackground(Color.GRAY);
-		
-gfx2D.scale(dGameZoomScale,  dGameZoomScale);
-		
+
+		gfx2D.scale(dGameZoomScale,  dGameZoomScale);
+
 		iCanvasXSize = getWidth();
 		iCanvasYSize = getHeight();
 		iCanvasXLoc = getX();
 		iCanvasYLoc = getY();
-		
-		
-		
+
+
+
 		if (DungeonGame.iGameReadinessState >= 0){
 
 			//gfx2D.setRenderingHints(rhiHintsMap);
@@ -97,8 +108,8 @@ gfx2D.scale(dGameZoomScale,  dGameZoomScale);
 
 			//HERE BEGINS RENDERING OF DUNGEONS
 			gfx2D.translate(dViewXShift, dViewYShift);
-			
-		
+
+
 			for (int iuP1 = 0; iuP1 < DungeonGame.dngCurrentDungeon.getXSize(); iuP1 ++){
 				for (int iuP2 = 0; iuP2 < DungeonGame.dngCurrentDungeon.getYSize(); iuP2 ++){
 
@@ -134,7 +145,7 @@ gfx2D.scale(dGameZoomScale,  dGameZoomScale);
 					}
 
 				}
-				
+
 			}
 
 
@@ -143,12 +154,12 @@ gfx2D.scale(dGameZoomScale,  dGameZoomScale);
 			//HERE BEGINS RENDERING OF ENTITIES
 
 			//gfx2D.setRenderingHints(rhiHintsEntities);
-			
+
 			for (int iuP1 = 0; iuP1 < DungeonGame.entveCurrentEntities.size(); iuP1 ++){
 				Entity entToRender = DungeonGame.entveCurrentEntities.get(iuP1);
 				//System.out.println(iuP1);
 				//System.out.println("Rendering: " + entToRender.iEntityID);
-				
+
 				dEntityRelativeXShift = entToRender.getXPos() * 64;
 				dEntityRelativeYShift = entToRender.getYPos() * 64;
 				dEntityHeadingRotate = entToRender.dHeading;
@@ -164,7 +175,7 @@ gfx2D.scale(dGameZoomScale,  dGameZoomScale);
 				for (SkeletonLimb lmbToRender : entToRender.ensSkeleton.sklaSkeleton){
 					lmbToRender.drawLimb(gfx2D);
 				}
-				
+
 				gfx2D.setStroke(new BasicStroke());
 				gfx2D.rotate((-1) * dEntityHeadingRotate);
 				gfx2D.translate((-1) * (dEntityRelativeXShift), (-1) * (dEntityRelativeYShift));
@@ -175,45 +186,46 @@ gfx2D.scale(dGameZoomScale,  dGameZoomScale);
 
 			gfx2D.translate((-1) * dViewXShift, (-1) * dViewYShift);
 			//HERE ENDS RENDERING OF ENTITIES
-			
+
 			//gfx2D.setRenderingHints(rhiHintsGUI);
-			
+
 			//HERE BEGINS RENDERING OF GUITHINGS
 			gfx2D.scale(1 / dGameZoomScale, 1 /  dGameZoomScale);
 
 
 			//This is a very basic GUI. We will (WE MUST) change it.
 			gfx2D.setColor(TRANSPARENT_GRAY);
-			gfx2D.fillRect(0, getHeight() - 75, 400, 75);
+			gfx2D.fillRect(0, getHeight() - 100, 400, 105);
 			gfx2D.setColor(Color.GREEN);
-			
-			gfx2D.drawString("PLAYER X: " + playerEntity.dXPos , 5 , getHeight() - 65);
-			gfx2D.drawString("PLAYER Y: " + playerEntity.dYPos , 5 , getHeight() - 55);
-			gfx2D.drawString("MSPFO (gfx): " + (lGfxLoopActualMSPFO) + ", which means that FPS: " + 1000.0 / (lGfxLoopActualMSPFO) , 5, getHeight() - 45);
-			gfx2D.drawString("MSPFO (game): " + DungeonGame.getMillisecondsPerGameplayFrame() + ", which means that FPS: " + 1000.0 / DungeonGame.getMillisecondsPerGameplayFrame() , 5, getHeight() - 35);
+
+			gfx2D.drawString("PLAYER X: " + playerEntity.dXPos , 5 , getHeight() - 85);
+			gfx2D.drawString("PLAYER Y: " + playerEntity.dYPos , 5 , getHeight() - 75);
+			gfx2D.drawString("MSPFO (gfx): " + (lGfxLoopActualMSPFO) + ", which means that FPS: " + 1000.0 / (lGfxLoopActualMSPFO) , 5, getHeight() - 65);
+			gfx2D.drawString("MSPFO (game): " + DungeonGame.getMillisecondsPerGameplayFrame() + ", which means that FPS: " + 1000.0 / DungeonGame.getMillisecondsPerGameplayFrame() , 5, getHeight() - 55);
 
 			gfx2D.setColor(Color.RED);
-			gfx2D.drawString("Health: sqrt(1/0) ---  PROTIP: PRESS WASD, M1, M2, SHIFT, UP, DOWN.", 5, getHeight() - 20);
+			gfx2D.drawString("Health: sqrt(1/0) ---  PROTIP: PRESS WASD, M1, M2, SHIFT, UP, DOWN.", 5, getHeight() - 40);
 			gfx2D.setColor(Color.BLACK);
-			gfx2D.drawString("Heading : " + playerEntity.dHeading + " rad.", 5, getHeight() - 10);
+			gfx2D.drawString("Heading : " + playerEntity.dHeading + " rad.", 5, getHeight() - 30);
+			gfx2D.drawString("Scale : " + dGameZoomScale , 5, getHeight() - 20);
 			//HERE ENDS RENDERING OF GUITHINGS
 		} else {
-			
-			
+
+
 			gfx2D.drawString("Loading...", 20, 20);
-			
+
 		}
 		lGfxLoopEndTime = System.currentTimeMillis();
 		lGfxLoopActualMSPFO = lGfxLoopEndTime - lGfxLoopStartTime;
-		
+
 		gfx2D.dispose();
-		
+
 	}
 	private void drawTile(Graphics2D g, int tileX, int tileY){
-	
-		g.fillRect(tileX * 64, tileY * 64, 65, 65);
+
+		g.fillRect(tileX * 64, tileY * 64, 64 + iAntiAliasingTileSizeAdjustment, 64 + iAntiAliasingTileSizeAdjustment);
 	}
-	
+
 	public static int getXLoc(){
 		return iCanvasXLoc;
 	}
@@ -226,15 +238,19 @@ gfx2D.scale(dGameZoomScale,  dGameZoomScale);
 	public static int getYSize(){
 		return iCanvasYSize;
 	}
-	
+
 	public static void increaseZoom(){
-		dGameZoomScale -= 0.01;
+		if (dNextGameZoomScale > MIN_ZOOM){
+			dNextGameZoomScale -= 0.01;
+		}
 	}
 	public static void decreaseZoom(){
-		dGameZoomScale += 0.01;
+		if (dNextGameZoomScale < MAX_ZOOM){
+			dNextGameZoomScale += 0.01;
+		}
 	}
 	public static void resetZoom(){
-		dGameZoomScale = 1;
+		dNextGameZoomScale = 1;
 	}
-	
+
 }
