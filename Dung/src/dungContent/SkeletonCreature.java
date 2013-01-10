@@ -18,12 +18,12 @@ public class SkeletonCreature extends EntitySkeleton{
 				new LimbOval(-5.0, -5.0, 10.0, 10.0)//Head, Limb 5
 		};
 
-		sklaSkeleton[0].colLimbColor = Color.YELLOW;
-		sklaSkeleton[1].colLimbColor = Color.CYAN;
-		sklaSkeleton[2].colLimbColor = Color.BLUE;
-		sklaSkeleton[3].colLimbColor = Color.MAGENTA;
-		sklaSkeleton[4].colLimbColor = Color.ORANGE;
-		sklaSkeleton[5].colLimbColor = Color.RED;
+		//sklaSkeleton[0].colLimbColor = Color.YELLOW;
+		//sklaSkeleton[1].colLimbColor = Color.CYAN;
+	//	sklaSkeleton[2].colLimbColor = Color.BLUE;
+		//sklaSkeleton[3].colLimbColor = Color.MAGENTA;
+	//	sklaSkeleton[4].colLimbColor = Color.ORANGE;
+	//	sklaSkeleton[5].colLimbColor = Color.RED;
 	}
 		
 	@Override

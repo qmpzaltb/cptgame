@@ -20,7 +20,6 @@ public class SkeletonHumanoid extends EntitySkeleton{
 			new LimbOval(-5.0, -5.0, 10.0, 10.0)//Head
 		};
 		
-		sklaSkeleton[7].colLimbColor = Color.YELLOW;
 	}
 	
 	

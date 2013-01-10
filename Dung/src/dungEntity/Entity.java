@@ -1,5 +1,7 @@
 package dungEntity;
 
+import java.awt.Color;
+
 public class Entity {
 	
 	public int iEntityID;
@@ -41,13 +43,16 @@ public class Entity {
 		iAlleigance = alleigance;
 	}
 	
-	public Entity(int entityID, double radius, EntityController controller, EntitySkeleton skeleton, double speed){
+	public Entity(int entityID, double radius,  double speed, EntityController controller, EntitySkeleton skeleton, Color[] skeletonColorSet){
 		iEntityID = entityID;
 		dRadius = radius;
 		dNormalSpeed = speed;
 		encController = controller;
 		encController.setEntityID(entityID);
 		ensSkeleton = skeleton;
+		for (int iuP1 = 0; iuP1 < ensSkeleton.sklaSkeleton.length; iuP1 ++){
+			ensSkeleton.sklaSkeleton[iuP1].colLimbColor = skeletonColorSet[iuP1];
+		}
 	}
 	
 	public double getXPos(){

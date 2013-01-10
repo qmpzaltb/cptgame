@@ -9,6 +9,7 @@ import java.awt.RenderingHints;
 
 import javax.swing.JPanel;
 
+import dungContent.ColorList;
 import dungEntity.Entity;
 import dungEntity.SkeletonLimb;
 import dungMain.DungeonGame;
@@ -22,7 +23,6 @@ public class GameGraphics extends JPanel{
 	public static final double MIN_ZOOM = 0.15;
 
 	//We should move these colours to a different class? One dedicated to public static final Color?
-	public static final Color TRANSPARENT_GRAY = new Color(0.5f ,0.5f , 0.5f , 0.5f ); //CONSTRUCTOR - ( Red , Green, Blue, Alpha)
 
 
 
@@ -194,7 +194,7 @@ public class GameGraphics extends JPanel{
 
 
 			//This is a very basic GUI. We will (WE MUST) change it.
-			gfx2D.setColor(TRANSPARENT_GRAY);
+			gfx2D.setColor(ColorList.TRANSPARENT_GRAY);
 			gfx2D.fillRect(0, getHeight() - 100, 400, 105);
 			gfx2D.setColor(Color.GREEN);
 
