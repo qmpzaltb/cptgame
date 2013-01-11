@@ -211,7 +211,7 @@ public class GameGraphics extends JPanel{
 			//HERE ENDS RENDERING OF GUITHINGS
 		} else {
 
-
+			gfx2D.setColor(Color.WHITE);
 			gfx2D.drawString("Loading...", 20, 20);
 
 		}
