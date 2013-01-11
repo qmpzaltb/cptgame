@@ -194,7 +194,7 @@ public class GameGraphics extends JPanel{
 
 
 			//This is a very basic GUI. We will (WE MUST) change it.
-			gfx2D.setColor(ColorList.TRANSPARENT_GRAY);
+			gfx2D.setColor(ColorList.GUI_TRANSPARENT_GRAY);
 			gfx2D.fillRect(0, getHeight() - 100, 400, 105);
 			gfx2D.setColor(Color.GREEN);
 
@@ -203,9 +203,9 @@ public class GameGraphics extends JPanel{
 			gfx2D.drawString("MSPFO (gfx): " + (lGfxLoopActualMSPFO) + ", which means that FPS: " + 1000.0 / (lGfxLoopActualMSPFO) , 5, getHeight() - 65);
 			gfx2D.drawString("MSPFO (game): " + DungeonGame.getMillisecondsPerGameplayFrame() + ", which means that FPS: " + 1000.0 / DungeonGame.getMillisecondsPerGameplayFrame() , 5, getHeight() - 55);
 
-			gfx2D.setColor(Color.RED);
+			gfx2D.setColor(ColorList.GUI_RED);
 			gfx2D.drawString("Health: sqrt(1/0) ---  PROTIP: PRESS WASD, M1, M2, SHIFT, UP, DOWN.", 5, getHeight() - 40);
-			gfx2D.setColor(Color.BLACK);
+			gfx2D.setColor(ColorList.GUI_BLACK);
 			gfx2D.drawString("Heading : " + playerEntity.dHeading + " rad.", 5, getHeight() - 30);
 			gfx2D.drawString("Scale : " + dGameZoomScale , 5, getHeight() - 20);
 			//HERE ENDS RENDERING OF GUITHINGS
