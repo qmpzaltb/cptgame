@@ -10,6 +10,7 @@ import java.awt.RenderingHints;
 import javax.swing.JPanel;
 
 import dungContent.ColorList;
+import dungContent.ControllerPlayer;
 import dungEntity.Entity;
 import dungEntity.SkeletonLimb;
 import dungMain.DungeonGame;
@@ -112,9 +113,8 @@ public class GameGraphics extends JPanel{
 
 			for (int iuP1 = 0; iuP1 < DungeonGame.dngCurrentDungeon.getXSize(); iuP1 ++){
 				for (int iuP2 = 0; iuP2 < DungeonGame.dngCurrentDungeon.getYSize(); iuP2 ++){
-
+					
 					switch (DungeonGame.dngCurrentDungeon.dtlve2DungeonTiles.get(iuP1).get(iuP2).tileType){
-
 					case WALL:{
 						gfx2D.setColor(Color.DARK_GRAY);
 						drawTile(gfx2D,iuP1,iuP2);
@@ -140,9 +140,26 @@ public class GameGraphics extends JPanel{
 						drawTile(gfx2D,iuP1,iuP2);
 						break;
 					}
-
-
 					}
+					
+					switch(ControllerPlayer.getKnowledge().getKnowledgeOfTile(iuP1, iuP2)){
+					case NEVER_VISIBLE:{
+						gfx2D.setColor(Color.BLACK);
+						drawTile(gfx2D,iuP1,iuP2);
+					}
+					
+					case WAS_VISIBLE:{
+						gfx2D.setColor(ColorList.GUI_TRANSPARENT_GRAY); //Temporary colour
+						drawTile(gfx2D,iuP1,iuP2);
+						break;
+					}
+					
+					
+					default:{
+						break;
+					}
+					}
+					
 
 				}
 

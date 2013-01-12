@@ -187,5 +187,14 @@ public class Dungeon {
 		return iDungeonYSize;
 	}
 	
+	public static int getSizeXFromSeed(int seed){
+		Random rngRandom = new Random(seed);
+		return rngRandom.nextInt(MAXIMUM_DIMENSION - MINIMUM_DIMENSION + 1) + MINIMUM_DIMENSION; //Calculates the X Size
+	}
+	public static int getSizeYFromSeed(int seed){
+		Random rngRandom = new Random(seed);
+		rngRandom.nextInt(MAXIMUM_DIMENSION - MINIMUM_DIMENSION + 1); //Calculates the X size.
+		return rngRandom.nextInt(MAXIMUM_DIMENSION - MINIMUM_DIMENSION + 1) + MINIMUM_DIMENSION; //Calculates the Y Size
+	}
 	
 }

@@ -28,6 +28,8 @@ public class DungeonGame {
 	private static long lCurrentFrame;
 	private static long lTimeToSleep;
 	
+	public static int iCurrentMapSeed = -1;
+	
 	public static final double DISTANCE_TO_KEEP_FROM_WALL = 0.001;
 
 	public static int iGameReadinessState;
@@ -53,7 +55,7 @@ public class DungeonGame {
 		entveCurrentEntities.add(new Entity(2, ContentLibrary.dirtyBubble, 10.0 , 10.0 , 0.0 , 1));
 
 
-		dngCurrentDungeon = new Dungeon(-1);
+		dngCurrentDungeon = new Dungeon(iCurrentMapSeed);
 
 		iGameReadinessState += 1;
 		while (true){
@@ -116,6 +118,8 @@ public class DungeonGame {
 		//TODO if (wall then block all collisions or lose 20% of health per half second)
 		//TODO Finish this method with map collision detection, entity collision detection.
 		
+		boolean bXHandled = false;
+		boolean bYHandled = false;
 		//X and Y displacements of the entity, provided that there will be no collisions.
 		double dEntityXShift = Math.sin(handleEntity(iEntityID).getMovementDirection()) * handleEntity(iEntityID).dMovementMagnitude;
 		double dEntityYShift = (-1) * Math.cos(handleEntity(iEntityID).getMovementDirection()) * handleEntity(iEntityID).dMovementMagnitude;
@@ -135,18 +139,19 @@ public class DungeonGame {
 
 		//Handling right-way movement
 		if (dNewXPosCenter < dngCurrentDungeon.getXSize() - dCurrentSize){
-			if (dEntityXShift > 0){ //Entity is moving right
+			if (dEntityXShift > 0 && !bXHandled){ //Entity is moving right
 				rightMovingCollisions: for (int iuP1 = (int)dNewXPosLeft; iuP1 <= (int)dNewXPosRight; iuP1 += 1){
 					for (int iuP2 = valueInBoundsY((int)(dCurrentYPos - dCurrentSize)); iuP2 <= valueInBoundsY((int)(dCurrentYPos + dCurrentSize)); iuP2 += 1){
 						if (!isWalkable(handleTile(iuP1,iuP2).getTileType())){
 							if (intersectsCircleMapTile(dNewXPosCenter, dCurrentYPos, dCurrentSize, iuP1, iuP2)){
-								dEntityXShift = (iuP1 - dCurrentXPos) - (dCurrentSize + DISTANCE_TO_KEEP_FROM_WALL);
+								dEntityXShift = Math.max((iuP1 - dCurrentXPos) - (dCurrentSize + DISTANCE_TO_KEEP_FROM_WALL), 0);
 								break rightMovingCollisions;
 
 							}
 						}
 					}
 				}
+			bXHandled = true;
 			}
 		} else {
 			dEntityXShift = 0;
@@ -155,18 +160,19 @@ public class DungeonGame {
 		
 		//Handling left-way movement
 		if (dNewXPosCenter > 0 + dCurrentSize){
-			if (dEntityXShift < 0){ //Entity is moving left
+			if (dEntityXShift < 0 && !bXHandled){ //Entity is moving left
 				leftMovingCollisions: for (int iuP1 = (int)dNewXPosRight; iuP1 >= (int)dNewXPosLeft; iuP1 -= 1){
 					for (int iuP2 = valueInBoundsY((int)(dCurrentYPos - dCurrentSize)); iuP2 <= valueInBoundsY((int)(dCurrentYPos + dCurrentSize)); iuP2 += 1){
 						if (!isWalkable(handleTile(iuP1,iuP2).getTileType())){
 							if (intersectsCircleMapTile(dNewXPosCenter, dCurrentYPos, dCurrentSize, iuP1, iuP2)){
-								dEntityXShift = (iuP1 + 1 - dCurrentXPos) + (dCurrentSize + DISTANCE_TO_KEEP_FROM_WALL);
+								dEntityXShift = Math.min((iuP1 + 1 - dCurrentXPos) + (dCurrentSize + DISTANCE_TO_KEEP_FROM_WALL) , 0);
 								break leftMovingCollisions;
 
 							}
 						}
 					}
 				}
+			bXHandled = true;
 			}
 		} else {
 			dEntityXShift = 0;
@@ -174,18 +180,19 @@ public class DungeonGame {
 
 		//Handling down-way movement
 		if (dNewYPosCenter < dngCurrentDungeon.getYSize() - dCurrentSize){
-			if (dEntityYShift > 0){ //Entity is moving down
+			if (dEntityYShift > 0 && !bYHandled){ //Entity is moving down
 				downMovingCollisions: for (int iuP1 = (int)dNewYPosTop; iuP1 <= (int)dNewYPosBot; iuP1 += 1){
 					for (int iuP2 = valueInBoundsX((int)(dCurrentXPos - dCurrentSize)); iuP2 <= valueInBoundsX((int)(dCurrentXPos + dCurrentSize)); iuP2 += 1){
 						if (!isWalkable(handleTile(iuP2,iuP1).getTileType())){
 							if (intersectsCircleMapTile(dCurrentXPos, dNewYPosCenter, dCurrentSize, iuP2, iuP1)){
-								dEntityYShift = (iuP1 - dCurrentYPos) - (dCurrentSize + DISTANCE_TO_KEEP_FROM_WALL);
+								dEntityYShift = Math.max((iuP1 - dCurrentYPos) - (dCurrentSize + DISTANCE_TO_KEEP_FROM_WALL) , 0);
 								break downMovingCollisions;
 
 							}
 						}
 					}
 				}
+			bYHandled = true;
 			}
 		} else {
 			dEntityYShift = 0;
@@ -193,18 +200,19 @@ public class DungeonGame {
 
 		//Handling up-way movement
 		if (dNewYPosCenter > 0 + dCurrentSize){
-			if (dEntityYShift < 0){ //Entity is moving up
+			if (dEntityYShift < 0 && !bYHandled){ //Entity is moving up
 				upMovingCollisions: for (int iuP1 = (int)dNewYPosBot; iuP1 >= (int)dNewYPosTop; iuP1 -= 1){
 					for (int iuP2 = valueInBoundsX((int)(dCurrentXPos - dCurrentSize)); iuP2 <= valueInBoundsX((int)(dCurrentXPos + dCurrentSize)); iuP2 += 1){
 						if (!isWalkable(handleTile(iuP2,iuP1).getTileType())){
 							if (intersectsCircleMapTile(dCurrentXPos, dNewYPosCenter, dCurrentSize, iuP2, iuP1)){
-								dEntityYShift = (iuP1 + 1 - dCurrentYPos) + (dCurrentSize + DISTANCE_TO_KEEP_FROM_WALL);
+								dEntityYShift = Math.min((iuP1 + 1 - dCurrentYPos) + (dCurrentSize + DISTANCE_TO_KEEP_FROM_WALL) , 0);
 								break upMovingCollisions;
 
 							}
 						}
 					}
 				}
+			bYHandled = true;
 			}
 		} else {
 			dEntityYShift = 0;
@@ -289,11 +297,18 @@ public class DungeonGame {
 		}
 	}
 
-	private static int valueInBoundsX(int value){
+	public static int valueInBoundsX(int value){
 		return Math.max(Math.min(dngCurrentDungeon.iDungeonXSize, value), 0);
 	}
-	private static int valueInBoundsY(int value){
+	public static int valueInBoundsY(int value){
 		return Math.max(Math.min(dngCurrentDungeon.iDungeonYSize, value), 0);
+	}
+	
+	public static boolean isValueInBoundsX(int value){
+		return (value >= 0 && value < dngCurrentDungeon.iDungeonXSize);
+	}
+	public static boolean isValueInBoundsY(int value){
+		return (value >= 0 && value < dngCurrentDungeon.iDungeonYSize);
 	}
 
 	public static int getCenterOfWindowX(){
