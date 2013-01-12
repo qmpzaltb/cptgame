@@ -62,6 +62,7 @@ public class Dungeon {
 		for (int iuP1 = 0; iuP1 < iDungeonXSize; iuP1 ++){
 			for (int iuP2 = 0; iuP2 < iDungeonYSize; iuP2 ++){
 				dtlve2DungeonTiles.get(iuP1).add(new DungeonTile(TileType.WALL));
+				dtlve2DungeonTiles.get(iuP1).get(iuP2).initShape(iuP1, iuP2);
 			}
 		}
 		

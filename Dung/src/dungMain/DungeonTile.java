@@ -1,5 +1,7 @@
 package dungMain;
 
+import java.awt.geom.Rectangle2D;
+
 public class DungeonTile {
 	
 	private static final int DEFAULT_GAS_CAPACITY = 1000000;
@@ -11,6 +13,7 @@ public class DungeonTile {
 	private int[] iaGases;
 	//private int[] iaLiquids;
 	//private int iTemperature;
+	private Rectangle2D rctTileShape;
 
 	//These are indices to the array iaGases. Sortof like enums, maybe not really, but similar.
 	public static final int GAS_OXYGEN 			= 0;
@@ -78,6 +81,12 @@ public class DungeonTile {
 	}
 	public TileType getTileType(){
 		return tileType;
+	}
+	public void initShape(int x, int y){
+		rctTileShape = new Rectangle2D.Float(x , y , 1 , 1);
+	}
+	public Rectangle2D getShape(){
+		return rctTileShape;
 	}
 
 }

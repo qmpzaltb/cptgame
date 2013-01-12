@@ -1,5 +1,8 @@
 package dungMain;
 
+import java.awt.Rectangle;
+import java.awt.Shape;
+import java.awt.geom.Ellipse2D;
 import java.util.Vector;
 
 import dungUserInterface.GameActions;
@@ -24,6 +27,8 @@ public class DungeonGame {
 	private static long lGameLoopTimeTaken;
 	private static long lCurrentFrame;
 	private static long lTimeToSleep;
+	
+	public static final double DISTANCE_TO_KEEP_FROM_WALL = 0.001;
 
 	public static int iGameReadinessState;
 
@@ -110,12 +115,17 @@ public class DungeonGame {
 	public static void moveEntity(int iEntityID){
 		//TODO if (wall then block all collisions or lose 20% of health per half second)
 		//TODO Finish this method with map collision detection, entity collision detection.
+		
+		//X and Y displacements of the entity, provided that there will be no collisions.
 		double dEntityXShift = Math.sin(handleEntity(iEntityID).getMovementDirection()) * handleEntity(iEntityID).dMovementMagnitude;
 		double dEntityYShift = (-1) * Math.cos(handleEntity(iEntityID).getMovementDirection()) * handleEntity(iEntityID).dMovementMagnitude;
+		
+		//The pre-movement xposition, yposition, and circle radius.
 		double dCurrentXPos = handleEntity(iEntityID).getXPos();
 		double dCurrentYPos = handleEntity(iEntityID).getYPos();
 		double dCurrentSize = handleEntity(iEntityID).getSize();
 
+		//Hypothetical post-movement coordinates of the circle's bounding box
 		double dNewXPosCenter = dCurrentXPos + dEntityXShift;
 		double dNewXPosRight = dNewXPosCenter + dCurrentSize;
 		double dNewXPosLeft = dNewXPosCenter - dCurrentSize;
@@ -123,20 +133,113 @@ public class DungeonGame {
 		double dNewYPosTop = dNewYPosCenter - dCurrentSize;
 		double dNewYPosBot = dNewYPosCenter + dCurrentSize;
 
-		if (dNewXPosRight < DungeonGame.dngCurrentDungeon.getXSize() && dNewXPosLeft >= 0 && dNewYPosBot < DungeonGame.dngCurrentDungeon.getYSize() && dNewYPosTop >= 0){
+		//Handling right-way movement
+		if (dNewXPosCenter < dngCurrentDungeon.getXSize() - dCurrentSize){
+			if (dEntityXShift > 0){ //Entity is moving right
+				rightMovingCollisions: for (int iuP1 = (int)dNewXPosLeft; iuP1 <= (int)dNewXPosRight; iuP1 += 1){
+					for (int iuP2 = valueInBoundsY((int)(dCurrentYPos - dCurrentSize)); iuP2 <= valueInBoundsY((int)(dCurrentYPos + dCurrentSize)); iuP2 += 1){
+						if (!isWalkable(handleTile(iuP1,iuP2).getTileType())){
+							if (intersectsCircleMapTile(dNewXPosCenter, dCurrentYPos, dCurrentSize, iuP1, iuP2)){
+								dEntityXShift = (iuP1 - dCurrentXPos) - (dCurrentSize + DISTANCE_TO_KEEP_FROM_WALL);
+								break rightMovingCollisions;
 
-		}
-		else {
+							}
+						}
+					}
+				}
+			}
+		} else {
 			dEntityXShift = 0;
+		}
+
+		
+		//Handling left-way movement
+		if (dNewXPosCenter > 0 + dCurrentSize){
+			if (dEntityXShift < 0){ //Entity is moving left
+				leftMovingCollisions: for (int iuP1 = (int)dNewXPosRight; iuP1 >= (int)dNewXPosLeft; iuP1 -= 1){
+					for (int iuP2 = valueInBoundsY((int)(dCurrentYPos - dCurrentSize)); iuP2 <= valueInBoundsY((int)(dCurrentYPos + dCurrentSize)); iuP2 += 1){
+						if (!isWalkable(handleTile(iuP1,iuP2).getTileType())){
+							if (intersectsCircleMapTile(dNewXPosCenter, dCurrentYPos, dCurrentSize, iuP1, iuP2)){
+								dEntityXShift = (iuP1 + 1 - dCurrentXPos) + (dCurrentSize + DISTANCE_TO_KEEP_FROM_WALL);
+								break leftMovingCollisions;
+
+							}
+						}
+					}
+				}
+			}
+		} else {
+			dEntityXShift = 0;
+		}
+
+		//Handling down-way movement
+		if (dNewYPosCenter < dngCurrentDungeon.getYSize() - dCurrentSize){
+			if (dEntityYShift > 0){ //Entity is moving down
+				downMovingCollisions: for (int iuP1 = (int)dNewYPosTop; iuP1 <= (int)dNewYPosBot; iuP1 += 1){
+					for (int iuP2 = valueInBoundsX((int)(dCurrentXPos - dCurrentSize)); iuP2 <= valueInBoundsX((int)(dCurrentXPos + dCurrentSize)); iuP2 += 1){
+						if (!isWalkable(handleTile(iuP2,iuP1).getTileType())){
+							if (intersectsCircleMapTile(dCurrentXPos, dNewYPosCenter, dCurrentSize, iuP2, iuP1)){
+								dEntityYShift = (iuP1 - dCurrentYPos) - (dCurrentSize + DISTANCE_TO_KEEP_FROM_WALL);
+								break downMovingCollisions;
+
+							}
+						}
+					}
+				}
+			}
+		} else {
 			dEntityYShift = 0;
 		}
 
-		if (!isWalkable(handleTile((int)(dNewXPosCenter), (int)(dNewYPosCenter)).getTileType())){
+		//Handling up-way movement
+		if (dNewYPosCenter > 0 + dCurrentSize){
+			if (dEntityYShift < 0){ //Entity is moving up
+				upMovingCollisions: for (int iuP1 = (int)dNewYPosBot; iuP1 >= (int)dNewYPosTop; iuP1 -= 1){
+					for (int iuP2 = valueInBoundsX((int)(dCurrentXPos - dCurrentSize)); iuP2 <= valueInBoundsX((int)(dCurrentXPos + dCurrentSize)); iuP2 += 1){
+						if (!isWalkable(handleTile(iuP2,iuP1).getTileType())){
+							if (intersectsCircleMapTile(dCurrentXPos, dNewYPosCenter, dCurrentSize, iuP2, iuP1)){
+								dEntityYShift = (iuP1 + 1 - dCurrentYPos) + (dCurrentSize + DISTANCE_TO_KEEP_FROM_WALL);
+								break upMovingCollisions;
 
+							}
+						}
+					}
+				}
+			}
+		} else {
+			dEntityYShift = 0;
 		}
-		System.out.println("DUDE " + iEntityID + " IS TOTALLY MOVING");
+
+
 		handleEntity(iEntityID).shiftXPos(dEntityXShift);
 		handleEntity(iEntityID).shiftYPos(dEntityYShift);
+
+	}
+	private static boolean intersectsCircleMapTile(double circleX, double circleY, double circleRadius, int mapX, int mapY){
+
+		//Distance from circle center to map tile center (non-negative)
+		double dCircleTileDistanceX = Math.abs(circleX - (mapX + 0.5));
+		double dCircleTileDistanceY = Math.abs(circleY - (mapY + 0.5));
+
+		//Case: no intersection when the circle's bounding box does not intersect the tile's bounding box.
+		if (dCircleTileDistanceX > (0.5 + circleRadius)){
+			return false;
+		}
+		if (dCircleTileDistanceY > (0.5 + circleRadius)){
+			return false;
+		}
+
+		//Case: Intersection when the circle's center lies inside the box
+		if (dCircleTileDistanceX <= 0.5){
+			return true;
+		}
+		if (dCircleTileDistanceY <= 0.5){
+			return true;
+		}
+
+		//Case: Intersection if an identical circle placed on the map-tile's corners intersects the original circle. //Left squared to save processor speed.
+		double dCornerCircleIntersectionDistance = (dCircleTileDistanceX - 0.5) * (dCircleTileDistanceX - 0.5) + (dCircleTileDistanceY - 0.5) * (dCircleTileDistanceY - 0.5);
+		return (dCornerCircleIntersectionDistance <= circleRadius * circleRadius);
 
 	}
 
@@ -155,7 +258,7 @@ public class DungeonGame {
 			return false;
 		}
 		case WALLEDGE:{
-			return false;
+			return true;
 		}
 		case FLOOR:{
 			return true;
@@ -186,7 +289,12 @@ public class DungeonGame {
 		}
 	}
 
-
+	private static int valueInBoundsX(int value){
+		return Math.max(Math.min(dngCurrentDungeon.iDungeonXSize, value), 0);
+	}
+	private static int valueInBoundsY(int value){
+		return Math.max(Math.min(dngCurrentDungeon.iDungeonYSize, value), 0);
+	}
 
 	public static int getCenterOfWindowX(){
 		return mainGameWindow.getPositionX() + (mainGameWindow.getSizeX() / 2);
