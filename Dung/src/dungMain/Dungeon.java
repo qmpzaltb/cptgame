@@ -94,7 +94,7 @@ public class Dungeon {
 		DungeonGame.handleEntity(ControllerPlayer.iPlayerEntityID).dYPos = iaPointYWeb[0] + 0.5;
 		
 		makeWallEdges();
-		cullLoneTiles(TileType.WALL, 3, TileType.FLOOR, true);
+		cullLoneTiles(TileType.WALL, 1, TileType.FLOOR, true); //A dungeon-smoothing method. Numbers from 1-4 accepted. 5 will create an empty map due to how the culler works.
 		
 		DungeonGame.iGameReadinessState += 1;
 	}

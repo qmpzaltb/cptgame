@@ -45,7 +45,7 @@ public class DungeonGame {
 	private static long lCurrentFrame;
 	private static long lTimeToSleep;
 	
-	public static int iCurrentMapSeed = 1024;
+	public static int iCurrentMapSeed = -1;
 	
 	public static final double DISTANCE_TO_KEEP_FROM_WALL = 0.001;
 
@@ -236,6 +236,23 @@ public class DungeonGame {
 		}
 
 
+		dNewXPosCenter =  dCurrentXPos + dEntityXShift;
+		dNewYPosCenter =  dCurrentYPos + dEntityYShift;
+		
+		for (int iuP1 = 0; iuP1 < entveCurrentEntities.size(); iuP1 ++){
+			if (iuP1 != iEntityID){
+				if (true){ //TODO Does not collide with other entities flag on the entity.
+				double distance = (dNewXPosCenter - handleEntity(iuP1).getXPos()) * (dNewXPosCenter - handleEntity(iuP1).getXPos()) + (dNewYPosCenter - handleEntity(iuP1).getYPos()) * (dNewYPosCenter - handleEntity(iuP1).getYPos());
+				if (distance < (dCurrentSize + handleEntity(iEntityID).getSize()) * (dCurrentSize + handleEntity(iEntityID).getSize())){
+					System.out.println(distance + " from " + iEntityID + " to " + iuP1 );
+					dEntityXShift = 0;
+					dEntityYShift = 0;
+				}
+				}
+			}
+		}
+		
+		
 		handleEntity(iEntityID).shiftXPos(dEntityXShift);
 		handleEntity(iEntityID).shiftYPos(dEntityYShift);
 
