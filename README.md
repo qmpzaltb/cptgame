@@ -23,30 +23,30 @@ TODO (codewise):
     This includes:
     - Input                   (DONE)
     - Graphics                (MC)
-      - Menu framework          (NS)
+      - Menu framework          (NS) [PRIORITY]
       - Entity display          (DONE)
       - Map display             (DONE)
-      - Zoom features           (MC)*
+      - Zoom features           (DONE)
       - GUI system              (WIP)*
     - Entities                (WIP)
       - Creature diversity      (WIP)
-    - Basic AI                (NS)
-    - Map generation          (WIP)
-      - Collision Detection     (WIP)*
+    - Basic AI                (WIP)
+    - Map generation          (MC)
+      - Collision Detection     (DONE)
       - Proper player spawning  (WIP)*
       - Creature placement      (NS)
       - Exit placement          (NS)
 
   - Get secondary things done.
     This includes:
-    - Items/Skills            (NS)
+    - Items/Skills            (NS) [PRIORITY]
     - Multiplayer features    (NS)
     - Dynamic environments    (BS)
     - Smarter AI              (NS)
-    - Line of sight           (NS)
+    - Line of sight           (DONE)
     - NPCs                    (NS)
     - Better menus            (NS)
-    - Intro text/Tutorial     (NS)
+    - Intro text/Tutorial     (NS) [PRIORITY]
     - Sound                   (NS)
     - .txt modularization     (NS)
 
