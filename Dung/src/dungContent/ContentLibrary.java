@@ -11,7 +11,7 @@ import dungEntity.Entity;
 public class ContentLibrary {
 	public static final Entity humanPlayer =
 			new Entity(
-					-1, 0.15, 0.03,
+					-1, 0.15, 0.05,
 					new ControllerPlayer(),
 					new SkeletonHumanoid(),
 					new Color[]{

@@ -31,9 +31,11 @@ public class ColorList {
 	public static final Color WALL_FOG_OF_WAR 		= new Color( 32,  32,  32);
 	public static final Color FLOOR					= new Color(192, 192, 192);
 	public static final Color FLOOR_FOG_OF_WAR		= new Color( 96,  96,  96);
-	public static final Color VOID					= new Color( 20,  20,  20);
-	public static final Color VOID_FOG_OF_WAR		= new Color( 10,  10,  10);
+	public static final Color VOID					= new Color(148,   0, 211);
+	public static final Color VOID_FOG_OF_WAR		= new Color( 74,   0, 105);
 	public static final Color UNDISCOVERED			= new Color(  0,   0,   0); //Also the color of the background.
+	
+	public static Color dynamicVoid					= VOID;
 	
 	
 	public static final Color WINDOWS_95_TEAL = new Color (0,128,129);

@@ -20,6 +20,7 @@ import dungUserInterface.GameGraphics;
 import dungUserInterface.GameInput;
 import dungUserInterface.GameSettings;
 import dungUserInterface.GameWindow;
+import dungContent.ColorScheme;
 import dungContent.ContentLibrary;
 import dungEntity.Entity;
 
@@ -59,6 +60,7 @@ public class DungeonGame {
 		GameInput.initGameInput();
 		GameSettings.initGameSettings();
 		GameSettings.setDefaultKeyBindings();
+		ColorScheme.initColorScheme();
 		mainGameWindow.show();
 
 
@@ -77,6 +79,7 @@ public class DungeonGame {
 		iGameReadinessState += 1;
 		while (true){
 			doGameLoop();
+			ColorScheme.updateColorList();
 			lCurrentFrame ++;
 		}
 
@@ -366,6 +369,9 @@ public class DungeonGame {
 	}
 	public static int getMillisecondsPerGameplayFrame(){
 		return iMSPFOGmAdj;
+	}
+	public static long getCurrentFrame(){
+		return lCurrentFrame;
 	}
 
 }

@@ -141,7 +141,7 @@ public class GameGraphics extends JPanel{
 							if (tileKnowledge == KnowledgeType.WAS_VISIBLE){
 								gfx2D.setColor(ColorList.VOID_FOG_OF_WAR);
 							} else{
-								gfx2D.setColor(ColorList.VOID);
+								gfx2D.setColor(ColorList.dynamicVoid);
 							}
 							drawTile(gfx2D,iuP1,iuP2);
 							break;

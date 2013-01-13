@@ -21,15 +21,19 @@ public class EntitySpatialKnowledge {
 	int iEntityID;
 	int iSightRange;
 	KnowledgeType[][] spatialKnowledge;
+	KnowledgeType[][] tempSpatialKnowledge;
 
 	public EntitySpatialKnowledge(int entityID, int sightRange){
 		iEntityID = entityID;
 		iSightRange = sightRange;
 
 		spatialKnowledge = new KnowledgeType[getSizeXFromSeed(DungeonGame.iCurrentMapSeed)][getSizeYFromSeed(DungeonGame.iCurrentMapSeed)];
+		tempSpatialKnowledge = new KnowledgeType[spatialKnowledge.length][spatialKnowledge[0].length];
+		
 		for (int iuP1 = 0; iuP1 < spatialKnowledge.length; iuP1 ++){
 			for (int iuP2 = 0; iuP2 < spatialKnowledge[0].length; iuP2 ++){
 				spatialKnowledge[iuP1][iuP2] = KnowledgeType.NEVER_VISIBLE;
+				tempSpatialKnowledge[iuP1][iuP2] = KnowledgeType.NEVER_VISIBLE;
 			}
 		}
 
@@ -37,18 +41,15 @@ public class EntitySpatialKnowledge {
 
 
 	public void updateKnowledge(){
-		for (int iuP1 = 0; iuP1 < spatialKnowledge.length; iuP1 ++){
-			for (int iuP2 = 0; iuP2 < spatialKnowledge[0].length; iuP2 ++){
+		
+		for (int iuP1 = 0; iuP1 < tempSpatialKnowledge.length; iuP1 ++){
+			for (int iuP2 = 0; iuP2 < tempSpatialKnowledge[0].length; iuP2 ++){
 				switch (spatialKnowledge[iuP1][iuP2]){
 				case IS_VISIBLE:{
-					spatialKnowledge[iuP1][iuP2] = KnowledgeType.WAS_JUST_VISIBLE;
+					tempSpatialKnowledge[iuP1][iuP2] = KnowledgeType.WAS_VISIBLE;
 					break;
 				}
 				case NEVER_VISIBLE:{
-					break;
-				}
-				case WAS_JUST_VISIBLE:{
-					spatialKnowledge[iuP1][iuP2] = KnowledgeType.WAS_VISIBLE;
 					break;
 				}
 				case WAS_VISIBLE:{
@@ -60,6 +61,8 @@ public class EntitySpatialKnowledge {
 		
 		
 		updateKnowledge(iSightRange , Direction.ALL_DIRECTIONS , (int)handleEntity(iEntityID).getXPos() , (int)handleEntity(iEntityID).getYPos());
+		System.arraycopy(tempSpatialKnowledge, 0, spatialKnowledge, 0, tempSpatialKnowledge.length);
+		
 	}
 
 	private void updateKnowledge(double sightStrength, Direction sightDirection, int x, int y){
@@ -170,7 +173,7 @@ public class EntitySpatialKnowledge {
 			}
 		}
 		
-		spatialKnowledge[x][y] = KnowledgeType.IS_VISIBLE;
+		tempSpatialKnowledge[x][y] = KnowledgeType.IS_VISIBLE;
 
 	}
 
