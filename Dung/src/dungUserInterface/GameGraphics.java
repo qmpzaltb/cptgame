@@ -12,6 +12,7 @@ import javax.swing.JPanel;
 import dungContent.ColorList;
 import dungContent.ControllerPlayer;
 import dungEntity.Entity;
+import dungEntity.KnowledgeType;
 import dungEntity.SkeletonLimb;
 import dungMain.DungeonGame;
 
@@ -94,7 +95,7 @@ public class GameGraphics extends JPanel{
 		Graphics2D gfx2D = (Graphics2D)(g);
 		gfx2D.setRenderingHints(rhiRenderingSettings);
 		gfx2D.setFont(fntGuiFont);
-		gfx2D.setBackground(Color.GRAY);
+		gfx2D.setBackground(ColorList.UNDISCOVERED);
 
 		gfx2D.scale(dGameZoomScale,  dGameZoomScale);
 
@@ -121,53 +122,51 @@ public class GameGraphics extends JPanel{
 
 			for (int iuP1 = 0; iuP1 < DungeonGame.dngCurrentDungeon.getXSize(); iuP1 ++){
 				for (int iuP2 = 0; iuP2 < DungeonGame.dngCurrentDungeon.getYSize(); iuP2 ++){
-					
-					switch (DungeonGame.dngCurrentDungeon.dtlve2DungeonTiles.get(iuP1).get(iuP2).tileType){
-					case WALL:{
-						gfx2D.setColor(Color.DARK_GRAY);
+					KnowledgeType tileKnowledge = ControllerPlayer.getKnowledge().getKnowledgeOfTile(iuP1, iuP2);
+					if (tileKnowledge == KnowledgeType.NEVER_VISIBLE){
+						gfx2D.setColor(ColorList.UNDISCOVERED);
 						drawTile(gfx2D,iuP1,iuP2);
-						break;
+					} else {
+						switch (DungeonGame.dngCurrentDungeon.dtlve2DungeonTiles.get(iuP1).get(iuP2).tileType){
+						case WALL:{
+							if (tileKnowledge == KnowledgeType.WAS_VISIBLE){
+								gfx2D.setColor(ColorList.WALL_FOG_OF_WAR);
+							} else{
+								gfx2D.setColor(ColorList.WALL);
+							}
+							drawTile(gfx2D,iuP1,iuP2);
+							break;
+						}
+						case WALLEDGE:{
+							if (tileKnowledge == KnowledgeType.WAS_VISIBLE){
+								gfx2D.setColor(ColorList.VOID_FOG_OF_WAR);
+							} else{
+								gfx2D.setColor(ColorList.VOID);
+							}
+							drawTile(gfx2D,iuP1,iuP2);
+							break;
+						}
+						case FLOOR:{
+							if (tileKnowledge == KnowledgeType.WAS_VISIBLE){
+								gfx2D.setColor(ColorList.FLOOR_FOG_OF_WAR);
+							} else{
+								gfx2D.setColor(ColorList.FLOOR);
+							}
+							drawTile(gfx2D,iuP1,iuP2);
+							break;
+						}
+						case ENTRANCE:{
+							gfx2D.setColor(Color.YELLOW);
+							drawTile(gfx2D,iuP1,iuP2);
+							break;
+						}
+						case EXIT:{
+							gfx2D.setColor(Color.ORANGE);
+							drawTile(gfx2D,iuP1,iuP2);
+							break;
+						}
+						}
 					}
-					case WALLEDGE:{
-						gfx2D.setColor(Color.BLUE);
-						drawTile(gfx2D,iuP1,iuP2);
-						break;
-					}
-					case FLOOR:{
-						gfx2D.setColor(Color.LIGHT_GRAY);
-						drawTile(gfx2D,iuP1,iuP2);
-						break;
-					}
-					case ENTRANCE:{
-						gfx2D.setColor(Color.YELLOW);
-						drawTile(gfx2D,iuP1,iuP2);
-						break;
-					}
-					case EXIT:{
-						gfx2D.setColor(Color.ORANGE);
-						drawTile(gfx2D,iuP1,iuP2);
-						break;
-					}
-					}
-					
-					switch(ControllerPlayer.getKnowledge().getKnowledgeOfTile(iuP1, iuP2)){
-					case NEVER_VISIBLE:{
-						gfx2D.setColor(Color.BLACK);
-						drawTile(gfx2D,iuP1,iuP2);
-					}
-					
-					case WAS_VISIBLE:{
-						gfx2D.setColor(ColorList.GUI_TRANSPARENT_GRAY); //Temporary colour
-						drawTile(gfx2D,iuP1,iuP2);
-						break;
-					}
-					
-					
-					default:{
-						break;
-					}
-					}
-					
 
 				}
 
@@ -194,7 +193,7 @@ public class GameGraphics extends JPanel{
 
 				gfx2D.rotate(Math.PI / -2);
 				gfx2D.setColor(Color.RED);
-				gfx2D.drawString("The m's in Consolas are weird at this small of a font.", 10, 4);
+				gfx2D.drawString("This is where I point my squirt bottle of hyper-chlorine windex ammonia solution.", 10, 4);
 				gfx2D.rotate(Math.PI / 2);
 
 				for (SkeletonLimb lmbToRender : entToRender.ensSkeleton.sklaSkeleton){
@@ -247,7 +246,6 @@ public class GameGraphics extends JPanel{
 
 	}
 	private void drawTile(Graphics2D g, int tileX, int tileY){
-
 		g.fillRect(tileX * 64, tileY * 64, 64 + iAntiAliasingTileSizeAdjustment, 64 + iAntiAliasingTileSizeAdjustment);
 	}
 

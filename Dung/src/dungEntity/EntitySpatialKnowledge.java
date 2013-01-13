@@ -62,7 +62,7 @@ public class EntitySpatialKnowledge {
 		updateKnowledge(iSightRange , Direction.ALL_DIRECTIONS , (int)handleEntity(iEntityID).getXPos() , (int)handleEntity(iEntityID).getYPos());
 	}
 
-	private void updateKnowledge(int sightStrength, Direction sightDirection, int x, int y){
+	private void updateKnowledge(double sightStrength, Direction sightDirection, int x, int y){
 		sightStrength = adjustedSightValue(sightStrength, x , y);
 		if (sightStrength > 0){
 			switch (sightDirection){
@@ -74,7 +74,7 @@ public class EntitySpatialKnowledge {
 					updateKnowledge(sightStrength - 1 , Direction.RIGHT, x + 1, y);
 				}
 				if (isValueInBoundsX(x + 1) && isValueInBoundsY(y - 1)){
-					updateKnowledge(sightStrength - 2, Direction.UP_RIGHT, x + 1, y - 1);
+					updateKnowledge(sightStrength - 1.4142, Direction.UP_RIGHT, x + 1, y - 1);
 				}
 				break;
 			}
@@ -86,7 +86,7 @@ public class EntitySpatialKnowledge {
 					updateKnowledge(sightStrength - 1 , Direction.LEFT, x - 1, y);
 				}
 				if (isValueInBoundsX(x - 1) && isValueInBoundsY(y - 1)){
-					updateKnowledge(sightStrength - 2, Direction.UP_LEFT, x - 1, y - 1);
+					updateKnowledge(sightStrength - 1.4142, Direction.UP_LEFT, x - 1, y - 1);
 				}
 				break;
 			}
@@ -98,7 +98,7 @@ public class EntitySpatialKnowledge {
 					updateKnowledge(sightStrength - 1 , Direction.RIGHT, x + 1, y);
 				}
 				if (isValueInBoundsX(x + 1) && isValueInBoundsY(y + 1)){
-					updateKnowledge(sightStrength - 2, Direction.DOWN_RIGHT, x + 1, y + 1);
+					updateKnowledge(sightStrength - 1.4142, Direction.DOWN_RIGHT, x + 1, y + 1);
 				}
 				break;
 
@@ -111,7 +111,7 @@ public class EntitySpatialKnowledge {
 					updateKnowledge(sightStrength - 1 , Direction.LEFT, x - 1, y);
 				}
 				if (isValueInBoundsX(x - 1) && isValueInBoundsY(y + 1)){
-					updateKnowledge(sightStrength - 2, Direction.DOWN_LEFT, x - 1, y + 1);
+					updateKnowledge(sightStrength - 1.4142, Direction.DOWN_LEFT, x - 1, y + 1);
 				}
 				break;
 			}
@@ -147,10 +147,10 @@ public class EntitySpatialKnowledge {
 					updateKnowledge(sightStrength - 1 , Direction.RIGHT, x + 1, y);
 				}
 				if (isValueInBoundsX(x + 1) && isValueInBoundsY(y - 1)){
-					updateKnowledge(sightStrength - 2, Direction.UP_RIGHT, x + 1, y - 1);
+					updateKnowledge(sightStrength - 1.4142, Direction.UP_RIGHT, x + 1, y - 1);
 				}
 				if (isValueInBoundsX(x - 1) && isValueInBoundsY(y - 1)){
-					updateKnowledge(sightStrength - 2, Direction.UP_LEFT, x - 1, y - 1);
+					updateKnowledge(sightStrength - 1.4142, Direction.UP_LEFT, x - 1, y - 1);
 				}
 				if (isValueInBoundsY(y + 1)){
 					updateKnowledge(sightStrength - 1 , Direction.DOWN, x , y + 1);
@@ -159,10 +159,10 @@ public class EntitySpatialKnowledge {
 					updateKnowledge(sightStrength - 1 , Direction.LEFT, x - 1, y);
 				}
 				if (isValueInBoundsX(x - 1) && isValueInBoundsY(y + 1)){
-					updateKnowledge(sightStrength - 2, Direction.DOWN_LEFT, x - 1, y + 1);
+					updateKnowledge(sightStrength - 1.4142, Direction.DOWN_LEFT, x - 1, y + 1);
 				}
 				if (isValueInBoundsX(x + 1) && isValueInBoundsY(y + 1)){
-					updateKnowledge(sightStrength - 2, Direction.DOWN_RIGHT, x + 1, y + 1);
+					updateKnowledge(sightStrength - 1.4142, Direction.DOWN_RIGHT, x + 1, y + 1);
 				}
 				break;
 			}
@@ -176,7 +176,7 @@ public class EntitySpatialKnowledge {
 
 
 
-	private static int adjustedSightValue(int currentSightValue, int x, int y){
+	private static double adjustedSightValue(double currentSightValue, int x, int y){
 		//Basic sight value mechanism. If x-ray goggles are a thing, this is where they would affect seeing through walls.
 		if (DungeonGame.isWalkable(handleTile(x,y).getTileType())){
 			return currentSightValue; 

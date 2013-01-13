@@ -27,8 +27,14 @@ public class ColorList {
 	public static final Color GUI_BLACK				= new Color(255, 255, 255);
 	public static final Color GUI_RED				= new Color(226, 0  , 0  );
 	
-	public static final Color WALL = Color.DARK_GRAY;
-	public static final Color FLOOR = Color.LIGHT_GRAY;
+	public static final Color WALL					= new Color( 64,  64,  64);
+	public static final Color WALL_FOG_OF_WAR 		= new Color( 32,  32,  32);
+	public static final Color FLOOR					= new Color(192, 192, 192);
+	public static final Color FLOOR_FOG_OF_WAR		= new Color( 96,  96,  96);
+	public static final Color VOID					= new Color( 20,  20,  20);
+	public static final Color VOID_FOG_OF_WAR		= new Color( 10,  10,  10);
+	public static final Color UNDISCOVERED			= new Color(  0,   0,   0); //Also the color of the background.
+	
 	
 	public static final Color WINDOWS_95_TEAL = new Color (0,128,129);
 	public static final Color WINDOWS_95_DARK_GRAY = new Color (192,192,192);

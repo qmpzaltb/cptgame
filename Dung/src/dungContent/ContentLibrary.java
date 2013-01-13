@@ -44,8 +44,8 @@ public class ContentLibrary {
 	
 	public static final Entity dirtyBubble =
 			new Entity(
-					-1, 0.45 , 0.025,
-					new ControllerDumb(),
+					-1, 0.55 , 0.025,
+					new ControllerAI(),
 					new SkeletonBubble(),
 					new Color[]{
 						ColorList.TRANSPARENT_DIRTY

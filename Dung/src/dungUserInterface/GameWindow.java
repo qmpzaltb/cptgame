@@ -6,6 +6,8 @@ import java.awt.Insets;
 
 import javax.swing.JFrame;
 
+import dungContent.ColorList;
+
 
 /**
  * GameWindow:
@@ -31,7 +33,7 @@ public class GameWindow extends Thread {
   //runningRenderer = false;
   frMainWindow = new JFrame(NAME);
   frMainWindow.setSize(1344, 967);
-  frMainWindow.setBackground(Color.DARK_GRAY);
+  frMainWindow.setBackground(ColorList.UNDISCOVERED);
   frMainWindow.setResizable(false);
   frMainWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
   grGraphicsRenderer = new GameGraphics();

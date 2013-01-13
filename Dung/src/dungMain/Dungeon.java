@@ -94,6 +94,7 @@ public class Dungeon {
 		DungeonGame.handleEntity(ControllerPlayer.iPlayerEntityID).dYPos = iaPointYWeb[0] + 0.5;
 		
 		makeWallEdges();
+		cullLoneTiles(TileType.WALL, 3, TileType.FLOOR, true);
 		
 		DungeonGame.iGameReadinessState += 1;
 	}
@@ -181,6 +182,96 @@ public class Dungeon {
 			
 			isOneExitInstance = true;
 		}
+	}
+	
+	private void cullLoneTiles(TileType typeToCull, int minimumNeighbors , TileType typeToCullTo , boolean voidIsANeighbour){
+		for (int iuP1 = 0; iuP1 < iDungeonXSize; iuP1 ++){
+			for (int iuP2 = 0; iuP2 < iDungeonYSize; iuP2 ++){
+				if (dtlve2DungeonTiles.get(iuP1).get(iuP2).getTileType() == typeToCull){
+					
+					//Eight neighbors to a tile.
+					int tileNeighbours = 8;
+					
+					
+					//If the tile's neighbor is not a tile of its type, it loses a neighbor.
+					//Left neighbour check
+					if (iuP1 > 0){
+						if (dtlve2DungeonTiles.get(iuP1 - 1).get(iuP2).getTileType() != typeToCull){
+							tileNeighbours -= 1;
+						}
+					} else if (!voidIsANeighbour){
+						tileNeighbours -= 1;
+					}
+					
+					//Right neighbour check
+					if (iuP1 < iDungeonXSize){
+						if (dtlve2DungeonTiles.get(iuP1 + 1).get(iuP2).getTileType() !=typeToCull){
+							tileNeighbours -= 1;
+						}
+					} else if (!voidIsANeighbour){
+						tileNeighbours -= 1;
+					}
+					
+					//Up neighbour check
+					if (iuP2 > 0){
+						if (dtlve2DungeonTiles.get(iuP1).get(iuP2 - 1).getTileType() != typeToCull){
+							tileNeighbours -= 1;
+						}
+					} else if (!voidIsANeighbour){
+						tileNeighbours -= 1;
+					}
+					
+					//Down neighbour check
+					if (iuP2 < iDungeonYSize){
+						if (dtlve2DungeonTiles.get(iuP1).get(iuP2 + 1).getTileType() != typeToCull){
+							tileNeighbours -= 1;
+						}
+					} else if (!voidIsANeighbour){
+						tileNeighbours -= 1;
+					}
+					
+					//UpRight neighbour check
+					if ( iuP1 < iDungeonXSize && iuP2 > 0){
+						if (dtlve2DungeonTiles.get(iuP1 + 1).get(iuP2 - 1).getTileType() != typeToCull){
+							tileNeighbours -= 1;
+						}
+					} else if (!voidIsANeighbour){
+						tileNeighbours -= 1;
+					}
+					
+					//UpLeft neighbour check
+					if (iuP1 > 0 && iuP2 > 0){
+						if (dtlve2DungeonTiles.get(iuP1 - 1).get(iuP2 - 1).getTileType() != typeToCull){
+							tileNeighbours -= 1;
+						}
+					}
+					
+					//DownLeft neighbour check
+					if (iuP1 > 0 && iuP2 < iDungeonYSize){
+						if (dtlve2DungeonTiles.get(iuP1 - 1).get(iuP2 + 1).getTileType() != typeToCull){
+							tileNeighbours -= 1;
+						}
+					} else if (!voidIsANeighbour){
+						tileNeighbours -= 1;
+					}
+					
+					//DownRight neighbour check
+					if (iuP1 < iDungeonXSize && iuP2 < iDungeonYSize){
+						if (dtlve2DungeonTiles.get(iuP1 + 1).get(iuP2 + 1).getTileType() != typeToCull){
+							tileNeighbours -= 1;
+						}
+					} else if (!voidIsANeighbour){
+						tileNeighbours -= 1;
+					}
+					
+					if (tileNeighbours < minimumNeighbors){
+						dtlve2DungeonTiles.get(iuP1).get(iuP2).setTileType(typeToCullTo);
+					} 
+					
+				}
+			}
+		}
+		
 	}
 	
 	

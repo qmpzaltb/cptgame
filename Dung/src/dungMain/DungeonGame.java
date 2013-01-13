@@ -14,11 +14,7 @@
 
 package dungMain;
 
-import java.awt.Rectangle;
-import java.awt.Shape;
-import java.awt.geom.Ellipse2D;
 import java.util.Vector;
-
 import dungUserInterface.GameActions;
 import dungUserInterface.GameGraphics;
 import dungUserInterface.GameInput;
@@ -49,7 +45,7 @@ public class DungeonGame {
 	private static long lCurrentFrame;
 	private static long lTimeToSleep;
 	
-	public static int iCurrentMapSeed = 71;
+	public static int iCurrentMapSeed = 1024;
 	
 	public static final double DISTANCE_TO_KEEP_FROM_WALL = 0.001;
 
@@ -73,7 +69,7 @@ public class DungeonGame {
 		entveCurrentEntities = new Vector<Entity>();
 		entveCurrentEntities.add(new Entity(0, ContentLibrary.humanPlayer, 2.5, 2.5, 0.0 , 0));
 		entveCurrentEntities.add(new Entity(1, ContentLibrary.nermanCreature , 4.0, 4.0, 0.0 , 1));
-		entveCurrentEntities.add(new Entity(2, ContentLibrary.dirtyBubble, 10.0 , 10.0 , 0.0 , 1));
+		entveCurrentEntities.add(new Entity(2, ContentLibrary.dirtyBubble, 10.0 , 13.0 , 0.0 , 1));
 
 
 		dngCurrentDungeon = new Dungeon(iCurrentMapSeed);
