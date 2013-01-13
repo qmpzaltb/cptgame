@@ -1,5 +1,13 @@
 package dungUserInterface;
 
+/**
+ * GameActions:
+ * A class which defines all the actions that are controllable by a player through various input devices.
+ * The variables here are a combination of enumerations and array indices.
+ * Variables here are intended to be used in the baActions array that is located in GameInput.
+ * If a key's name is not here, then its corresponding action can not be performed, as it cannot be handled by any input device.
+ *
+ */
 public class GameActions {
 	
 	//Actions that trigger when the button is down, detrigger when the button is lifted.

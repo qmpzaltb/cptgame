@@ -8,6 +8,11 @@ import dungEntity.AnimationType;
 import static dungMain.DungeonGame.handleEntity;
 import static dungMain.DungeonGame.moveEntity;
 
+/**
+ * ControllerAI:
+ * A class that controls the actions of the AI entities of the game.
+ * This controller makes AI entities charge at the nearest visible entity of another alleigance.
+ */
 public class ControllerAI extends EntityController{
 
  public static final int MAX_DISTANCE = Dungeon.MAXIMUM_DIMENSION * Dungeon.MAXIMUM_DIMENSION + Dungeon.MINIMUM_DIMENSION * Dungeon.MINIMUM_DIMENSION;

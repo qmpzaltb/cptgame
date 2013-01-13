@@ -3,6 +3,12 @@ package dungUserInterface;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+
+/**
+ * GameKeyboardInput:
+ * A class that implements KeyListener, handling all the presses of MouseListener and forwarding them into the boolean array of actions
+ * that is parsed by the Gameplay loop at its own leisure.
+ */
 public class GameKeyboardInput extends GameActions implements KeyListener{
 
 

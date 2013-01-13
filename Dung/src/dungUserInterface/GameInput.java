@@ -3,6 +3,12 @@ package dungUserInterface;
 import java.awt.MouseInfo;
 import dungMain.DungeonGame;
 
+/**
+ * GameInput:
+ * A class that acts as a "hub" for all the Listening classes.
+ * This class houses the boolean array baActions, which holds the information of whether an action is desired by the player or not.
+ * An actions's desirability is then used by the Gameplay loop to control the player, control the view, enter menus, etc.
+ */
 public class GameInput extends GameActions{
 	
 	public static boolean[] baActions;

@@ -2,7 +2,11 @@ package dungUserInterface;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-
+/**
+ * GameMouseInput:
+ * A class that implements MouseListener, handling all the presses of MouseListener and forwarding them into the boolean array of actions
+ * that is parsed by the Gameplay loop at its own leisure.
+ */
 public class GameMouseInput extends GameActions implements MouseListener {
 
 	@Override

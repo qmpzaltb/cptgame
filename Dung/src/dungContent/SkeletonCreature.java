@@ -6,6 +6,12 @@ import dungEntity.AnimationType;
 import dungEntity.EntitySkeleton;
 import dungEntity.SkeletonLimb;
 
+/**
+ * SkeletonCreature:
+ * A class that defines the limbs present in a creature-like entity.
+ * The creature is shaped in the form of a standard quadripedal animal.
+ * Entities that may use this skeleton include: grimy dogs, dirty cats, potentially rats.
+ */
 public class SkeletonCreature extends EntitySkeleton{
 
 	public SkeletonCreature(){

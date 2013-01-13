@@ -15,15 +15,23 @@ import dungEntity.Entity;
 import dungEntity.SkeletonLimb;
 import dungMain.DungeonGame;
 
+
+/**
+ * GameGraphics:
+ * A class that attaches to a JFrame as a component.
+ * This class converts the information from the Gameplay thread to graphical information (shapes, text, lines, etc.)
+ * This conversion is done through the "paintComponent" method.
+ * The drawing of skeleton limbs is done in the Limb's individual classes.
+ */
+
+@SuppressWarnings("serial")
 public class GameGraphics extends JPanel{
 
-	private static final long serialVersionUID = 990000001;
+	//private static final long serialVersionUID = 990000001; //Required by Eclipse? Why?
 
 
 	public static final double MAX_ZOOM = 1.85;
 	public static final double MIN_ZOOM = 0.15;
-
-	//We should move these colours to a different class? One dedicated to public static final Color?
 
 
 

@@ -6,6 +6,18 @@ import java.awt.Graphics2D;
 
 import dungEntity.SkeletonLimb;
 
+/**
+ * LimbLine:
+ * A class that defines a linear type of limb.
+ * e.g., arms, legs, tails, other appendages.
+ * This limb is drawn by connecting a line between two points.
+ * 
+ * Its setDouble methods correspond to:
+ * X1: the X value of the first coordinate
+ * Y1: the Y value of the first coordinate
+ * X2: the X value of the second coordinate
+ * Y2: the Y value of the second coordinate
+ */
 public class LimbLine extends SkeletonLimb{
 
 	public float fLimbWidth;

@@ -1,3 +1,17 @@
+/* The CPT Game: "Hygienator" OR "Cleanifier" OR "Cleansination" OR <<YOUR NAME FOR THE GAME HERE>>
+ * 
+ * A program by:
+ *   Justin Baradi
+ *	 Mark Bouchkeitch
+ *   Nerman Nicholas
+ * 
+ * Software designed for:
+ *   ICS 4U1 - Father Michael Goetz Secondary School
+ * 
+ * <<INSERT APPROPRIATE DATE HERE>>
+ * <<INSERT OTHER INFORMATION HERE IF NEEDED>>  
+ */
+
 package dungMain;
 
 import java.awt.Rectangle;
@@ -13,6 +27,13 @@ import dungUserInterface.GameWindow;
 import dungContent.ContentLibrary;
 import dungEntity.Entity;
 
+/**
+ * DungeonGame:
+ * The main class of the game.
+ * The DungeonGame class connects the gameplay features of the game to the graphics features of the game - and initializes both as well.
+ * The thread that holds the DungeonGame class can be referred to as "the gameplay thread"
+ * The DungeonGame class is the home of the Game Loop, and many methods that shorten and help the code in the various Gameplay-related classes (such as handleEntity and handleTile).
+ */
 public class DungeonGame {
 
 
@@ -28,7 +49,7 @@ public class DungeonGame {
 	private static long lCurrentFrame;
 	private static long lTimeToSleep;
 	
-	public static int iCurrentMapSeed = -1;
+	public static int iCurrentMapSeed = 71;
 	
 	public static final double DISTANCE_TO_KEEP_FROM_WALL = 0.001;
 

@@ -9,6 +9,13 @@ import static dungMain.DungeonGame.handleTile;
 import static dungMain.DungeonGame.isValueInBoundsX;
 import static dungMain.DungeonGame.isValueInBoundsY;
 
+
+/**
+ * SpatialKnowledge:
+ * A class which defines what is in an entity's vision.
+ * When applied to a player character, this represents the "fog of war" that is present in many strategy games.
+ * This object is used by the "Controller" series of classes.
+ */
 public class EntitySpatialKnowledge {
 
 	int iEntityID;

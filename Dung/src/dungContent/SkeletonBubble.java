@@ -6,6 +6,12 @@ import dungEntity.AnimationType;
 import dungEntity.EntitySkeleton;
 import dungEntity.SkeletonLimb;
 
+/**
+ * SkeletonBubble:
+ * A class that defines the skeleton for a bubble-like entity.
+ * This can be used by a varying type of bubbles, such as dirty bubbles, dirt-splosive bubbles, etc...
+ * It can also be potentially used for particle effects.
+ */
 public class SkeletonBubble extends EntitySkeleton {
 //The simplest entity known to man.
  

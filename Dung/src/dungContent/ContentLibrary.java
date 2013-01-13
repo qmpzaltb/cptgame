@@ -3,6 +3,11 @@ package dungContent;
 import java.awt.Color;
 import dungEntity.Entity;
 
+/**
+ * ContentLibrary:
+ * A class to store the "original copies" of entities.
+ * All objects here are declared public, static, and final. 
+ */
 public class ContentLibrary {
 	public static final Entity humanPlayer =
 			new Entity(

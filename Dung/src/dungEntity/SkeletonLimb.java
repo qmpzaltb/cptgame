@@ -3,6 +3,14 @@ package dungEntity;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
+/**
+ * SkeletonLimb:
+ * An abstract class that defines a "limb".
+ * A limb is a part of the entity's visible body that is drawn onto the screen.
+ * The transformation/movement of the limbs is done by the "setDouble" methods.
+ * They most often correspond to coordinates, yet sometimes correspond to object width, object rotation, and object scale.
+ * To understand what the "setDouble" methods truly modify, view the method in the "Limb" classes (they are non-abstract extensions of SkeletonLimb)
+ */
 abstract public class SkeletonLimb {
 	
 	public Color colLimbColor;

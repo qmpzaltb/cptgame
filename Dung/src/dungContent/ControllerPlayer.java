@@ -8,7 +8,13 @@ import static dungMain.DungeonGame.handleEntity;
 import dungUserInterface.GameActions;
 import dungUserInterface.GameInput;
 
-
+/**
+ * ControllerPlayer:
+ * A class that converts the input information from the dungUserInterface package to entity movement.
+ * This class is designed to be compatible with the player-centric nature of the GameGraphics class - 
+ * (hence the static variables).
+ * WARNING: This class should only be the controller for one entity.
+ */
 public class ControllerPlayer extends EntityController{
 
 	public static int iPlayerEntityID;

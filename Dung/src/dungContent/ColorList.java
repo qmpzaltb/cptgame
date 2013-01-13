@@ -2,6 +2,11 @@ package dungContent;
 
 import java.awt.Color;
 
+/**
+ * ColorList:
+ * A class solely for the easy and simple access of Color objects that are used in the game.
+ * All Color objects are public, static, and final.
+ */
 public class ColorList {
 	
 	public static final Color DENIM					= new Color(0  , 0  , 128);

@@ -2,6 +2,15 @@ package dungEntity;
 
 import java.awt.Color;
 
+/**
+ * Entity:
+ * A class that defines any entity.
+ * An entity is any object that is capable of movement.
+ * Entities are controlled by their EntityController objects.
+ * Entities are drawn by their EntitySkeleton objects.
+ * The "original" entities are defined in the ContentLoader class.
+ * All entities that exist in the game should be entities that are reconstructed with the constructor that accepts Entity (the original entities from ContentLoader).
+ */
 public class Entity {
 	
 	public int iEntityID;

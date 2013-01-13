@@ -6,6 +6,11 @@ import dungEntity.AnimationType;
 import dungEntity.EntitySkeleton;
 import dungEntity.SkeletonLimb;
 
+/**
+ * SkeletonHumanoid:
+ * A class that defines a human-like entity (a bipedal, upright-standing animal)
+ * Entities that may use this skeleton include player characters, cleaning-supplies-merchants, dirt zombies, etc.
+ */
 public class SkeletonHumanoid extends EntitySkeleton{
 	
 	public SkeletonHumanoid(){

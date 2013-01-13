@@ -6,6 +6,14 @@ import java.awt.Insets;
 
 import javax.swing.JFrame;
 
+
+/**
+ * GameWindow:
+ * A class that represents the window of the game.
+ * The Window is the bridge between the Listeners, the Graphics, and the DungeonGame class.
+ * This class deals with the properties of the window that holds the game.
+ * This class is the home of the Graphics Thread (also known as the Graphics Loop).
+ */
 public class GameWindow extends Thread {
  
  public static final String NAME = "Dung";

@@ -1,5 +1,11 @@
 package dungEntity;
 
+/**
+ * EntitySkeleton:
+ * A abstract class that defines the "skeleton" of an entity.
+ * A skeleton is composed of "limbs".
+ * The movement and/or transformation of the limbs creates animation.
+ */
 public abstract class EntitySkeleton {
 
 	public SkeletonLimb[] sklaSkeleton;

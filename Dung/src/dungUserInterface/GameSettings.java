@@ -2,6 +2,11 @@ package dungUserInterface;
 
 import java.awt.event.KeyEvent;
 
+/**
+ * GameSettings:
+ * A class that holds the various settings of the game that a user may change.
+ * Methods and fields in this class tend to be static, for direct use by other classes that require the variables in this class.
+ */
 public class GameSettings {
 	
 	public static int iMSPFOGfx = 16; //Milliseconds Per Frame Operation for Graphics

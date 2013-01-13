@@ -2,6 +2,14 @@ package dungMain;
 
 import java.awt.geom.Rectangle2D;
 
+
+/**
+ * DungeonTile:
+ * A class which defines a tile within a dungeon.
+ * A Dungeon object holds a two-dimensional array of objects to define the map.
+ * A dungeon tile hold the type of tile that the tile is (wall, floor, edge, entrance, etc...)
+ * It is also where potential environmental data of the tile may be stored, if it is ever implemented.
+ */
 public class DungeonTile {
 	
 	private static final int DEFAULT_GAS_CAPACITY = 1000000;
