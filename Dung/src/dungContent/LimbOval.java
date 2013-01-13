@@ -31,12 +31,11 @@ public class LimbOval extends SkeletonLimb{
 		dRelativeLimbY1 = y1;
 		dLimbXSize = xSize;
 		dLimbYSize = ySize;
-		//TODO Add limb-coloring functionality elsewhere.
-		colLimbColor = Color.ORANGE;
 	}
 	
 	
 	public void drawLimb(Graphics2D g) {
+		//Draws the limb according to the object's information
 		g.setColor(colLimbColor);
 		g.setStroke(new BasicStroke(1));
 		g.fillOval((int)dRelativeLimbX1, (int)dRelativeLimbY1, (int)dLimbXSize, (int)dLimbYSize);

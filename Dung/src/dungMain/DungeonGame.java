@@ -54,6 +54,7 @@ public class DungeonGame {
 
 	public static void main(String[] args){
 
+		//Initialization begins
 		iGameReadinessState = -1;
 		mainGameWindow = new GameWindow();
 
@@ -77,6 +78,9 @@ public class DungeonGame {
 		dngCurrentDungeon = new Dungeon(iCurrentMapSeed);
 
 		iGameReadinessState += 1;
+		//Initialization ends
+		
+		//The Gameplay Loop
 		while (true){
 			doGameLoop();
 			ColorScheme.updateColorList();
@@ -89,27 +93,17 @@ public class DungeonGame {
 
 		lGameLoopStartTime = System.currentTimeMillis();
 
-		/*
-		 * for (counter; parsing through the entity array list; counter++){
-		 * 		entityarraylist.get(counter).doNextAction();
-		 * 		if (entityarraylist.get(counter).isDead()){
-		 * 			entityarraylist.delete(counter);
-		 *      }
-		 * }
-		 */
-
+		//Tells the entity controllers of every entity to do their next action.
 		for (Entity toUpdate : entveCurrentEntities){
 			toUpdate.encController.doNextAction();
 		}
 
+		//Do features such as zoom in, zoom out, calling out menus, etc.
 		doNonGameplayInput();
 
-		//Not pseudocode. This is testing stuff.
-		//if (GameInput.baActions[GameActions.ATTACK_USE_PRIMARY]){
-		//	System.out.println("ATTACK");
-		//}
 
-
+		//CODE BLOCK:
+		//Framerate regulator
 		lGameLoopEndTime = System.currentTimeMillis();
 		lGameLoopTimeTaken = (lGameLoopEndTime - lGameLoopStartTime);
 
@@ -131,6 +125,7 @@ public class DungeonGame {
 				System.err.println("Who interrupted the main thread's slumber?");
 			}
 		}
+		//END OF CODE BLOCK
 
 	}
 
@@ -244,7 +239,7 @@ public class DungeonGame {
 		
 		for (int iuP1 = 0; iuP1 < entveCurrentEntities.size(); iuP1 ++){
 			if (iuP1 != iEntityID){
-				if (true){ //TODO Does not collide with other entities flag on the entity.
+				if (true){ //TODO "Does-not-collide-with-other-entities" flag on entities. This is where it would go.
 				double distance = (dNewXPosCenter - handleEntity(iuP1).getXPos()) * (dNewXPosCenter - handleEntity(iuP1).getXPos()) + (dNewYPosCenter - handleEntity(iuP1).getYPos()) * (dNewYPosCenter - handleEntity(iuP1).getYPos());
 				if (distance < (dCurrentSize + handleEntity(iEntityID).getSize()) * (dCurrentSize + handleEntity(iEntityID).getSize())){
 					System.out.println(distance + " from " + iEntityID + " to " + iuP1 );
@@ -255,7 +250,7 @@ public class DungeonGame {
 			}
 		}
 		
-		
+		//Moves the character by shifting their X and Y coordinates.
 		handleEntity(iEntityID).shiftXPos(dEntityXShift);
 		handleEntity(iEntityID).shiftYPos(dEntityYShift);
 
@@ -282,7 +277,7 @@ public class DungeonGame {
 			return true;
 		}
 
-		//Case: Intersection if an identical circle placed on the map-tile's corners intersects the original circle. //Left squared to save processor speed.
+		//Case: Intersection if an identical circle placed on the map-tile's corners intersects the original circle. //Variable left squared to save processor speed.
 		double dCornerCircleIntersectionDistance = (dCircleTileDistanceX - 0.5) * (dCircleTileDistanceX - 0.5) + (dCircleTileDistanceY - 0.5) * (dCircleTileDistanceY - 0.5);
 		return (dCornerCircleIntersectionDistance <= circleRadius * circleRadius);
 
@@ -324,13 +319,13 @@ public class DungeonGame {
 	}
 
 	private static void doNonGameplayInput(){
+		
+		//Handle zoomin/zoomout requests.
 		if (GameInput.baActions[GameActions.ZOOM_IN]){
 			GameGraphics.increaseZoom();
-			//GameInput.baActions[GameActions.ZOOM_IN] = false;
 		}
 		if (GameInput.baActions[GameActions.ZOOM_OUT]){
 			GameGraphics.decreaseZoom();
-			//GameInput.baActions[GameActions.ZOOM_OUT] = false;
 		}
 	}
 

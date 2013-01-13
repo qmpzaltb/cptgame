@@ -9,6 +9,8 @@ import dungEntity.Entity;
  * All objects here are declared public, static, and final. 
  */
 public class ContentLibrary {
+	
+	
 	public static final Entity humanPlayer =
 			new Entity(
 					-1, 0.15, 0.05,

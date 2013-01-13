@@ -14,6 +14,8 @@ import dungEntity.SkeletonLimb;
 public class SkeletonHumanoid extends EntitySkeleton{
 	
 	public SkeletonHumanoid(){
+		
+		//Initializes the "limbs" of the skeleton in their default position.
 		sklaSkeleton = new SkeletonLimb[]{
 			new LimbLine(2f, +5.0, 0.0, +5.0, 0.0),//Right leg, Limb 0
 			new LimbLine(2f, -5.0, 0.0, -5.0, 0.0),//Left leg, Limb 1
@@ -34,8 +36,9 @@ public class SkeletonHumanoid extends EntitySkeleton{
 		switch (animType){
 		case MOVE:{
 			
-			//Equation for sine function: 10sin((2PI/60)x) <-- Clarity purposes.
 			
+			//Functions that describe the position of the limbs according to time (the amount of frames until the animation ends (0))
+			//Equation for sine function: 10sin((2PI/60)x) <-- Clarity purposes.
 			int iTimeInAnimCycle = (int)(animTime % 60); //60 because 60. Arbitrary period of the animation.
 			sklaSkeleton[0].setDoubleY2(10 * Math.sin((2 * Math.PI / 60) * iTimeInAnimCycle)); //0.104719755119 = 2PI / 60. Advanced functions, yeah!
 			sklaSkeleton[1].setDoubleY2(10 * Math.sin((-2 * Math.PI / 60) * iTimeInAnimCycle));
@@ -59,7 +62,6 @@ public class SkeletonHumanoid extends EntitySkeleton{
 			sklaSkeleton[6].setDoubleX2(-15.0);
 			sklaSkeleton[6].setDoubleY2(-5.0);
 			break;
-			//And then arms stuff if applicable.
 		}
 		case ATTACK_SPEAR_RIGHTHAND:{
 			int iAnimTime = 45 - (int)(animTime);

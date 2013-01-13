@@ -17,16 +17,17 @@ import dungUserInterface.GameInput;
  */
 public class ControllerPlayer extends EntityController{
 
-	public static int iPlayerEntityID;
+	public static int iPlayerEntityID; //A variable that tells other classes which entity is the player's entity.
 	
 	
-	private static EntitySpatialKnowledge spkKnowledge;
+	private static EntitySpatialKnowledge spkKnowledge; //The "knowledge" of the player - what the player sees, has seen, and has not seen.
 	private int currentX; //For updating EntitySpatialKnowledge in a conservative matter (i.e., not every frame, but only when the tile changes.)
 	private int currentY;
 	
+	
 	public ControllerPlayer(){
 		super();
-		spkKnowledge = new EntitySpatialKnowledge(iPlayerEntityID, 5);
+		spkKnowledge = new EntitySpatialKnowledge(iPlayerEntityID, 5); //Initializes the "knowledge" variables
 		currentX = -1;
 		currentY = -1;
 	}
@@ -46,21 +47,25 @@ public class ControllerPlayer extends EntityController{
 	
 	
 	public void doNextAction() {
-		handleEntity(iEntityID).dHeading = GameInput.getHeading();
-		handleEntity(iEntityID).bEntityMoving = false;
 		
-		if (currentX != (int)handleEntity(iEntityID).getXPos() || currentY != (int)handleEntity(iEntityID).getYPos()){
-			currentX = (int)handleEntity(iEntityID).getXPos();
-			currentY = (int)handleEntity(iEntityID).getYPos();
-			spkKnowledge.updateKnowledge();
+		handleEntity(iEntityID).dHeading = GameInput.getHeading(); 	//Sets the Player entity's heading relative to the mouse.
+		handleEntity(iEntityID).bEntityMoving = false;				//Assumes the player is not moving.
+		
+		
+		//CODE BLOCK:
+		//Updating the Entity's knowledge
+		if (currentX != (int)handleEntity(iEntityID).getXPos() || currentY != (int)handleEntity(iEntityID).getYPos()){ 	//If the entity has changed position (block-wise)
+			currentX = (int)handleEntity(iEntityID).getXPos();	//Change his current position in X...
+			currentY = (int)handleEntity(iEntityID).getYPos();	//And in Y...
+			spkKnowledge.updateKnowledge();						//Then tell the knowledge to update his knowledge.
 		}
+		//END OF CODE BLOCK
 		
-		
-		
-		//MOVEMENT HANDLING FROM INPUT BEGINS
+		//CODE BLOCK:
+		//Handling movement input
 		if (GameInput.baActions[GameActions.MOVE_UP] && GameInput.baActions[GameActions.MOVE_LEFT]){ //Moves Up Left
-			handleEntity(iEntityID).bEntityMoving = true;
-			handleEntity(iEntityID).setMovementDirection(Math.PI / (-4));
+			handleEntity(iEntityID).bEntityMoving = true;					//Assumes the player is moving
+			handleEntity(iEntityID).setMovementDirection(Math.PI / (-4));	//and sets their velocity direction accordingly.
 		} else if (GameInput.baActions[GameActions.MOVE_UP] && GameInput.baActions[GameActions.MOVE_RIGHT]) { //Moves Up Right
 			handleEntity(iEntityID).bEntityMoving = true;
 			handleEntity(iEntityID).setMovementDirection(Math.PI / (4));
@@ -70,75 +75,82 @@ public class ControllerPlayer extends EntityController{
 		} else if (GameInput.baActions[GameActions.MOVE_DOWN] && GameInput.baActions[GameActions.MOVE_RIGHT]) { //Moves Down Right
 			handleEntity(iEntityID).bEntityMoving = true;
 			handleEntity(iEntityID).setMovementDirection( 3 * Math.PI / (4));
-		} else if (GameInput.baActions[GameActions.MOVE_UP]){
+		} else if (GameInput.baActions[GameActions.MOVE_UP]){ //Moves Up
 			handleEntity(iEntityID).bEntityMoving = true;
 			handleEntity(iEntityID).setMovementDirection(0);
-		} else if (GameInput.baActions[GameActions.MOVE_LEFT]){
+		} else if (GameInput.baActions[GameActions.MOVE_LEFT]){ //Moves Left
 			handleEntity(iEntityID).bEntityMoving = true;
 			handleEntity(iEntityID).setMovementDirection(Math.PI / -2);
-		} else if (GameInput.baActions[GameActions.MOVE_DOWN]) {
+		} else if (GameInput.baActions[GameActions.MOVE_DOWN]) { //Moves Down
 			handleEntity(iEntityID).bEntityMoving = true;
 			handleEntity(iEntityID).setMovementDirection(Math.PI);
-		} else if (GameInput.baActions[GameActions.MOVE_RIGHT]){
+		} else if (GameInput.baActions[GameActions.MOVE_RIGHT]){ //Moves Right
 			handleEntity(iEntityID).bEntityMoving = true;
 			handleEntity(iEntityID).setMovementDirection(Math.PI / 2);
-		} else if (GameInput.baActions[GameActions.MOVE_FORWARD]){
+		} else if (GameInput.baActions[GameActions.MOVE_FORWARD]){ //Moves Forward
 			handleEntity(iEntityID).bEntityMoving = true;
-			handleEntity(iEntityID).setMovementDirection(handleEntity(iEntityID).dHeading);
-		} else if (GameInput.baActions[GameActions.MOVE_BACKWARD]){
+			handleEntity(iEntityID).setMovementDirection(handleEntity(iEntityID).dHeading); //Moves player towards where they are facing
+		} else if (GameInput.baActions[GameActions.MOVE_BACKWARD]){ //Moves Backward
 			handleEntity(iEntityID).bEntityMoving = true;
-			handleEntity(iEntityID).setMovementDirection(handleEntity(iEntityID).dHeading + Math.PI);
+			handleEntity(iEntityID).setMovementDirection(handleEntity(iEntityID).dHeading + Math.PI); //Moves player backwards where they are facing
 		}
-
+		//END OF CODE BLOCK
+		
+		
 		//Glitch : the speed modified will continue even if shift is not pressed. This is done by holding shift, then pressing and holding down any WASD keys, then releasing the shift key.
 		//That is a feature, not a glitch. Instead of being a push-to-sprint, the game can also be a toggle-to-sprint. This is controllable in GameSettings with the boolean bModifiersAreToggled.
 		//Why did I make this feature? Key ghosting. My keyboard can't sprint up-right, because it doesnt allow those three keys to be pressed at the same time.
-		if(GameInput.baActions[GameActions.SPEED_MODIFIER]){
-			handleEntity(iEntityID).dMovementMagnitude = handleEntity(iEntityID).dNormalSpeed * 6;
-		} else {
-			handleEntity(iEntityID).dMovementMagnitude = handleEntity(iEntityID).dNormalSpeed;
+		
+		//CODE BLOCK:
+		//Handling sprinting
+		if(GameInput.baActions[GameActions.SPEED_MODIFIER]){ 	//If Sprinting is requested...
+			handleEntity(iEntityID).dMovementMagnitude = handleEntity(iEntityID).dNormalSpeed * 6; 	//Change the entity's speed.
+		} else {												//But if not...
+			handleEntity(iEntityID).dMovementMagnitude = handleEntity(iEntityID).dNormalSpeed;		//Set it back to normal. 
 		}
-		//END OF MOVEMENT HANDLING
+		//END OF CODE BLOCK
 		
 		
-		//BEGINNING OF ANIMATING MOVEMENT
-		if (handleEntity(iEntityID).bEntityMoving){
-			handleEntity(iEntityID).lEntityMovingTime ++;
-			DungeonGame.moveEntity(iEntityID);
-		} else {
-			handleEntity(iEntityID).lEntityMovingTime = 0;
+		//CODE BLOCK:
+		//Handling movement animations
+		if (handleEntity(iEntityID).bEntityMoving){ 		//If the player is moving,
+			handleEntity(iEntityID).lEntityMovingTime ++; 	//increment how long he has been moving
+			DungeonGame.moveEntity(iEntityID); 				//then move him accordingly
+		} else {											//But if not
+			handleEntity(iEntityID).lEntityMovingTime = 0;	//Then he has been moving for 0 frames. 
 		}
 		
-		handleEntity(iEntityID).ensSkeleton.doAnimation( AnimationType.MOVE , handleEntity(iEntityID).lEntityMovingTime);
+		handleEntity(iEntityID).ensSkeleton.doAnimation( AnimationType.MOVE , handleEntity(iEntityID).lEntityMovingTime); //Do the movement animation.
+		//END OF CODE BLOCK
 		
-		//END OF ANIMATING MOVEMENT
 		
-		
-		//BEGINNING OF ANIMATING SPECIAL ACTIONS
-		if (handleEntity(iEntityID).lEntityActionTime <= 0){
-			handleEntity(iEntityID).entityAction = AnimationType.IDLE;
+		//CODE BLOCK
+		//Handling special animations
+		if (handleEntity(iEntityID).lEntityActionTime <= 0){ //If the special animation is done,
+			handleEntity(iEntityID).entityAction = AnimationType.IDLE; //then set them to be idle.
 			handleEntity(iEntityID).lEntityActionTime = 0;
-			handleEntity(iEntityID).ensSkeleton.doAnimation(AnimationType.IDLE, 0);
 		}
 		
-		if (handleEntity(iEntityID).entityAction == AnimationType.IDLE){
-			if (GameInput.baActions[GameActions.ATTACK_USE_PRIMARY]){
+		//SUB-CODE-BLOCK
+		//Handling actions requested
+		if (handleEntity(iEntityID).entityAction == AnimationType.IDLE){ //If the entity is idle, they are eligible to do a special action/animation
+			if (GameInput.baActions[GameActions.ATTACK_USE_PRIMARY]){ //such as swing their fist
 					handleEntity(iEntityID).lEntityActionTime = 45;
 					handleEntity(iEntityID).entityAction = AnimationType.ATTACK_SPEAR_RIGHTHAND;
 			}
-			if (GameInput.baActions[GameActions.ATTACK_USE_SECONDARY]){
+			if (GameInput.baActions[GameActions.ATTACK_USE_SECONDARY]){ //and swing their other fist
 				handleEntity(iEntityID).lEntityActionTime = 45;
 				handleEntity(iEntityID).entityAction = AnimationType.ATTACK_SPEAR_LEFTHAND;
 		}
-		} else {
-			handleEntity(iEntityID).ensSkeleton.doAnimation(handleEntity(iEntityID).entityAction, handleEntity(iEntityID).lEntityActionTime);
-			
 		}
+		
+		handleEntity(iEntityID).ensSkeleton.doAnimation(handleEntity(iEntityID).entityAction, handleEntity(iEntityID).lEntityActionTime); //Tells the skeleton to move the entity accordingly.
+			
 		
 		
 		
 		handleEntity(iEntityID).lEntityActionTime -= 1;
-		//END OF ANIMATING SPECIAL ACTIONS
+		//END OF CODE BLOCKS
 		
 		
 		

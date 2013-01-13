@@ -32,7 +32,6 @@ public class SkeletonCreature extends EntitySkeleton{
 		switch (animType){
 		case MOVE:{
 
-			//Equation for sine function: 10sin((2PI/60)x) <-- Clarity purposes.
 
 			int iTimeInAnimCycle = (int)(animTime % 60); //60 because 60. Arbitrary period of the animation.
 

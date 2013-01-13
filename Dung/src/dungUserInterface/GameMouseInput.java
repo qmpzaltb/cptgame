@@ -30,6 +30,7 @@ public class GameMouseInput extends GameActions implements MouseListener {
 		// TODO Auto-generated method stub
 		int iActionOfButton = -1;
 
+		//Calculates what happens to what action as a result of a mouse press.
 		if (mev.getButton() == MouseEvent.BUTTON1){
 			iActionOfButton = GameSettings.iaActionOfButton[260];
 		} else if (mev.getButton() == MouseEvent.BUTTON2){
@@ -58,6 +59,7 @@ public class GameMouseInput extends GameActions implements MouseListener {
 		// TODO Auto-generated method stub
 		int iActionOfButton = -1;
 
+		//Calculates what happens to what action as a result of a mouse release.
 		if (mev.getButton() == MouseEvent.BUTTON1){
 			iActionOfButton = GameSettings.iaActionOfButton[260];
 		} else if (mev.getButton() == MouseEvent.BUTTON2){

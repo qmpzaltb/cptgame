@@ -1,5 +1,6 @@
 package dungContent;
 
+import java.awt.BasicStroke;
 import java.awt.Graphics2D;
 import java.awt.Polygon;
 import java.awt.geom.AffineTransform;
@@ -35,11 +36,12 @@ public class LimbPolygon extends SkeletonLimb {
 	
 	@Override
 	public void drawLimb(Graphics2D g) {
-		// TODO Auto-generated method stub
+		//Draws the limb according to the object's information
 		AffineTransform atrPreRenderTransformations = g.getTransform();
 		g.rotate(dHeading);
 		g.setColor(colLimbColor);
 		g.scale(dScale, dScale);
+		g.setStroke(new BasicStroke(1));
 		g.fillPolygon(plyPolygon);
 		g.setTransform(atrPreRenderTransformations);
 	}

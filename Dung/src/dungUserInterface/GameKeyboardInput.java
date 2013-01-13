@@ -19,6 +19,7 @@ public class GameKeyboardInput extends GameActions implements KeyListener{
 	public void keyPressed(KeyEvent key) {
 		// TODO Auto-generated method stub
 
+		//Calculates what happens to what action as a result of a key press.
 		int iActionOfButton = GameSettings.iaActionOfButton[key.getKeyCode()];
 		if (iActionOfButton >= 0){
 			if (iActionOfButton <= TOP_INDEX_OF_TRIGGERS){
@@ -45,6 +46,7 @@ public class GameKeyboardInput extends GameActions implements KeyListener{
 	public void keyReleased(KeyEvent key) {
 		// TODO Auto-generated method stub
 
+		//Calculates what happens to what action as a result of a key release.
 		int iActionOfButton = GameSettings.iaActionOfButton[key.getKeyCode()];
 		if (iActionOfButton >= 0){
 			if (iActionOfButton <= TOP_INDEX_OF_TRIGGERS){

@@ -21,12 +21,14 @@ public class EntitySpatialKnowledge {
 	int iEntityID;
 	int iSightRange;
 	KnowledgeType[][] spatialKnowledge;
-	KnowledgeType[][] tempSpatialKnowledge;
+	KnowledgeType[][] tempSpatialKnowledge; //Temp spatial knowledge avoids potential "flickering" in the GameGraphics when it renders vision while the vision is being updated.
 
 	public EntitySpatialKnowledge(int entityID, int sightRange){
 		iEntityID = entityID;
 		iSightRange = sightRange;
 
+		//CODE BLOCK:
+		//Initialization of the two 2D arrays.
 		spatialKnowledge = new KnowledgeType[getSizeXFromSeed(DungeonGame.iCurrentMapSeed)][getSizeYFromSeed(DungeonGame.iCurrentMapSeed)];
 		tempSpatialKnowledge = new KnowledgeType[spatialKnowledge.length][spatialKnowledge[0].length];
 		
@@ -36,17 +38,20 @@ public class EntitySpatialKnowledge {
 				tempSpatialKnowledge[iuP1][iuP2] = KnowledgeType.NEVER_VISIBLE;
 			}
 		}
+		//END OF CODE BLOCK
 
 	}
 
 
 	public void updateKnowledge(){
 		
+		//CODE BLOCK:
+		//Assumes that the entity cannot see anymore
 		for (int iuP1 = 0; iuP1 < tempSpatialKnowledge.length; iuP1 ++){
 			for (int iuP2 = 0; iuP2 < tempSpatialKnowledge[0].length; iuP2 ++){
 				switch (spatialKnowledge[iuP1][iuP2]){
 				case IS_VISIBLE:{
-					tempSpatialKnowledge[iuP1][iuP2] = KnowledgeType.WAS_VISIBLE;
+					tempSpatialKnowledge[iuP1][iuP2] = KnowledgeType.WAS_VISIBLE; 
 					break;
 				}
 				case NEVER_VISIBLE:{
@@ -59,15 +64,18 @@ public class EntitySpatialKnowledge {
 			}
 		}
 		
-		
+		//Initializes the recursion
 		updateKnowledge(iSightRange , Direction.ALL_DIRECTIONS , (int)handleEntity(iEntityID).getXPos() , (int)handleEntity(iEntityID).getYPos());
+		//Copies the temporary array to the actual array.
 		System.arraycopy(tempSpatialKnowledge, 0, spatialKnowledge, 0, tempSpatialKnowledge.length);
 		
 	}
 
+	
 	private void updateKnowledge(double sightStrength, Direction sightDirection, int x, int y){
-		sightStrength = adjustedSightValue(sightStrength, x , y);
-		if (sightStrength > 0){
+		//This recursion shoots out rays of "vision" that get weaker as they move on.
+		sightStrength = adjustedSightValue(sightStrength, x , y); //For walls, that are non-sight-permeable (by default)
+		if (sightStrength > 0){ //If the vision ray has "strength" left
 			switch (sightDirection){
 			case UP_RIGHT:{
 				if (isValueInBoundsY(y - 1)){
@@ -77,7 +85,7 @@ public class EntitySpatialKnowledge {
 					updateKnowledge(sightStrength - 1 , Direction.RIGHT, x + 1, y);
 				}
 				if (isValueInBoundsX(x + 1) && isValueInBoundsY(y - 1)){
-					updateKnowledge(sightStrength - 1.4142, Direction.UP_RIGHT, x + 1, y - 1);
+					updateKnowledge(sightStrength - 1.4142, Direction.UP_RIGHT, x + 1, y - 1); //1.4142 is sqrt(2)
 				}
 				break;
 			}

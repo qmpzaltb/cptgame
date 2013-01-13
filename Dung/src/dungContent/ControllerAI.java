@@ -15,78 +15,92 @@ import static dungMain.DungeonGame.moveEntity;
  */
 public class ControllerAI extends EntityController{
 
- public static final int MAX_DISTANCE = Dungeon.MAXIMUM_DIMENSION * Dungeon.MAXIMUM_DIMENSION + Dungeon.MINIMUM_DIMENSION * Dungeon.MINIMUM_DIMENSION;
- 
- 
- private int iFramesSinceLastEnemyCheck;
- private int iFramesUntilNewEnemyCheck = 60;
- 
- int iNearestEnemyEntity = -1;
- double dNearestEntityDistanceSquared = MAX_DISTANCE;
- 
- @Override
- public boolean isEntityDead() {
-  // TODO Auto-generated method stub
-  return false;
- }
+	//An arbitrary maximum distance that is compared against the distances of other hostile entities.
+	public static final int MAX_DISTANCE = Dungeon.MAXIMUM_DIMENSION * Dungeon.MAXIMUM_DIMENSION + Dungeon.MINIMUM_DIMENSION * Dungeon.MINIMUM_DIMENSION;
 
- @Override
- public void doNextAction() {
-  if (iFramesUntilNewEnemyCheck < iFramesSinceLastEnemyCheck){
-   iNearestEnemyEntity = -1;
-   dNearestEntityDistanceSquared = MAX_DISTANCE;
-   
-   for (Entity currentEntity : DungeonGame.entveCurrentEntities){
-    if (currentEntity.getAlleigance() != handleEntity(iEntityID).getAlleigance()){
-     double dDeltaX = Math.abs(currentEntity.getXPos() - handleEntity(iEntityID).getXPos());
-     double dDeltaY = Math.abs(currentEntity.getYPos() - handleEntity(iEntityID).getYPos());
-     double dDistanceSquared = dDeltaX * dDeltaX + dDeltaY * dDeltaY;
-     if (dDistanceSquared < dNearestEntityDistanceSquared){
-      iNearestEnemyEntity = currentEntity.iEntityID;
-      dNearestEntityDistanceSquared = dDistanceSquared;
-     }
-    }
-   }
-   
-   iFramesSinceLastEnemyCheck = 0;
-   System.out.println("CLOSING IN ON " + iNearestEnemyEntity);
-  } else {
-   iFramesSinceLastEnemyCheck += 1;
-  }
-  
-  
-  if (iNearestEnemyEntity > -1){
-   double direction = Math.atan2(
-     handleEntity(iNearestEnemyEntity).dXPos - handleEntity(iEntityID).dXPos,
-     handleEntity(iEntityID).dYPos - handleEntity(iNearestEnemyEntity).dYPos);
-   
-   
-   handleEntity(iEntityID).setFacingDirection(direction);
-   handleEntity(iEntityID).setMovementDirection(direction);
-   moveEntity(iEntityID);
-   System.out.println("MOVING");
-  }
-  if (handleEntity(iEntityID).lEntityActionTime <= 0){
-	 handleEntity(iEntityID).entityAction = AnimationType.IDLE;
-  }
-  
-  if (DungeonGame.handleEntity(iEntityID).entityAction == AnimationType.IDLE){
-     DungeonGame.handleEntity(iEntityID).lEntityActionTime = 45;
-     DungeonGame.handleEntity(iEntityID).entityAction = AnimationType.TROLL;
-  } else {
-   handleEntity(iEntityID).ensSkeleton.doAnimation(handleEntity(iEntityID).entityAction, handleEntity(iEntityID).lEntityActionTime);
-  }
-  
-  
-  
-  DungeonGame.handleEntity(iEntityID).lEntityActionTime -= 1;
-  
- }
 
- @Override
- public void doIntersectionAction() {
-  // TODO Auto-generated method stub
-  
- }
+	//Integers that are used to retrigger the scanning of all entities to determine which one to follow
+	private int iFramesSinceLastEnemyCheck;
+	private int iFramesUntilNewEnemyCheck = 60;
+
+	//Variables which indicate which entity to follow, and how close this entity is.
+	int iNearestEnemyEntity = -1; //-1 indicates "no entity"
+	double dNearestEntityDistanceSquared = MAX_DISTANCE;
+
+	@Override
+	public boolean isEntityDead() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void doNextAction() {
+		
+		
+		//CODE BLOCK:
+		//Finding the closest hostile entity to the entity being controlled.
+		if (iFramesUntilNewEnemyCheck < iFramesSinceLastEnemyCheck){ 	//When it is time to recalculate which entity is closest,
+			iNearestEnemyEntity = -1; 									//reset the closest entity to "no entity"
+			dNearestEntityDistanceSquared = MAX_DISTANCE; 				//and set the distance to pseudo-infinity (relative to the map)
+
+			for (Entity currentEntity : DungeonGame.entveCurrentEntities){ 										//Parse through all the entities
+				if (currentEntity.getAlleigance() != handleEntity(iEntityID).getAlleigance()){ 					//If the entity being parsed is of a different alleigance,
+					double dDeltaX = Math.abs(currentEntity.getXPos() - handleEntity(iEntityID).getXPos()); 	//Find the displacement X...
+					double dDeltaY = Math.abs(currentEntity.getYPos() - handleEntity(iEntityID).getYPos());		//Find the displacement Y...
+					double dDistanceSquared = dDeltaX * dDeltaX + dDeltaY * dDeltaY;							//Find the displacement^2 of the entities (to avoid the costly sqrt())
+					if (dDistanceSquared < dNearestEntityDistanceSquared){	//If it is less than the old closest entity
+						iNearestEnemyEntity = currentEntity.iEntityID;		//the new closest entity becomes this entity
+						dNearestEntityDistanceSquared = dDistanceSquared;	//and the new closest distance becomes this distance
+					}
+				}
+			}
+
+			iFramesSinceLastEnemyCheck = 0;
+			//System.out.println("CLOSING IN ON " + iNearestEnemyEntity); //Debugging message
+		} else {
+			iFramesSinceLastEnemyCheck += 1;
+		}
+		//END OF CODE BLOCK
+
+		
+		//CODE BLOCK:
+		//Move to the nearest hostile entity as determined in the previous code block
+		if (iNearestEnemyEntity > -1){ 				//If the nearest hostile entity is an entity (and hence, has an ID)
+			double direction = Math.atan2(			//Find the direction that they are in, relative to this entity,
+					handleEntity(iNearestEnemyEntity).dXPos - handleEntity(iEntityID).dXPos,
+					handleEntity(iEntityID).dYPos - handleEntity(iNearestEnemyEntity).dYPos);
+
+
+			handleEntity(iEntityID).setFacingDirection(direction);   	//and set this entity's facing direction
+			handleEntity(iEntityID).setMovementDirection(direction); 	//and velocity direction accordingly,
+			moveEntity(iEntityID); 										//then tell DungeonGame to move this entity.
+			//System.out.println("MOVING");//Debugging message
+		}
+		//END OF CODE BLOCK
+		
+		//CODE BLOCK:
+		//Animate entity depending on what the entity is doing.
+		if (handleEntity(iEntityID).lEntityActionTime <= 0){ 			//If the entity's animation is finished,
+			handleEntity(iEntityID).entityAction = AnimationType.IDLE; 	//they are idling.
+		}
+
+		if (DungeonGame.handleEntity(iEntityID).entityAction == AnimationType.IDLE){	//If they are idling, they are eligible for another action
+			DungeonGame.handleEntity(iEntityID).lEntityActionTime = 45;	
+			DungeonGame.handleEntity(iEntityID).entityAction = AnimationType.TROLL;
+		}
+			
+		//Finally, the skeleton is told to do the animation that the entity is doing.
+		handleEntity(iEntityID).ensSkeleton.doAnimation(handleEntity(iEntityID).entityAction, handleEntity(iEntityID).lEntityActionTime);
+		//END OF CODE BLOCK
+
+
+		DungeonGame.handleEntity(iEntityID).lEntityActionTime -= 1; //The animation progresses.
+	}
+
+	@Override
+	public void doIntersectionAction() {
+		// TODO Auto-generated method stub
+
+	}
 
 }

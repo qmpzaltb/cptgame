@@ -48,53 +48,73 @@ public class Dungeon {
 		DungeonGame.iGameReadinessState -= 1;
 		iSeed = seed;
 		rngDungeon = new Random(seed);
+		
+		//Defines the size of the dungeon according to the seed.
 		iDungeonXSize = rngDungeon.nextInt(MAXIMUM_DIMENSION - MINIMUM_DIMENSION + 1) + MINIMUM_DIMENSION;
 		iDungeonYSize = rngDungeon.nextInt(MAXIMUM_DIMENSION - MINIMUM_DIMENSION + 1) + MINIMUM_DIMENSION;
 		
 		
-		System.out.println(iDungeonXSize + " X");
-		System.out.println(iDungeonYSize + " Y");
+		//System.out.println(iDungeonXSize + " X");
+		//System.out.println(iDungeonYSize + " Y"); //Debugging messages
 		
+		
+		//CODE BLOCK:
+		//Initializing the DungeonTiles 2D Vector
 		dtlve2DungeonTiles = new Vector<Vector<DungeonTile>>(iDungeonXSize);
 		
-		System.out.println(dtlve2DungeonTiles.capacity());
-		System.out.println(dtlve2DungeonTiles.size());
+		//System.out.println(dtlve2DungeonTiles.capacity());
+		//System.out.println(dtlve2DungeonTiles.size()); //Debugging messages
 		
 		for (int iuP1 = 0; iuP1 < iDungeonXSize; iuP1 ++){
 			dtlve2DungeonTiles.add( new Vector<DungeonTile>(iDungeonYSize));
 		}
-		
 		for (int iuP1 = 0; iuP1 < iDungeonXSize; iuP1 ++){
 			for (int iuP2 = 0; iuP2 < iDungeonYSize; iuP2 ++){
 				dtlve2DungeonTiles.get(iuP1).add(new DungeonTile(TileType.WALL));
 				dtlve2DungeonTiles.get(iuP1).get(iuP2).initShape(iuP1, iuP2);
 			}
 		}
+		//END OF CODE BLOCK
 		
+		
+		//CODE BLOCK:
+		//Creating the open spaces in the dungon
 		int iDungeonPointAmt = rngDungeon.nextInt(7) + 5;
 		int[] iaPointXWeb = new int[iDungeonPointAmt];
 		int[] iaPointYWeb = new int[iDungeonPointAmt];
 		
-		
+		//SUB-CODE-BLOCK:
+		//Creates random points within the map.
 		for (int iuP1 = 0; iuP1 < iDungeonPointAmt; iuP1 ++){
 			iaPointXWeb[iuP1] = rngDungeon.nextInt(iDungeonXSize);
 			System.out.println("XWEBP#"+iuP1+": " + iaPointXWeb[iuP1]);
 			iaPointYWeb[iuP1] = rngDungeon.nextInt(iDungeonYSize);
 			System.out.println("YWEBP#"+iuP1+": " + iaPointYWeb[iuP1]);
 		}
+		//END OF SUB-CODE-BLOCK
 		
+		//SUB-CODE-BLOCK:
+		//Connects all of these random points to eachother using the makePath() method.
 		for (int iuP1 = 0; iuP1 < iDungeonPointAmt; iuP1 ++){
 			for (int iuP2 = 0; iuP2 < iDungeonPointAmt; iuP2 ++){
 				System.out.println("Path " + iuP1 + "-" + iuP2);
 				makePath(iaPointXWeb[iuP1] , iaPointYWeb[iuP1] , iaPointXWeb[iuP2] , iaPointYWeb[iuP2]);
 			}
 		}
+		//END OF SUB-CODE-BLOCK
 		
+		
+		//TEMPORARY: Sets the player to the first random point created.
 		DungeonGame.handleEntity(ControllerPlayer.iPlayerEntityID).dXPos = iaPointXWeb[0] + 0.5;
 		DungeonGame.handleEntity(ControllerPlayer.iPlayerEntityID).dYPos = iaPointYWeb[0] + 0.5;
 		
-		makeWallEdges();
-		cullLoneTiles(TileType.WALL, 1, TileType.FLOOR, true); //A dungeon-smoothing method. Numbers from 1-4 accepted. 5 will create an empty map due to how the culler works.
+		
+		makeWallEdges(); //Creates the edge of the map
+		cullLoneTiles(TileType.WALL, 4, TileType.WALLEDGE, true); //A dungeon-smoothing method. Numbers from 1-4 accepted. 5 will create an empty map due to how the culler works.
+		cullLoneTiles(TileType.WALL, 4, TileType.WALLEDGE, true); 
+		cullLoneTiles(TileType.WALL, 4, TileType.FLOOR, true); 
+		cullLoneTiles(TileType.WALL, 4, TileType.FLOOR, true);
+		//END OF CODE BLOCKS
 		
 		DungeonGame.iGameReadinessState += 1;
 	}
@@ -121,6 +141,10 @@ public class Dungeon {
 		
 		double dRandPerc;
 		
+		
+		//CODE BLOCK
+		//Builds a path of FLOOR to the end point by moving tile by tile in the direction of the end point.
+		//But there is a chance of going away from the end point, to create non-monotonous paths.
 		while (iCurrentX != endX && iCurrentY != endY){
 			if (iCurrentX == endX){
 				iCurrentY += iVerticalShift;
@@ -185,6 +209,8 @@ public class Dungeon {
 	}
 	
 	private void cullLoneTiles(TileType typeToCull, int minimumNeighbors , TileType typeToCullTo , boolean voidIsANeighbour){
+		
+		//Parse through all the tiles that exist.
 		for (int iuP1 = 0; iuP1 < iDungeonXSize; iuP1 ++){
 			for (int iuP2 = 0; iuP2 < iDungeonYSize; iuP2 ++){
 				if (dtlve2DungeonTiles.get(iuP1).get(iuP2).getTileType() == typeToCull){
@@ -264,6 +290,7 @@ public class Dungeon {
 						tileNeighbours -= 1;
 					}
 					
+					//If not enough neighbours, replace the tile.
 					if (tileNeighbours < minimumNeighbors){
 						dtlve2DungeonTiles.get(iuP1).get(iuP2).setTileType(typeToCullTo);
 					} 

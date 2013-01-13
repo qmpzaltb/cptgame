@@ -29,7 +29,7 @@ public class GameInput extends GameActions{
 		int iYFromCenter = (DungeonGame.getInsetLocationY() + (GameGraphics.getYSize()/2)) - getMouseY();
 
 		//System.out.println("X"+iXFromCenter);
-		//System.out.println("Y"+iYFromCenter);
+		//System.out.println("Y"+iYFromCenter); //Debugging messages
 
 		return Math.atan2(iXFromCenter , iYFromCenter);
 	}

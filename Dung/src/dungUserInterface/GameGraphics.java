@@ -45,9 +45,6 @@ public class GameGraphics extends JPanel{
 	private Font fntGuiFont;
 
 	private RenderingHints rhiRenderingSettings;
-	//private RenderingHints rhiHintsEntities;
-	//private RenderingHints rhiHintsMap;
-	//private RenderingHints rhiHintsGUI;
 	private static int iAntiAliasingTileSizeAdjustment = 1;
 
 	private long lGfxLoopStartTime;
@@ -71,28 +68,24 @@ public class GameGraphics extends JPanel{
 
 		fntGuiFont = new Font("Courier New" , Font.BOLD, 12); //I don't even know. Just make sure its a good, readable, preferrably monospaced, font.
 
-		rhiRenderingSettings = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON); //Smoother shapes, but map becomes buggy. WORKAROUND: I extended tile pixel width/height by one pixel. Still 64 wide though, if you know what I mean.
+		rhiRenderingSettings = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON); //Smoother shapes, but map becomes buggy.
+		//WORKAROUND: I extended tile pixel width/height by one pixel. Still 64 wide though, if you know what I mean.
 		rhiRenderingSettings.put(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON); //Smoother text
 		rhiRenderingSettings.put(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_OFF); //No known effect
 		rhiRenderingSettings.put(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE); //No known effect
 		rhiRenderingSettings.put(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR); //No known effect
 		rhiRenderingSettings.put(RenderingHints.KEY_DITHERING, RenderingHints.VALUE_DITHER_ENABLE); //No known effect
-
-		//rhiHintsEntities = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
-		//rhiHintsEntities.put(RenderingHints.KEY_RENDERING , RenderingHints.VALUE_RENDER_QUALITY);
-
-		//rhiHintsMap = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
-
-		//rhiHintsGUI = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-		//rhiHintsGUI = new RenderingHints(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-		//Turns out multiple rendering hints don't work in the same render sequence. Oh well.
+		
 	}
 
 	public void paintComponent(Graphics g){
-		lGfxLoopStartTime = System.currentTimeMillis();
+		
+		lGfxLoopStartTime = System.currentTimeMillis(); //FPS count begins.
+		
+		//Initializes the graphics
 		dGameZoomScale = dNextGameZoomScale;
 		iAntiAliasingTileSizeAdjustment = Math.max((int)Math.round(1 / dGameZoomScale) , 1);
-		Graphics2D gfx2D = (Graphics2D)(g);
+		Graphics2D gfx2D = (Graphics2D)(g); //Graphics2D objects have more capabilities than Graphics objects
 		gfx2D.setRenderingHints(rhiRenderingSettings);
 		gfx2D.setFont(fntGuiFont);
 		gfx2D.setBackground(ColorList.UNDISCOVERED);
@@ -106,9 +99,8 @@ public class GameGraphics extends JPanel{
 
 
 
-		if (DungeonGame.iGameReadinessState >= 0){
+		if (DungeonGame.iGameReadinessState >= 0){ //When the game is being played (i.e., not loading)
 
-			//gfx2D.setRenderingHints(rhiHintsMap);
 			Entity playerEntity = DungeonGame.entveCurrentEntities.get(dungContent.ControllerPlayer.iPlayerEntityID);
 			dPlayerXPos = playerEntity.dXPos;
 			dPlayerYPos = playerEntity.dYPos;
@@ -116,7 +108,8 @@ public class GameGraphics extends JPanel{
 			dViewYShift = (iCanvasYSize / 2) * (1/dGameZoomScale) - (dPlayerYPos * 64) ;
 
 
-			//HERE BEGINS RENDERING OF DUNGEONS
+			//CODE BLOCK:
+			//Rendering of Dungeons
 			gfx2D.translate(dViewXShift, dViewYShift);
 
 
@@ -171,18 +164,16 @@ public class GameGraphics extends JPanel{
 				}
 
 			}
+			//END OF CODE BLOCK
 
 
-			//HERE ENDS RENDERING OF DUNGEONS
-
-			//HERE BEGINS RENDERING OF ENTITIES
-
-			//gfx2D.setRenderingHints(rhiHintsEntities);
+			//CODE BLOCK:
+			//Rendering of Entities
 
 			for (int iuP1 = 0; iuP1 < DungeonGame.entveCurrentEntities.size(); iuP1 ++){
 				Entity entToRender = DungeonGame.entveCurrentEntities.get(iuP1);
 				//System.out.println(iuP1);
-				//System.out.println("Rendering: " + entToRender.iEntityID);
+				//System.out.println("Rendering: " + entToRender.iEntityID); //Debugging messages
 
 				dEntityRelativeXShift = entToRender.getXPos() * 64;
 				dEntityRelativeYShift = entToRender.getYPos() * 64;
@@ -193,9 +184,10 @@ public class GameGraphics extends JPanel{
 
 				gfx2D.rotate(Math.PI / -2);
 				gfx2D.setColor(Color.RED);
-				gfx2D.drawString("This is where I point my squirt bottle of hyper-chlorine windex ammonia solution.", 10, 4);
+				gfx2D.drawString("This is where I point my squirt bottle of hyper-chlorine windex ammonia solution.", 10, 4); //Debugging message (to show heading of entities)
 				gfx2D.rotate(Math.PI / 2);
 
+				//Renders the limbs of entities
 				for (SkeletonLimb lmbToRender : entToRender.ensSkeleton.sklaSkeleton){
 					lmbToRender.drawLimb(gfx2D);
 				}
@@ -209,12 +201,13 @@ public class GameGraphics extends JPanel{
 			}
 
 			gfx2D.translate((-1) * dViewXShift, (-1) * dViewYShift);
-			//HERE ENDS RENDERING OF ENTITIES
+			//END OF CODE BLOCK
 
-			//gfx2D.setRenderingHints(rhiHintsGUI);
 
-			//HERE BEGINS RENDERING OF GUITHINGS
-			gfx2D.scale(1 / dGameZoomScale, 1 /  dGameZoomScale);
+
+			//CODE BLOCK:
+			//Rendering of the GUI
+			gfx2D.scale(1 / dGameZoomScale, 1 /  dGameZoomScale); //Resets the zooming scale.
 
 
 			//This is a very basic GUI. We will (WE MUST) change it.
@@ -232,20 +225,23 @@ public class GameGraphics extends JPanel{
 			gfx2D.setColor(ColorList.GUI_BLACK);
 			gfx2D.drawString("Heading : " + playerEntity.dHeading + " rad.", 5, getHeight() - 30);
 			gfx2D.drawString("Scale : " + dGameZoomScale , 5, getHeight() - 20);
-			//HERE ENDS RENDERING OF GUITHINGS
+			//END OF CODE BLOCK
+			
+			
 		} else {
-
+			//Loading screen.
 			gfx2D.setColor(Color.WHITE);
-			gfx2D.drawString("Loading...", 20, 20);
-
+			gfx2D.drawString("Loading...", getWidth() / 2, getHeight() / 2);
 		}
-		lGfxLoopEndTime = System.currentTimeMillis();
+		
+		lGfxLoopEndTime = System.currentTimeMillis(); //FPS count ends
 		lGfxLoopActualMSPFO = lGfxLoopEndTime - lGfxLoopStartTime;
 
-		gfx2D.dispose();
+		gfx2D.dispose(); //Helps with Java garbage-collection issues that can cause lag.
 
 	}
 	private void drawTile(Graphics2D g, int tileX, int tileY){
+		//Draws a map tile
 		g.fillRect(tileX * 64, tileY * 64, 64 + iAntiAliasingTileSizeAdjustment, 64 + iAntiAliasingTileSizeAdjustment);
 	}
 

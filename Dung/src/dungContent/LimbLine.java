@@ -32,12 +32,11 @@ public class LimbLine extends SkeletonLimb{
 		dRelativeLimbX2 = x2;
 		dRelativeLimbY1 = y1;
 		dRelativeLimbY2 = y2;
-		colLimbColor = Color.BLUE;
 	}
 	
 	
 	public void drawLimb(Graphics2D g) {
-		//System.out.println("I am a sexy line kind of limb with " + dRelativeLimbX1 + " " + dRelativeLimbX2 + " " + dRelativeLimbY1 + " " + dRelativeLimbY2);
+		//Draws the limb according to the object's information
 		g.setColor(colLimbColor);
 		g.setStroke(new BasicStroke(fLimbWidth));
 		g.drawLine((int)dRelativeLimbX1, (int)dRelativeLimbY1, (int)dRelativeLimbX2, (int)dRelativeLimbY2);
