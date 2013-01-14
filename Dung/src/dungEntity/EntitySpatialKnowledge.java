@@ -199,6 +199,13 @@ public class EntitySpatialKnowledge {
 	public KnowledgeType getKnowledgeOfTile(int x, int y){
 		return spatialKnowledge[x][y];
 	}
+	
+	public boolean entityIsVisible(int entityID){
+		if (spatialKnowledge[(int)handleEntity(entityID).getXPos()][(int)handleEntity(entityID).getYPos()] == KnowledgeType.IS_VISIBLE){
+			return true;
+		} 
+		return false;
+	}
 
 
 }
