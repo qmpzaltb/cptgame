@@ -48,7 +48,7 @@ public class DungeonGame {
 	private static long lTimeToSleep;
 	private static long lLastMSPFO;
 	
-	public static int iCurrentMapSeed = -1;
+	public static int iCurrentMapSeed = 54;
 	
 	public static final double DISTANCE_TO_KEEP_FROM_WALL = 0.001;
 

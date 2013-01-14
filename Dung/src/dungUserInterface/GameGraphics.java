@@ -150,12 +150,20 @@ public class GameGraphics extends JPanel{
 							break;
 						}
 						case ENTRANCE:{
-							gfx2D.setColor(Color.YELLOW);
+							if (tileKnowledge == KnowledgeType.WAS_VISIBLE){
+								gfx2D.setColor(ColorList.ENTRANCE_FOG_OF_WAR);
+							} else{
+								gfx2D.setColor(ColorList.dynamicEntrance);
+							}
 							drawTile(gfx2D,iuP1,iuP2);
 							break;
 						}
 						case EXIT:{
-							gfx2D.setColor(Color.ORANGE);
+							if (tileKnowledge == KnowledgeType.WAS_VISIBLE){
+								gfx2D.setColor(ColorList.EXIT_FOG_OF_WAR);
+							} else{
+								gfx2D.setColor(ColorList.dynamicExit);
+							}
 							drawTile(gfx2D,iuP1,iuP2);
 							break;
 						}

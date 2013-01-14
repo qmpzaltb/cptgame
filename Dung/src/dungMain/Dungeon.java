@@ -107,11 +107,41 @@ public class Dungeon {
 		//TEMPORARY: Sets the player to the first random point created.
 		DungeonGame.handleEntity(ControllerPlayer.iPlayerEntityID).dXPos = iaPointXWeb[0] + 0.5;
 		DungeonGame.handleEntity(ControllerPlayer.iPlayerEntityID).dYPos = iaPointYWeb[0] + 0.5;
-
+		
+		
+		 int iAmtOfFloor = 0;
+		  for (int iuP1 = 0; iuP1 < iDungeonXSize; iuP1 ++){
+		   for (int iuP2 = 0; iuP2 < iDungeonYSize; iuP2 ++){
+		    if(dtlve2DungeonTiles.get(iuP1).get(iuP2).getTileType() == TileType.FLOOR){
+		     iAmtOfFloor ++;
+		    }
+		   }
+		  }
+		  
+		int iFloorOfSpawn = (rngDungeon.nextInt(iAmtOfFloor) + 1);
+		  iAmtOfFloor = 0;
+		  
+		  setSpawn : for (int iuP1 = 0; iuP1 < iDungeonXSize; iuP1 ++){
+		   for (int iuP2 = 0; iuP2 < iDungeonYSize; iuP2 ++){
+		    if(dtlve2DungeonTiles.get(iuP1).get(iuP2).getTileType() == TileType.FLOOR){
+		     iAmtOfFloor ++;
+		    }
+		    if (iAmtOfFloor == iFloorOfSpawn){
+		     DungeonGame.handleEntity(ControllerPlayer.iPlayerEntityID).dXPos = iuP1 + 0.5;
+		     DungeonGame.handleEntity(ControllerPlayer.iPlayerEntityID).dYPos = iuP2 + 0.5;
+		     dtlve2DungeonTiles.get(iuP1).get(iuP2).setTileType(TileType.ENTRANCE);
+		     break setSpawn;
+		    }
+		    
+		   }
+		  }
 
 		makeWallEdges(); //Creates the edge of the map
 		cullLoneTiles(TileType.WALL, 4, TileType.FLOOR, true); //A dungeon-smoothing method.
+		makeExit();
 		//END OF CODE BLOCKS
+		
+		
 
 		DungeonGame.iGameReadinessState += 1;
 	}
@@ -199,13 +229,23 @@ public class Dungeon {
 
 		//}
 	}
-	@SuppressWarnings("unused")
 	private void makeExit() {
-		if (isOneExitInstance = false) {
+		int randSpawnChance;
+		exitAllLoops : for (int iuP1 = 0; iuP1 < iDungeonXSize; iuP1 ++){
+			exitLoop : for (int iuP2 = 0; iuP2 < iDungeonYSize; iuP2 ++){
+				if (iuP2 >= iuP1) 
+					break exitLoop;
+				else
+					if (dtlve2DungeonTiles.get(iDungeonXSize - iuP1).get(iDungeonYSize - iuP1).getTileType() == TileType.FLOOR) {
+						randSpawnChance = (rngDungeon.nextInt(350) + 1); //gives a random chance for a exit point
+						if (randSpawnChance > 0 && randSpawnChance <= 10) { //if the chance that the exit point will spawn there is between 1-20 (1 out of 5 chance)
+							dtlve2DungeonTiles.get(iDungeonXSize - iuP1).get(iDungeonYSize - iuP1).setTileType(TileType.EXIT); //then spawn exit point
+							isOneExitInstance = true;
+							break exitAllLoops; //end the function
+						}
+					}
 
-
-
-			isOneExitInstance = true;
+			}
 		}
 	}
 

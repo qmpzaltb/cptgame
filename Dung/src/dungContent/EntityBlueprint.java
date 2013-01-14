@@ -5,11 +5,11 @@ package dungContent;
  * A class that aids in constructing other entities from a centralized "blueprint"
  */
 public class EntityBlueprint {
-	private double dRadius;
-	private double dSpeed;
-	private int iAlleigance;
-	private boolean bEntityCollision;
-	private boolean bWallCollision;
+	protected double dRadius;
+	protected double dSpeed;
+	protected int iAlleigance;
+	protected boolean bEntityCollision;
+	protected boolean bWallCollision;
 	
 	public EntityBlueprint(double radius, double speed, int alleigance, boolean collidesWithEntities, boolean collidesWithWalls){
 		dRadius = radius;

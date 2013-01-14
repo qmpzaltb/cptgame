@@ -27,7 +27,7 @@ public class GameWindow extends Thread {
 		super("DungGFX");
 		//Initializing the window of the game
 		frMainWindow = new JFrame(NAME);
-		frMainWindow.setSize(1344, 967);
+		frMainWindow.setSize(1080, 640);
 		frMainWindow.setBackground(ColorList.UNDISCOVERED);
 		frMainWindow.setResizable(false);
 		frMainWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
