@@ -1,11 +1,6 @@
 package dungUserInterface;
 
-
-import java.awt.Color;
-import java.awt.Insets;
-
 import javax.swing.JFrame;
-
 import dungContent.ColorList;
 
 

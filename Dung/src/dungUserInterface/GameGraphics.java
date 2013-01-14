@@ -6,6 +6,7 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.geom.AffineTransform;
 
 import javax.swing.JPanel;
 
@@ -172,9 +173,10 @@ public class GameGraphics extends JPanel{
 
 			for (int iuP1 = 0; iuP1 < DungeonGame.entveCurrentEntities.size(); iuP1 ++){
 				Entity entToRender = DungeonGame.entveCurrentEntities.get(iuP1);
+				if (!DungeonGame.entveCurrentEntities.get(iuP1).isNull()){
 				//System.out.println(iuP1);
 				//System.out.println("Rendering: " + entToRender.iEntityID); //Debugging messages
-
+					AffineTransform transf = gfx2D.getTransform();
 				dEntityRelativeXShift = entToRender.getXPos() * 64;
 				dEntityRelativeYShift = entToRender.getYPos() * 64;
 				dEntityHeadingRotate = entToRender.dHeading;
@@ -193,11 +195,11 @@ public class GameGraphics extends JPanel{
 				}
 
 				gfx2D.setStroke(new BasicStroke());
-				gfx2D.rotate((-1) * dEntityHeadingRotate);
-				gfx2D.translate((-1) * (dEntityRelativeXShift), (-1) * (dEntityRelativeYShift));
+				//gfx2D.rotate((-1) * dEntityHeadingRotate);
+				//gfx2D.translate((-1) * (dEntityRelativeXShift), (-1) * (dEntityRelativeYShift));
+				gfx2D.setTransform(transf);
 
-
-
+				}
 			}
 
 			gfx2D.translate((-1) * dViewXShift, (-1) * dViewYShift);
@@ -218,10 +220,10 @@ public class GameGraphics extends JPanel{
 			gfx2D.drawString("PLAYER X: " + playerEntity.dXPos , 5 , getHeight() - 85);
 			gfx2D.drawString("PLAYER Y: " + playerEntity.dYPos , 5 , getHeight() - 75);
 			gfx2D.drawString("MSPFO (gfx): " + (lGfxLoopActualMSPFO) + ", which means that FPS: " + 1000.0 / (lGfxLoopActualMSPFO) , 5, getHeight() - 65);
-			gfx2D.drawString("MSPFO (game): " + DungeonGame.getMillisecondsPerGameplayFrame() + ", which means that FPS: " + 1000.0 / DungeonGame.getMillisecondsPerGameplayFrame() , 5, getHeight() - 55);
+			gfx2D.drawString("MSPFO (game): " + DungeonGame.getLastMSPFO() + ", which means that FPS: " + 1000.0 / DungeonGame.getLastMSPFO() , 5, getHeight() - 55);
 
 			gfx2D.setColor(ColorList.GUI_RED);
-			gfx2D.drawString("Health: sqrt(1/0) ---  PROTIP: PRESS WASD, M1, M2, SHIFT, UP, DOWN.", 5, getHeight() - 40);
+			gfx2D.drawString("Health: sqrt(1/0) ---  PROTIP: PRESS WASD, M1, M2, SHIFT, UP, DOWN, COMMA, PERIOD", 5, getHeight() - 40);
 			gfx2D.setColor(ColorList.GUI_BLACK);
 			gfx2D.drawString("Heading : " + playerEntity.dHeading + " rad.", 5, getHeight() - 30);
 			gfx2D.drawString("Scale : " + dGameZoomScale , 5, getHeight() - 20);

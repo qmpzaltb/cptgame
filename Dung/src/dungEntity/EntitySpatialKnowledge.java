@@ -1,7 +1,6 @@
 package dungEntity;
 
 import dungMain.DungeonGame;
-import dungMain.TileType;
 import static dungMain.Dungeon.getSizeXFromSeed;
 import static dungMain.Dungeon.getSizeYFromSeed;
 import static dungMain.DungeonGame.handleEntity;
@@ -84,7 +83,7 @@ public class EntitySpatialKnowledge {
 				if (isValueInBoundsX(x + 1)){
 					updateKnowledge(sightStrength - 1 , Direction.RIGHT, x + 1, y);
 				}
-				if (isValueInBoundsX(x + 1) && isValueInBoundsY(y - 1)){
+				if (isValueInBoundsX(x + 1) && isValueInBoundsY(y - 1) && sightStrength > 1){
 					updateKnowledge(sightStrength - 1.4142, Direction.UP_RIGHT, x + 1, y - 1); //1.4142 is sqrt(2)
 				}
 				break;
@@ -96,7 +95,7 @@ public class EntitySpatialKnowledge {
 				if (isValueInBoundsX(x - 1)){
 					updateKnowledge(sightStrength - 1 , Direction.LEFT, x - 1, y);
 				}
-				if (isValueInBoundsX(x - 1) && isValueInBoundsY(y - 1)){
+				if (isValueInBoundsX(x - 1) && isValueInBoundsY(y - 1) && sightStrength > 1){
 					updateKnowledge(sightStrength - 1.4142, Direction.UP_LEFT, x - 1, y - 1);
 				}
 				break;
@@ -108,7 +107,7 @@ public class EntitySpatialKnowledge {
 				if (isValueInBoundsX(x + 1)){
 					updateKnowledge(sightStrength - 1 , Direction.RIGHT, x + 1, y);
 				}
-				if (isValueInBoundsX(x + 1) && isValueInBoundsY(y + 1)){
+				if (isValueInBoundsX(x + 1) && isValueInBoundsY(y + 1) && sightStrength > 1){
 					updateKnowledge(sightStrength - 1.4142, Direction.DOWN_RIGHT, x + 1, y + 1);
 				}
 				break;
@@ -121,7 +120,7 @@ public class EntitySpatialKnowledge {
 				if (isValueInBoundsX(x - 1)){
 					updateKnowledge(sightStrength - 1 , Direction.LEFT, x - 1, y);
 				}
-				if (isValueInBoundsX(x - 1) && isValueInBoundsY(y + 1)){
+				if (isValueInBoundsX(x - 1) && isValueInBoundsY(y + 1) && sightStrength > 1){
 					updateKnowledge(sightStrength - 1.4142, Direction.DOWN_LEFT, x - 1, y + 1);
 				}
 				break;
@@ -157,10 +156,10 @@ public class EntitySpatialKnowledge {
 				if (isValueInBoundsX(x + 1)){
 					updateKnowledge(sightStrength - 1 , Direction.RIGHT, x + 1, y);
 				}
-				if (isValueInBoundsX(x + 1) && isValueInBoundsY(y - 1)){
+				if (isValueInBoundsX(x + 1) && isValueInBoundsY(y - 1) && sightStrength > 1){
 					updateKnowledge(sightStrength - 1.4142, Direction.UP_RIGHT, x + 1, y - 1);
 				}
-				if (isValueInBoundsX(x - 1) && isValueInBoundsY(y - 1)){
+				if (isValueInBoundsX(x - 1) && isValueInBoundsY(y - 1) && sightStrength > 1){
 					updateKnowledge(sightStrength - 1.4142, Direction.UP_LEFT, x - 1, y - 1);
 				}
 				if (isValueInBoundsY(y + 1)){
@@ -169,10 +168,10 @@ public class EntitySpatialKnowledge {
 				if (isValueInBoundsX(x - 1)){
 					updateKnowledge(sightStrength - 1 , Direction.LEFT, x - 1, y);
 				}
-				if (isValueInBoundsX(x - 1) && isValueInBoundsY(y + 1)){
+				if (isValueInBoundsX(x - 1) && isValueInBoundsY(y + 1) && sightStrength > 1){
 					updateKnowledge(sightStrength - 1.4142, Direction.DOWN_LEFT, x - 1, y + 1);
 				}
-				if (isValueInBoundsX(x + 1) && isValueInBoundsY(y + 1)){
+				if (isValueInBoundsX(x + 1) && isValueInBoundsY(y + 1) && sightStrength > 1){
 					updateKnowledge(sightStrength - 1.4142, Direction.DOWN_RIGHT, x + 1, y + 1);
 				}
 				break;

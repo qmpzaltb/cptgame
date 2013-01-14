@@ -14,15 +14,16 @@
 
 package dungMain;
 
+import java.awt.Color;
 import java.util.Vector;
 import dungUserInterface.GameActions;
 import dungUserInterface.GameGraphics;
 import dungUserInterface.GameInput;
 import dungUserInterface.GameSettings;
 import dungUserInterface.GameWindow;
-import dungContent.ColorScheme;
-import dungContent.ContentLibrary;
-import dungEntity.Entity;
+import dungContent.*;
+import dungEntity.*;
+import dungContent.SkeletonHumanoid;
 
 /**
  * DungeonGame:
@@ -45,6 +46,7 @@ public class DungeonGame {
 	private static long lGameLoopTimeTaken;
 	private static long lCurrentFrame;
 	private static long lTimeToSleep;
+	private static long lLastMSPFO;
 	
 	public static int iCurrentMapSeed = -1;
 	
@@ -70,9 +72,11 @@ public class DungeonGame {
 		mainGameWindow.start();
 
 		entveCurrentEntities = new Vector<Entity>();
-		entveCurrentEntities.add(new Entity(0, ContentLibrary.humanPlayer, 2.5, 2.5, 0.0 , 0));
-		entveCurrentEntities.add(new Entity(1, ContentLibrary.nermanCreature , 4.0, 4.0, 0.0 , 1));
-		entveCurrentEntities.add(new Entity(2, ContentLibrary.dirtyBubble, 10.0 , 13.0 , 0.0 , 1));
+		addEntity(ContentLibrary.PLAYER_BLUEPRINT, 0,0,0, new ControllerPlayer(), new SkeletonHumanoid(), ContentLibrary.PLAYER_COLORS);
+		addEntity(ContentLibrary.RAT_BLUEPRINT, 10,17,0, new ControllerAI(), new SkeletonCreature(), ContentLibrary.CREATURE_COLORS);
+		addEntity(ContentLibrary.DIRTY_BUBBLE_BLUEPRINT, 12,12,0, new ControllerAI(), new SkeletonBubble(), ContentLibrary.DIRTY_BUBBLE_COLORS);
+		addEntity(ContentLibrary.DIRTY_BUBBLE_BLUEPRINT, 15,15,0, new ControllerAI(), new SkeletonBubble(), ContentLibrary.DIRTY_BUBBLE_COLORS);
+
 
 
 		dngCurrentDungeon = new Dungeon(iCurrentMapSeed);
@@ -106,6 +110,7 @@ public class DungeonGame {
 		//Framerate regulator
 		lGameLoopEndTime = System.currentTimeMillis();
 		lGameLoopTimeTaken = (lGameLoopEndTime - lGameLoopStartTime);
+		lLastMSPFO = lGameLoopTimeTaken;
 
 		//Framerate regulator for stable gameplay.
 		if (lCurrentFrame % GameSettings.iFPSRegulationPeriod == 0){ //Every "GameSettings.iFPSRegulationPeriod" amount of frames,
@@ -135,6 +140,7 @@ public class DungeonGame {
 		
 		boolean bXHandled = false;
 		boolean bYHandled = false;
+		boolean bCollidesWithWalls = handleEntity(iEntityID).collidesWithWalls();
 		//X and Y displacements of the entity, provided that there will be no collisions.
 		double dEntityXShift = Math.sin(handleEntity(iEntityID).getMovementDirection()) * handleEntity(iEntityID).dMovementMagnitude;
 		double dEntityYShift = (-1) * Math.cos(handleEntity(iEntityID).getMovementDirection()) * handleEntity(iEntityID).dMovementMagnitude;
@@ -154,7 +160,7 @@ public class DungeonGame {
 
 		//Handling right-way movement
 		if (dNewXPosCenter < dngCurrentDungeon.getXSize() - dCurrentSize){
-			if (dEntityXShift > 0 && !bXHandled){ //Entity is moving right
+			if (dEntityXShift > 0 && !bXHandled && bCollidesWithWalls){ //Entity is moving right
 				rightMovingCollisions: for (int iuP1 = (int)dNewXPosLeft; iuP1 <= (int)dNewXPosRight; iuP1 += 1){
 					for (int iuP2 = valueInBoundsY((int)(dCurrentYPos - dCurrentSize)); iuP2 <= valueInBoundsY((int)(dCurrentYPos + dCurrentSize)); iuP2 += 1){
 						if (!isWalkable(handleTile(iuP1,iuP2).getTileType())){
@@ -175,7 +181,7 @@ public class DungeonGame {
 		
 		//Handling left-way movement
 		if (dNewXPosCenter > 0 + dCurrentSize){
-			if (dEntityXShift < 0 && !bXHandled){ //Entity is moving left
+			if (dEntityXShift < 0 && !bXHandled && bCollidesWithWalls){ //Entity is moving left
 				leftMovingCollisions: for (int iuP1 = (int)dNewXPosRight; iuP1 >= (int)dNewXPosLeft; iuP1 -= 1){
 					for (int iuP2 = valueInBoundsY((int)(dCurrentYPos - dCurrentSize)); iuP2 <= valueInBoundsY((int)(dCurrentYPos + dCurrentSize)); iuP2 += 1){
 						if (!isWalkable(handleTile(iuP1,iuP2).getTileType())){
@@ -195,7 +201,7 @@ public class DungeonGame {
 
 		//Handling down-way movement
 		if (dNewYPosCenter < dngCurrentDungeon.getYSize() - dCurrentSize){
-			if (dEntityYShift > 0 && !bYHandled){ //Entity is moving down
+			if (dEntityYShift > 0 && !bYHandled && bCollidesWithWalls){ //Entity is moving down
 				downMovingCollisions: for (int iuP1 = (int)dNewYPosTop; iuP1 <= (int)dNewYPosBot; iuP1 += 1){
 					for (int iuP2 = valueInBoundsX((int)(dCurrentXPos - dCurrentSize)); iuP2 <= valueInBoundsX((int)(dCurrentXPos + dCurrentSize)); iuP2 += 1){
 						if (!isWalkable(handleTile(iuP2,iuP1).getTileType())){
@@ -215,7 +221,7 @@ public class DungeonGame {
 
 		//Handling up-way movement
 		if (dNewYPosCenter > 0 + dCurrentSize){
-			if (dEntityYShift < 0 && !bYHandled){ //Entity is moving up
+			if (dEntityYShift < 0 && !bYHandled && bCollidesWithWalls){ //Entity is moving up
 				upMovingCollisions: for (int iuP1 = (int)dNewYPosBot; iuP1 >= (int)dNewYPosTop; iuP1 -= 1){
 					for (int iuP2 = valueInBoundsX((int)(dCurrentXPos - dCurrentSize)); iuP2 <= valueInBoundsX((int)(dCurrentXPos + dCurrentSize)); iuP2 += 1){
 						if (!isWalkable(handleTile(iuP2,iuP1).getTileType())){
@@ -236,16 +242,16 @@ public class DungeonGame {
 
 		dNewXPosCenter =  dCurrentXPos + dEntityXShift;
 		dNewYPosCenter =  dCurrentYPos + dEntityYShift;
-		
-		for (int iuP1 = 0; iuP1 < entveCurrentEntities.size(); iuP1 ++){
-			if (iuP1 != iEntityID){
-				if (true){ //TODO "Does-not-collide-with-other-entities" flag on entities. This is where it would go.
-				double distance = (dNewXPosCenter - handleEntity(iuP1).getXPos()) * (dNewXPosCenter - handleEntity(iuP1).getXPos()) + (dNewYPosCenter - handleEntity(iuP1).getYPos()) * (dNewYPosCenter - handleEntity(iuP1).getYPos());
-				if (distance < (dCurrentSize + handleEntity(iEntityID).getSize()) * (dCurrentSize + handleEntity(iEntityID).getSize())){
-					System.out.println(distance + " from " + iEntityID + " to " + iuP1 );
-					dEntityXShift = 0;
-					dEntityYShift = 0;
-				}
+		if (handleEntity(iEntityID).collidesWithEntities()){
+			for (int iuP1 = 0; iuP1 < entveCurrentEntities.size(); iuP1 ++){
+				if (iuP1 != iEntityID){
+					if (handleEntity(iuP1).collidesWithEntities()){ //TODO "Does-not-collide-with-other-entities" flag on entities. This is where it would go.
+						double distance = (dNewXPosCenter - handleEntity(iuP1).getXPos()) * (dNewXPosCenter - handleEntity(iuP1).getXPos()) + (dNewYPosCenter - handleEntity(iuP1).getYPos()) * (dNewYPosCenter - handleEntity(iuP1).getYPos());
+						if (distance < (dCurrentSize + handleEntity(iuP1).getSize()) * (dCurrentSize + handleEntity(iuP1).getSize())){
+							dEntityXShift = 0;
+							dEntityYShift = 0;
+						}
+					}
 				}
 			}
 		}
@@ -290,6 +296,29 @@ public class DungeonGame {
 		return dngCurrentDungeon.dtlve2DungeonTiles.get(x).get(y);
 	}
 
+	public static int addEntity(EntityBlueprint ebp, double xPos, double yPos, double heading, EntityController controller, EntitySkeleton skeleton, Color[] skeletonColorSet){
+		return addEntity(xPos, yPos, ebp.getRadius(), heading, ebp.getAlleigance(), ebp.getSpeed(), ebp.getEntityCollision(), ebp.getWallCollision(), controller, skeleton, skeletonColorSet);
+	}
+	
+	public static int addEntity(double xPos, double yPos, double radius, double heading, int alleigance, double speed, boolean entityCollision, boolean wallCollision, EntityController controller, EntitySkeleton skeleton, Color[] skeletonColorSet){
+		for (int iuP1 = 0; iuP1 < entveCurrentEntities.size(); iuP1 ++){
+			if (entveCurrentEntities.get(iuP1).isNull()){
+				entveCurrentEntities.set(iuP1, new Entity(iuP1, xPos, yPos, radius, heading, alleigance, speed, entityCollision, wallCollision, controller, skeleton, skeletonColorSet));
+				return iuP1;
+			}
+		}
+		
+		entveCurrentEntities.add(new Entity(entveCurrentEntities.size(), xPos, yPos, radius, heading, alleigance, speed, entityCollision, wallCollision, controller, skeleton, skeletonColorSet));
+		return entveCurrentEntities.size() - 1;
+		
+	}
+	
+	
+	public static void removeEntity(int entityID){
+		entveCurrentEntities.set(entityID , ContentLibrary.nullEntity);
+	}
+	
+	
 
 	public static boolean isWalkable(TileType type){
 		switch (type){
@@ -367,6 +396,9 @@ public class DungeonGame {
 	}
 	public static long getCurrentFrame(){
 		return lCurrentFrame;
+	}
+	public static long getLastMSPFO(){
+		return lLastMSPFO;
 	}
 
 }

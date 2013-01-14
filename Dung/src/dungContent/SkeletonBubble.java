@@ -1,7 +1,5 @@
 package dungContent;
 
-import java.awt.Color;
-
 import dungEntity.AnimationType;
 import dungEntity.EntitySkeleton;
 import dungEntity.SkeletonLimb;

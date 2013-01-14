@@ -2,6 +2,8 @@ package dungEntity;
 
 import java.awt.Color;
 
+import dungContent.EntityBlueprint;
+
 /**
  * Entity:
  * A class that defines any entity.
@@ -16,6 +18,10 @@ public class Entity {
 	
 	
 	public int iEntityID; //The Entity's index in the vector of entities. Used for objects that are a part of the entity to modify the entity's characteristics.
+	private boolean bIsNull;
+	
+	private boolean bCollidesWithEntities;
+	private boolean bCollidesWithWalls;
 	
 	public int iEntityIntegrity; //This will be health and stuff (40% health remaining and stuff...) The reason why I named this EntityStatus because entities like arrows can be like 50% used (this means arrow is broken and done with) or 50% unused (you haven't shot this arrow yet)
 	//The reason why I renamed it to EntityIntegrity is because it can be applied to any object - how integritous(?)
@@ -32,6 +38,10 @@ public class Entity {
 	public double dHeading;
 	public double dNormalSpeed;
 	
+	public double dDamageAreaXPos;
+	public double dDamageAreaYPos;
+	public double dDamageAreaRadius;
+	
 	private int iAlleigance;
 	
 	public double dMovementDirection;
@@ -40,32 +50,33 @@ public class Entity {
 	public EntityController encController;
 	public EntitySkeleton ensSkeleton;
 	
-	
-	public Entity(int entityID, Entity baseEntity, double xPos, double yPos, double heading, int alleigance){
-		dRadius = baseEntity.dRadius;
-		dNormalSpeed = baseEntity.dNormalSpeed;
-		encController = baseEntity.encController;
-		encController.setEntityID(entityID);
-		ensSkeleton = baseEntity.ensSkeleton;
-		dXPos = xPos;
-		dYPos = yPos;
-		dHeading = heading;
-		dMovementMagnitude = dNormalSpeed; //TEMPORARY LINE. THIS SHOULD GO ELSEWHERE?
-		iAlleigance = alleigance;
+	public Entity(){
+		bIsNull = true;
 	}
 	
+	public Entity(int entityID, EntityBlueprint ebp, double xPos, double yPos, double heading, EntityController controller, EntitySkeleton skeleton, Color[] skeletonColorSet){
+		this(entityID, xPos, yPos, ebp.getRadius(), heading, ebp.getAlleigance(), ebp.getSpeed(), ebp.getEntityCollision(), ebp.getWallCollision(), controller, skeleton, skeletonColorSet);
+	}
 	
-	public Entity(int entityID, double radius,  double speed, EntityController controller, EntitySkeleton skeleton, Color[] skeletonColorSet){
+	public Entity(int entityID, double xPos, double yPos, double radius, double heading, int alleigance, double speed, boolean entityCollision, boolean wallCollision, EntityController controller, EntitySkeleton skeleton, Color[] skeletonColorSet){
 		iEntityID = entityID;
+		dXPos = xPos;
+		dYPos = yPos;
 		dRadius = radius;
+		dHeading = heading;
+		iAlleigance = alleigance;
 		dNormalSpeed = speed;
+		dMovementMagnitude = speed;
 		encController = controller;
 		encController.setEntityID(entityID);
 		ensSkeleton = skeleton;
+		bCollidesWithEntities = entityCollision;
+		bCollidesWithWalls = wallCollision;
 		//Colours the limbs according to the color array.
 		for (int iuP1 = 0; iuP1 < ensSkeleton.sklaSkeleton.length; iuP1 ++){
 			ensSkeleton.sklaSkeleton[iuP1].colLimbColor = skeletonColorSet[iuP1];
 		}
+		bIsNull = false;
 	}
 	
 	public double getXPos(){
@@ -98,7 +109,15 @@ public class Entity {
 	public void setAlleigance(byte alleigance){
 		iAlleigance = alleigance;
 	}
-	
+	 public boolean isNull(){
+		 return bIsNull;
+	 }
+	 public boolean collidesWithEntities(){
+		 return bCollidesWithEntities;
+	 }
+	public boolean collidesWithWalls(){
+		return bCollidesWithWalls;
+	}
 	
 	public void shiftXPos(double shift){
 		dXPos += shift;

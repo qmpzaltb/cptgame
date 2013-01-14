@@ -16,8 +16,6 @@ public class ColorScheme {
 	private static final int VOID_SCHEME_LENGTH = 360;
 	private static final Color VOID_SCHEME_FIRST = new Color(148,0,211);
 	private static final Color VOID_SCHEME_SECOND = new Color(25,25,112);
-	// 255, 20, 147 peak,
-	// 148, 0, 211 low.
 	
 	
 	public static void initColorScheme(){
@@ -29,7 +27,6 @@ public class ColorScheme {
 				int iNewR = (int)((VOID_SCHEME_FIRST.getRed() - VOID_SCHEME_SECOND.getRed()) * Math.cos((2 * Math.PI / (VOID_SCHEME_LENGTH * 2)) * sampleTime) + VOID_SCHEME_SECOND.getRed());
 				int iNewG = (int)((VOID_SCHEME_FIRST.getGreen() - VOID_SCHEME_SECOND.getGreen()) * Math.cos((2 * Math.PI / (VOID_SCHEME_LENGTH * 2)) * sampleTime) + VOID_SCHEME_SECOND.getGreen());
 				int iNewB = (int)((VOID_SCHEME_FIRST.getBlue() - VOID_SCHEME_SECOND.getBlue()) * Math.cos((2 * Math.PI / (VOID_SCHEME_LENGTH * 2)) * sampleTime) + VOID_SCHEME_SECOND.getBlue());
-				System.out.println("R:" + iNewR + " G:" + iNewG + " B:" + iNewB);
 				colaVoidScheme[sampleTime] = new Color(iNewR, iNewG, iNewB);
 			} else {
 				sampleTime -= VOID_SCHEME_LENGTH / 2;

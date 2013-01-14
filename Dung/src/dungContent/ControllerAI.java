@@ -27,6 +27,9 @@ public class ControllerAI extends EntityController{
 	int iNearestEnemyEntity = -1; //-1 indicates "no entity"
 	double dNearestEntityDistanceSquared = MAX_DISTANCE;
 
+	
+	
+	
 	@Override
 	public boolean isEntityDead() {
 		// TODO Auto-generated method stub
