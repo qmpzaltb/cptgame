@@ -265,7 +265,7 @@ public class Dungeon {
 		randSpawnTile = (rngDungeon.nextInt(iEligibleTilesForExit) + 1); //gives a random chance for a exit point
 		
 		
-		for (int iuP1 = 0; iuP1 < iDungeonXSize; iuP1 ++){
+		placingExit : for (int iuP1 = 0; iuP1 < iDungeonXSize; iuP1 ++){
 			for (int iuP2 = 0; iuP2 < iDungeonYSize; iuP2 ++){
 				if (dtlve2DungeonTiles.get(iuP1).get(iuP2).getTileType() == TileType.FLOOR) {
 					
@@ -279,6 +279,7 @@ public class Dungeon {
 						dtlve2DungeonTiles.get(iuP1).get(iuP2).setTileType(TileType.EXIT); //then spawn exit point
 						isOneExitInstance = true;
 						System.out.println(iuP1 + " X and " + iuP2 + " Y is the EXIT LOCATION :D");
+						break placingExit;
 					}
 				}
 			}
