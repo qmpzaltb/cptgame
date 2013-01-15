@@ -117,6 +117,7 @@ public class GameGraphics extends JPanel{
 			for (int iuP1 = 0; iuP1 < DungeonGame.dngCurrentDungeon.getXSize(); iuP1 ++){
 				for (int iuP2 = 0; iuP2 < DungeonGame.dngCurrentDungeon.getYSize(); iuP2 ++){
 					KnowledgeType tileKnowledge = ControllerPlayer.getKnowledge().getKnowledgeOfTile(iuP1, iuP2);
+					//tileKnowledge = KnowledgeType.IS_VISIBLE; //Uncomment to disable fog of war
 					if (tileKnowledge == KnowledgeType.NEVER_VISIBLE){
 						gfx2D.setColor(ColorList.UNDISCOVERED);
 						drawTile(gfx2D,iuP1,iuP2);
@@ -192,10 +193,10 @@ public class GameGraphics extends JPanel{
 				gfx2D.translate((dEntityRelativeXShift), (dEntityRelativeYShift));
 				gfx2D.rotate(dEntityHeadingRotate);
 
-				gfx2D.rotate(Math.PI / -2);
-				gfx2D.setColor(Color.RED);
-				gfx2D.drawString("This is where I point my squirt bottle of hyper-chlorine windex ammonia solution.", 10, 4); //Debugging message (to show heading of entities)
-				gfx2D.rotate(Math.PI / 2);
+				//gfx2D.rotate(Math.PI / -2);
+				//gfx2D.setColor(Color.RED);
+				//gfx2D.drawString("This is where I point my squirt bottle of hyper-chlorine windex ammonia solution.", 10, 4); //Debugging message (to show heading of entities)
+				//gfx2D.rotate(Math.PI / 2);
 
 				//Renders the limbs of entities
 				for (SkeletonLimb lmbToRender : entToRender.ensSkeleton.sklaSkeleton){

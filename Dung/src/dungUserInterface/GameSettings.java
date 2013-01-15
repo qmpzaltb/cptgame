@@ -29,7 +29,7 @@ public class GameSettings {
 	// 267 - Mouse Button 6
 	
 	public static void initGameSettings(){
-		iaActionOfButton = new int[300];
+		iaActionOfButton = new int[600];
 		for (int iuP1 = 0; iuP1 < iaActionOfButton.length; iuP1 ++){
 			iaActionOfButton[iuP1] = -1;
 		}

@@ -48,7 +48,9 @@ public class DungeonGame {
 	private static long lTimeToSleep;
 	private static long lLastMSPFO;
 	
-	public static int iCurrentMapSeed = 54;
+	public static int iCurrentMapSeed = 27839;
+	
+	//Good Seeds 4897, 27839,
 	
 	public static final double DISTANCE_TO_KEEP_FROM_WALL = 0.001;
 
@@ -73,9 +75,9 @@ public class DungeonGame {
 
 		entveCurrentEntities = new Vector<Entity>();
 		addEntity(ContentLibrary.PLAYER_BLUEPRINT, 0,0,0, new ControllerPlayer(), new SkeletonHumanoid(), ContentLibrary.PLAYER_COLORS);
-		addEntity(ContentLibrary.RAT_BLUEPRINT, 10,17,0, new ControllerAI(), new SkeletonCreature(), ContentLibrary.CREATURE_COLORS);
-		addEntity(ContentLibrary.DIRTY_BUBBLE_BLUEPRINT, 12,12,0, new ControllerAI(), new SkeletonBubble(), ContentLibrary.DIRTY_BUBBLE_COLORS);
-		addEntity(ContentLibrary.DIRTY_BUBBLE_BLUEPRINT, 15,15,0, new ControllerAI(), new SkeletonBubble(), ContentLibrary.DIRTY_BUBBLE_COLORS);
+		//addEntity(ContentLibrary.RAT_BLUEPRINT, 10,17,0, new ControllerAI(), new SkeletonCreature(), ContentLibrary.CREATURE_COLORS);
+		//addEntity(ContentLibrary.DIRTY_BUBBLE_BLUEPRINT, 12,12,0, new ControllerAI(), new SkeletonBubble(), ContentLibrary.DIRTY_BUBBLE_COLORS);
+		//addEntity(ContentLibrary.DIRTY_BUBBLE_BLUEPRINT, 15,15,0, new ControllerAI(), new SkeletonBubble(), ContentLibrary.DIRTY_BUBBLE_COLORS);
 
 
 
@@ -125,6 +127,7 @@ public class DungeonGame {
 		lTimeToSleep = iMSPFOGmAdj - lGameLoopTimeTaken;
 		if (lTimeToSleep > 0){ //Because we don't want to sleep for negative times. Because we don't know what that does.
 			try {
+				//Thread.yield(); Unknown effects
 				Thread.sleep(iMSPFOGmAdj - lGameLoopTimeTaken);
 			} catch (InterruptedException e) {
 				System.err.println("Who interrupted the main thread's slumber?");

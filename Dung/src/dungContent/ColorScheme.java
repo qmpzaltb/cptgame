@@ -66,7 +66,13 @@ public class ColorScheme {
 				sampleTime += ENTRANCE_SCHEME_LENGTH / 2;
 				colaEntranceScheme[sampleTime] = new Color(iNewR, iNewG, iNewB);
 			}
+			
+			
+			//colaEntranceScheme[sampleTime] = new Color((float)Math.random(), (float)Math.random(), (float)Math.random());
+			//Comment to prevent seizures.
 		}
+		
+		
 		
 		colaExitScheme = new Color[EXIT_SCHEME_LENGTH];
 		//A piecewise function consisting of two Cosine functions to model colour gradienting (or animation).
