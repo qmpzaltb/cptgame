@@ -21,6 +21,8 @@
 
 package dungMain;
 
+import java.awt.Point;
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.Vector;
 
@@ -42,6 +44,8 @@ public class Dungeon {
 	public Vector<Vector<DungeonTile>> dtlve2DungeonTiles;
 	int iDungeonXSize; //the max range of the x co-ordinates of the map
 	int iDungeonYSize; //the max range of the y co-ordinates of the map
+	int iSpawnX;	   //the x for the spawn
+	int iSpawnY;	   //the y for the spawn
 	Random rngDungeon; //random seed for the dungeon
 
 	public Dungeon(int seed){
@@ -78,7 +82,7 @@ public class Dungeon {
 
 
 		//CODE BLOCK:
-		//Creating the open spaces in the dungon
+		//Creating the open spaces in the dungeon
 		int iDungeonPointAmt = rngDungeon.nextInt(7) + 5;
 		int[] iaPointXWeb = new int[iDungeonPointAmt];
 		int[] iaPointYWeb = new int[iDungeonPointAmt];
@@ -104,41 +108,17 @@ public class Dungeon {
 		//END OF SUB-CODE-BLOCK
 
 
-		//TEMPORARY: Sets the player to the first random point created.
-		DungeonGame.handleEntity(ControllerPlayer.iPlayerEntityID).dXPos = iaPointXWeb[0] + 0.5;
-		DungeonGame.handleEntity(ControllerPlayer.iPlayerEntityID).dYPos = iaPointYWeb[0] + 0.5;
-		
-		
-		 int iAmtOfFloor = 0;
-		  for (int iuP1 = 0; iuP1 < iDungeonXSize; iuP1 ++){
-		   for (int iuP2 = 0; iuP2 < iDungeonYSize; iuP2 ++){
-		    if(dtlve2DungeonTiles.get(iuP1).get(iuP2).getTileType() == TileType.FLOOR){
-		     iAmtOfFloor ++;
-		    }
-		   }
-		  }
-		  
-		int iFloorOfSpawn = (rngDungeon.nextInt(iAmtOfFloor) + 1);
-		  iAmtOfFloor = 0;
-		  
-		  setSpawn : for (int iuP1 = 0; iuP1 < iDungeonXSize; iuP1 ++){
-		   for (int iuP2 = 0; iuP2 < iDungeonYSize; iuP2 ++){
-		    if(dtlve2DungeonTiles.get(iuP1).get(iuP2).getTileType() == TileType.FLOOR){
-		     iAmtOfFloor ++;
-		    }
-		    if (iAmtOfFloor == iFloorOfSpawn){
-		     DungeonGame.handleEntity(ControllerPlayer.iPlayerEntityID).dXPos = iuP1 + 0.5;
-		     DungeonGame.handleEntity(ControllerPlayer.iPlayerEntityID).dYPos = iuP2 + 0.5;
-		     dtlve2DungeonTiles.get(iuP1).get(iuP2).setTileType(TileType.ENTRANCE);
-		     break setSpawn;
-		    }
-		    
-		   }
-		  }
 
+		
+		
+		
+		
+		//All methods required for the game at start
+		setSpawn();
 		makeWallEdges(); //Creates the edge of the map
 		cullLoneTiles(TileType.WALL, 4, TileType.FLOOR, true); //A dungeon-smoothing method.
-		makeExit();
+		setExit();
+		
 		//END OF CODE BLOCKS
 		
 		
@@ -201,7 +181,9 @@ public class Dungeon {
 
 	}
 
-	//Puts a border around the map,
+	
+	
+	//Puts a border (void) around the map
 	private void makeWallEdges() {
 		for (int iDungX = 0; iDungX < iDungeonXSize; iDungX++) {
 			dtlve2DungeonTiles.get(iDungX).get(0).setTileType(TileType.WALLEDGE);
@@ -212,7 +194,8 @@ public class Dungeon {
 			dtlve2DungeonTiles.get(iDungeonXSize - 1).get(iDungY).setTileType(TileType.WALLEDGE);
 		}
 	}
-
+	
+	
 	@SuppressWarnings("unused")
 	private void makeChamber() {
 		//for ()
@@ -229,26 +212,123 @@ public class Dungeon {
 
 		//}
 	}
-	private void makeExit() {
-		int randSpawnChance;
+	private void setSpawn() {
+		Point pntRand = setRandomPoint(TileType.FLOOR,TileType.ENTRANCE); //Creates a random spawn point using another method
+		iSpawnX = pntRand.x;
+		iSpawnY = pntRand.y;
+		
+		//TEMPORARY: Sets the player to the first random point created.
+		DungeonGame.handleEntity(ControllerPlayer.iPlayerEntityID).dXPos = iSpawnX + 0.5;
+		DungeonGame.handleEntity(ControllerPlayer.iPlayerEntityID).dYPos = iSpawnY + 0.5;
+		//TEMORARY CODE PLACEMENT TEMPORARY TEMPORARY LEVEL 3 TEMPORARY
+	}
+	
+	
+	private void setExit() {
+		
+		int minDistance = Math.min(iDungeonXSize, iDungeonYSize) / 2;
+		int distanceRendered;
+		int randSpawnTile;
+		System.out.println("Min Distance from exit point: " + minDistance);
+		int iEligibleTilesForExit = 0;
+		int iCurrentEligibleFloorTile = 0;
+
 		exitAllLoops : for (int iuP1 = 0; iuP1 < iDungeonXSize; iuP1 ++){
-			exitLoop : for (int iuP2 = 0; iuP2 < iDungeonYSize; iuP2 ++){
-				if (iuP2 >= iuP1) 
-					break exitLoop;
-				else
-					if (dtlve2DungeonTiles.get(iDungeonXSize - iuP1).get(iDungeonYSize - iuP1).getTileType() == TileType.FLOOR) {
-						randSpawnChance = (rngDungeon.nextInt(350) + 1); //gives a random chance for a exit point
-						if (randSpawnChance > 0 && randSpawnChance <= 10) { //if the chance that the exit point will spawn there is between 1-20 (1 out of 5 chance)
-							dtlve2DungeonTiles.get(iDungeonXSize - iuP1).get(iDungeonYSize - iuP1).setTileType(TileType.EXIT); //then spawn exit point
-							isOneExitInstance = true;
-							break exitAllLoops; //end the function
-						}
+			for (int iuP2 = 0; iuP2 < iDungeonYSize; iuP2 ++){
+				if (dtlve2DungeonTiles.get(iuP1).get(iuP2).getTileType() == TileType.FLOOR) {
+					
+					distanceRendered = Math.abs((iSpawnX + iSpawnY) - (iuP1 + iuP2));
+					
+					if (distanceRendered > minDistance){
+						iEligibleTilesForExit += 1;
 					}
+					
+					
+					/*randSpawnTile = (rngDungeon.nextInt(350) + 1); //gives a random chance for a exit point
+					if (randSpawnTile > 0 && randSpawnTile <= 20) { //if the chance that the exit point will spawn there is between 1-20 (1 out of 5 chance)
+						
+						System.out.println("Distance rendered: " + distanceRendered);
+						
+						
+						/*if (distanceRendered > minDistance) { //if the distance between the spawn and the exit is too short, generated one
+							dtlve2DungeonTiles.get(iuP1).get(iuP2).setTileType(TileType.EXIT); //then spawn exit point
+							isOneExitInstance = true;
+							System.out.println(iuP1 + " X and " + iuP2 + " Y is the EXIT LOCATION :D");
+							break exitAllLoops; //end the function
+						}*/
+					//} 
+				}
 
 			}
 		}
+		
+		randSpawnTile = (rngDungeon.nextInt(iEligibleTilesForExit) + 1); //gives a random chance for a exit point
+		
+		
+		for (int iuP1 = 0; iuP1 < iDungeonXSize; iuP1 ++){
+			for (int iuP2 = 0; iuP2 < iDungeonYSize; iuP2 ++){
+				if (dtlve2DungeonTiles.get(iuP1).get(iuP2).getTileType() == TileType.FLOOR) {
+					
+					distanceRendered = Math.abs((iSpawnX + iSpawnY) - (iuP1 + iuP2));
+					
+					if (distanceRendered > minDistance){
+						iCurrentEligibleFloorTile += 1;
+					}
+					
+					if (iCurrentEligibleFloorTile == randSpawnTile){
+						dtlve2DungeonTiles.get(iuP1).get(iuP2).setTileType(TileType.EXIT); //then spawn exit point
+						isOneExitInstance = true;
+						System.out.println(iuP1 + " X and " + iuP2 + " Y is the EXIT LOCATION :D");
+					}
+				}
+			}
+		}
+		if (isOneExitInstance = false) setRandomPoint(TileType.FLOOR , TileType.EXIT); //if there is no safe distance, render a random point of exit on the map
+		isOneExitInstance = true; //set to true, just in case
+	}
+	
+	@SuppressWarnings("unused") //This function replaces a randomly selected tile (that you select) on the map and you can replace it with anything (such as a xp tile or similarly)
+	private Point setRandomPoint(TileType tileToReplace, TileType replacingTile){
+		int iAmtOfFloor = 0;
+		for (int iuP1 = 0; iuP1 < iDungeonXSize; iuP1 ++){
+			for (int iuP2 = 0; iuP2 < iDungeonYSize; iuP2 ++){
+				if(dtlve2DungeonTiles.get(iuP1).get(iuP2).getTileType() == tileToReplace){
+					iAmtOfFloor ++;
+				}
+			}
+		}
+
+		int iFloorOfNewTile = (rngDungeon.nextInt(iAmtOfFloor) + 1);
+		iAmtOfFloor = 0;
+
+		setTile : for (int iuP1 = 0; iuP1 < iDungeonXSize; iuP1 ++){
+			for (int iuP2 = 0; iuP2 < iDungeonYSize; iuP2 ++){
+				if(dtlve2DungeonTiles.get(iuP1).get(iuP2).getTileType() == tileToReplace){
+					iAmtOfFloor ++;
+				}
+				if (iAmtOfFloor == iFloorOfNewTile){
+					dtlve2DungeonTiles.get(iuP1).get(iuP2).setTileType(replacingTile);
+					return new Point(iuP1, iuP2);
+				}
+
+			}
+		}
+		return null;
 	}
 
+	@SuppressWarnings("unused") //This function retrieves all coordinates that are associate with the tile
+	private Point[] retrieveAllTileCoords(TileType typeOfTile) {
+		ArrayList<Point> arrofcords = new ArrayList<Point>();
+		for (int iuP1 = 0; iuP1 < iDungeonXSize; iuP1 ++){
+			for (int iuP2 = 0; iuP2 < iDungeonYSize; iuP2 ++){
+				if (dtlve2DungeonTiles.get(iuP1).get(iuP2).getTileType() == typeOfTile) arrofcords.add(new Point(iuP1, iuP2));
+			}
+		}
+		return (Point[])(arrofcords.toArray());
+	}
+	
+	
+	
 	private void cullLoneTiles(TileType typeToCull, int minimumNeighbors , TileType typeToCullTo , boolean voidIsANeighbour){
 
 		//Initializes the 2D temporary dungeon tile array.

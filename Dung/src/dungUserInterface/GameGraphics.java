@@ -192,10 +192,10 @@ public class GameGraphics extends JPanel{
 				gfx2D.translate((dEntityRelativeXShift), (dEntityRelativeYShift));
 				gfx2D.rotate(dEntityHeadingRotate);
 
-				gfx2D.rotate(Math.PI / -2);
-				gfx2D.setColor(Color.RED);
-				gfx2D.drawString("This is where I point my squirt bottle of hyper-chlorine windex ammonia solution.", 10, 4); //Debugging message (to show heading of entities)
-				gfx2D.rotate(Math.PI / 2);
+				//gfx2D.rotate(Math.PI / -2);
+				//gfx2D.setColor(Color.RED);
+				//gfx2D.drawString("This is where I point my squirt bottle of hyper-chlorine windex ammonia solution.", 10, 4); //Debugging message (to show heading of entities)
+				//gfx2D.rotate(Math.PI / 2);
 
 				//Renders the limbs of entities
 				for (SkeletonLimb lmbToRender : entToRender.ensSkeleton.sklaSkeleton){

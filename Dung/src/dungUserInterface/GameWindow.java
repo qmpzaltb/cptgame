@@ -94,6 +94,7 @@ public class GameWindow extends Thread {
 			//Regulates FPS to avoid Infinite FPS. (a GPU/CPU killer)
 			if (lTimeToSleep > 0){
 				try {
+					//Thread.yield(); //Unknown effects.
 					Thread.sleep(lTimeToSleep);
 				} catch (InterruptedException e) {
 					System.err.println("Interruption error in the GameWindow class. How?");
