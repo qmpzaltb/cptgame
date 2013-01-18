@@ -22,6 +22,8 @@
 package dungMain;
 
 import java.awt.Point;
+import java.util.Comparator;
+import java.util.PriorityQueue;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Vector;
@@ -314,6 +316,130 @@ public class Dungeon {
 		}
 		return (Point[])(arrofcords.toArray());
 	}
+	
+	
+	
+	
+	
+	
+	
+	//private Point[] retrieveTile() {
+		
+	
+	//}
+	
+	
+	//-------------------------------------------------------
+	//Algorithm for Path Finding using A* by Anthony Zhang
+	//Translated and encorporated to Java by Justin Baradi
+	//-------------------------------------------------------
+	private Point[] FindPath (int iStartX, int iStartY, int iTargetX, int iTargetY) {
+		Point[] noPath;
+		
+	//start or end position is not passable
+	if (dtlve2DungeonTiles.get(iStartX).get(iStartY).tileType == TileType.WALL || dtlve2DungeonTiles.get(iStartX).get(iStartY).tileType == TileType.WALLEDGE || dtlve2DungeonTiles.get(iTargetX).get(iTargetY).tileType == TileType.WALL || dtlve2DungeonTiles.get(iTargetX).get(iTargetY).tileType == TileType.WALLEDGE)
+		return noPath; //could not find path
+
+    int CurrentScores[][] = new int[iStartX][iStartY]; //map of current scores
+    int HeuristicScores[][] = new int[iDungeonXSize][iDungeonYSize]; //map of heuristic scores
+    int TotalScores[][] = new int[iDungeonXSize][iDungeonYSize];
+    TotalScores[iStartX][iStartY] = 0;
+
+    
+    PriorityQueue<String> OpenHeap = new PriorityQueue<String>(11,
+	        new Comparator<String>() {
+	          public int compare(String o1, String o2) {
+	            int population1 = Integer.parseInt(o1.split("|")[1].trim());
+	            int population2 = Integer.parseInt(o2.split("|")[1].trim());
+	            return population2 - population1;
+	          }
+	        });
+    
+    
+    
+    boolean OpenMap[][] = new boolean[iDungeonXSize][iDungeonYSize]; 
+    OpenMap[iStartX][iStartY] = true;
+    
+    boolean VisitedNodes[][] = new boolean[iDungeonXSize][iDungeonYSize]; //map of visited nodes
+    
+    Point[] allwalls = retrieveAllTileCoords(TileType.WALL);
+    Point[] allwalledges = retrieveAllTileCoords(TileType.WALLEDGE);
+    for (int iWallIndex = 0; iWallIndex < allwalls.length - 1; iWallIndex ++) //for every wall, set true as a visited node
+    	VisitedNodes[allwalls[iWallIndex].x][allwalls[iWallIndex].y] = true;
+    for (int iWalledgeIndex = 0; iWalledgeIndex < allwalledges.length - 1; iWalledgeIndex ++)//for every walledge, set true as a visited node
+    	VisitedNodes[allwalledges[iWalledgeIndex].x][allwalledges[iWalledgeIndex].y] = true;
+    
+    
+    
+    boolean Parents[][] = new boolean[iDungeonXSize][iDungeonYSize]; //mapping of nodes to their parents
+
+    
+    while (!queue.isEmpty()) //handles all nodes in queue
+    	
+    
+    
+    while (MaxIndex = ObjMaxIndex(OpenHeap)) //loop while there are entries in the open list
+    {
+        //select the node having the lowest total score
+        Point Node = OpenHeap[1];
+        int NodeX = Node.x;
+        int NodeY = Node.y; //obtain the minimum value in the heap
+        OpenHeap[1] = OpenHeap[MaxIndex];
+        OpenHeap.Remove(MaxIndex);
+        MaxIndex--; //move the last entry in the heap to the beginning
+        Index = 1;
+        ChildIndex = 2;
+        while (ChildIndex <= MaxIndex)
+        {
+            Node1 = OpenHeap[ChildIndex];
+            Node2 = OpenHeap[ChildIndex + 1];
+            if (ChildIndex < MaxIndex && TotalScores[Node1.X][Node1.Y] > TotalScores[Node2.X][Node2.Y]) //obtain the index of the lower of the two child nodes if there are two of them
+                ChildIndex++;
+            else
+                Node2 = Node1;
+            Node1 = OpenHeap[Index];
+            if (TotalScores[Node1.X][Node1.Y] < TotalScores[Node2.X][Node2.Y]) //stop updating if the parent is less than or equal to the child
+                break;
+            Temp1 = OpenHeap[Index];
+            OpenHeap[Index] = OpenHeap[ChildIndex];
+            OpenHeap[ChildIndex] = Temp1; //swap the two elements so that the child entry is greater than the parent
+            Index = ChildIndex;
+            ChildIndex = ChildIndex << 1; //move to the child entry
+        }
+        OpenMap[NodeX][NodeY] = 0; //remove the entry from the open map
+
+        //check if the node is the goal
+        if (NodeX == EndX && NodeY == EndY)
+        {
+        	Point[] Path = new Point[iDungeonXSize*iDungeonYSize];
+            for (int i = 0; i < Path.length(); i++)
+            {
+                Path.Insert(1,Object("X",NodeX,"Y",NodeY));
+                Node = Parents[NodeX][NodeY];
+                if (!IsObject(Node))
+                    break;
+                NodeX = Node.X;
+                NodeY = Node.Y;
+            }
+            return Path;
+        }
+
+        VisitedNodes[NodeX][NodeY] = 1;
+
+        if (NodeX > 1)
+            ScoreNode(EndX,EndY,NodeX,NodeY,Grid,NodeX - 1,NodeY,OpenHeap,OpenMap,VisitedNodes,CurrentScores,HeuristicScores,TotalScores,Parents);
+        if (NodeX < ObjMaxIndex(Grid))
+            ScoreNode(EndX,EndY,NodeX,NodeY,Grid,NodeX + 1,NodeY,OpenHeap,OpenMap,VisitedNodes,CurrentScores,HeuristicScores,TotalScores,Parents);
+        if (NodeY > 1)
+            ScoreNode(EndX,EndY,NodeX,NodeY,Grid,NodeX,NodeY - 1,OpenHeap,OpenMap,VisitedNodes,CurrentScores,HeuristicScores,TotalScores,Parents);
+        if (NodeY < ObjMaxIndex(Grid[1]))
+            ScoreNode(EndX,EndY,NodeX,NodeY,Grid,NodeX,NodeY + 1,OpenHeap,OpenMap,VisitedNodes,CurrentScores,HeuristicScores,TotalScores,Parents);
+    }
+    return noPath; //could not find a path
+	}
+	
+	
+	
 	
 	
 	
