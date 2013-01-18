@@ -51,27 +51,27 @@ public class LimbOval extends SkeletonLimb{
 	}
 
 
-	@Override
 	public void setDoubleX1(double setTo) {
 		dRelativeLimbX1 = setTo;
 	}
 
 
-	@Override
 	public void setDoubleX2(double setTo) {
 		dLimbXSize = setTo;
 	}
 
 
-	@Override
 	public void setDoubleY1(double setTo) {
 		dRelativeLimbY1 = setTo;
 	}
 
 
-	@Override
 	public void setDoubleY2(double setTo) {
 		dLimbYSize = setTo;
+	}
+
+	public double getAttachHeading() {
+		return 0;
 	}
 
 }

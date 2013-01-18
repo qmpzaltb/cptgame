@@ -183,12 +183,15 @@ public class GameGraphics extends JPanel{
 			for (int iuP1 = 0; iuP1 < DungeonGame.entveCurrentEntities.size(); iuP1 ++){
 				Entity entToRender = DungeonGame.entveCurrentEntities.get(iuP1);
 				if (!DungeonGame.entveCurrentEntities.get(iuP1).isNull()){
-				//System.out.println(iuP1);
-				//System.out.println("Rendering: " + entToRender.iEntityID); //Debugging messages
+				System.out.println(iuP1);
+				System.out.println("Rendering: " + entToRender.iEntityID); //Debugging messages
 					AffineTransform transf = gfx2D.getTransform();
 				dEntityRelativeXShift = entToRender.getXPos() * 64;
 				dEntityRelativeYShift = entToRender.getYPos() * 64;
-				dEntityHeadingRotate = entToRender.dHeading;
+				dEntityHeadingRotate = entToRender.getHeading();
+				
+				System.out.println("@XSHIFT: " + dEntityRelativeXShift);
+				System.out.println("@YSHIFT: " + dEntityRelativeYShift);
 
 				gfx2D.translate((dEntityRelativeXShift), (dEntityRelativeYShift));
 				gfx2D.rotate(dEntityHeadingRotate);

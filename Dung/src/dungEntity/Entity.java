@@ -3,6 +3,7 @@ package dungEntity;
 import java.awt.Color;
 
 import dungContent.EntityBlueprint;
+import dungMain.DungeonGame;
 
 /**
  * Entity:
@@ -18,12 +19,13 @@ public class Entity {
 	
 	
 	public int iEntityID; //The Entity's index in the vector of entities. Used for objects that are a part of the entity to modify the entity's characteristics.
-	private boolean bIsNull;
+	protected boolean bIsNull;
 	
-	private boolean bCollidesWithEntities;
-	private boolean bCollidesWithWalls;
+	protected boolean bCollidesWithEntities;
+	protected boolean bCollidesWithWalls;
 	
-	public int iEntityIntegrity; //This will be health and stuff (40% health remaining and stuff...) The reason why I named this EntityStatus because entities like arrows can be like 50% used (this means arrow is broken and done with) or 50% unused (you haven't shot this arrow yet)
+	public int iEntityIntegrityMax;
+	public int iEntityIntegrityCurrent; //This will be health and stuff (40% health remaining and stuff...) The reason why I named this EntityStatus because entities like arrows can be like 50% used (this means arrow is broken and done with) or 50% unused (you haven't shot this arrow yet)
 	//The reason why I renamed it to EntityIntegrity is because it can be applied to any object - how integritous(?)
 	//Or maybe we should just call it health? Or hygeine?
 	public long lEntityActionTime; //Time left in the Entity's current action
@@ -50,6 +52,8 @@ public class Entity {
 	public EntityController encController;
 	public EntitySkeleton ensSkeleton;
 	
+	public Item[] itmaInventory;
+	
 	public Entity(){
 		bIsNull = true;
 	}
@@ -59,6 +63,7 @@ public class Entity {
 	}
 	
 	public Entity(int entityID, double xPos, double yPos, double radius, double heading, int alleigance, double speed, boolean entityCollision, boolean wallCollision, EntityController controller, EntitySkeleton skeleton, Color[] skeletonColorSet){
+		
 		iEntityID = entityID;
 		dXPos = xPos;
 		dYPos = yPos;
@@ -72,6 +77,9 @@ public class Entity {
 		ensSkeleton = skeleton;
 		bCollidesWithEntities = entityCollision;
 		bCollidesWithWalls = wallCollision;
+		
+		itmaInventory = controller.initializeInventory();
+		
 		//Colours the limbs according to the color array.
 		for (int iuP1 = 0; iuP1 < ensSkeleton.sklaSkeleton.length; iuP1 ++){
 			ensSkeleton.sklaSkeleton[iuP1].colLimbColor = skeletonColorSet[iuP1];
@@ -84,6 +92,9 @@ public class Entity {
 	}
 	public double getYPos(){
 		return dYPos;
+	}
+	public double getHeading(){
+		return dHeading;
 	}
 	public double getMovementDirection(){
 		return dMovementDirection;
@@ -124,6 +135,18 @@ public class Entity {
 	}
 	public void shiftYPos(double shift){
 		dYPos += shift;
+	}
+	
+	public Item getItem(int index){
+		return itmaInventory[index];
+	}
+	
+	public void addItem(Item toAdd, int index){
+		
+	}
+	
+	public int addItem(Item toAdd){
+		return DungeonGame.addItem(toAdd);
 	}
 	
 }

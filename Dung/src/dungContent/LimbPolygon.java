@@ -34,7 +34,6 @@ public class LimbPolygon extends SkeletonLimb {
 	}
 	
 	
-	@Override
 	public void drawLimb(Graphics2D g) {
 		//Draws the limb according to the object's information
 		AffineTransform atrPreRenderTransformations = g.getTransform();
@@ -46,40 +45,33 @@ public class LimbPolygon extends SkeletonLimb {
 		g.setTransform(atrPreRenderTransformations);
 	}
 
-	@Override
 	public double getAttachPointX() {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
-	@Override
 	public double getAttachPointY() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
-	@Override
 	public void setDoubleX1(double setTo) {
-		// TODO Auto-generated method stub
 		dRelativeLimbX1 = setTo;
 	}
 
-	@Override
 	public void setDoubleX2(double setTo) {
-		// TODO Auto-generated method stub
 		dHeading = setTo;
 	}
 
-	@Override
 	public void setDoubleY1(double setTo) {
-		// TODO Auto-generated method stub
 		dRelativeLimbY1 = setTo;
 	}
 
-	@Override
 	public void setDoubleY2(double setTo) {
-		// TODO Auto-generated method stub
 		dScale = setTo;
+	}
+
+	public double getAttachHeading() {
+		return dHeading;
 	}
 
 }

@@ -43,8 +43,8 @@ public class ColorList {
 	public static final Color UNDISCOVERED			= new Color(  0,   0,   0); //Also the color of the background.
 	
 	public static Color dynamicVoid					= VOID;
-	public static Color dynamicEntrance				= VOID;
-	public static Color dynamicExit					= VOID;
+	public static Color dynamicEntrance				= ENTRANCE;
+	public static Color dynamicExit					= EXIT;
 	
 	//Experimental Color objects
 	public static final Color WINDOWS_95_TEAL = new Color (0,128,129);

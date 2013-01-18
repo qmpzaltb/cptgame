@@ -7,14 +7,27 @@ package dungContent;
  */
 public class ItemBlueprint extends EntityBlueprint {
 	
+	private double dDamageAreaX;
+	private double dDamageAreaY;
+	private double dDamageAreaRadius;
 	
-	
-	public ItemBlueprint(double xPos, double yPos, double damageAreaX, double damageAreaY, double damageAreaRadius){
+	public ItemBlueprint(double damageAreaX, double damageAreaY, double damageAreaRadius){
 		super(0,0,-1,false,false);
 		
+		dDamageAreaX = damageAreaX;
+		dDamageAreaY = damageAreaY;
+		dDamageAreaRadius = damageAreaRadius;
 		
 		
-		
+	}
+	public double getDamageAreaX(){
+		return dDamageAreaX;
+	}
+	public double getDamageAreaY(){
+		return dDamageAreaY;
+	}
+	public double getDamageAreaRadius(){
+		return dDamageAreaRadius;
 	}
 	
 	

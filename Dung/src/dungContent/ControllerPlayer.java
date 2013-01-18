@@ -3,6 +3,7 @@ package dungContent;
 import dungEntity.EntityController;
 import dungEntity.AnimationType;
 import dungEntity.EntitySpatialKnowledge;
+import dungEntity.Item;
 import dungMain.DungeonGame;
 import static dungMain.DungeonGame.handleEntity;
 import dungUserInterface.GameActions;
@@ -24,6 +25,7 @@ public class ControllerPlayer extends EntityController{
 	private int currentX; //For updating EntitySpatialKnowledge in a conservative matter (i.e., not every frame, but only when the tile changes.)
 	private int currentY;
 	
+	private int iInventoryLimit = 12; //out of 240 max limit
 	
 	public ControllerPlayer(){
 		super();
@@ -164,6 +166,10 @@ public class ControllerPlayer extends EntityController{
 	
 	public static EntitySpatialKnowledge getKnowledge(){
 		return spkKnowledge;
+	}
+	
+	public Item[] initializeInventory(){
+		return new Item[240];
 	}
 	
 	

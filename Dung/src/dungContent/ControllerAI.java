@@ -26,7 +26,7 @@ public class ControllerAI extends EntityController{
 	//Variables which indicate which entity to follow, and how close this entity is.
 	int iNearestEnemyEntity = -1; //-1 indicates "no entity"
 	double dNearestEntityDistanceSquared = MAX_DISTANCE;
-
+	
 	
 	
 	

@@ -18,6 +18,7 @@ abstract public class SkeletonLimb {
 	abstract public void drawLimb(Graphics2D g);
 	abstract public double getAttachPointX();
 	abstract public double getAttachPointY();
+	abstract public double getAttachHeading();
 	abstract public void setDoubleX1(double setTo);
 	abstract public void setDoubleX2(double setTo);
 	abstract public void setDoubleY1(double setTo);

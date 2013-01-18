@@ -58,16 +58,11 @@ public class Dungeon {
 		iDungeonYSize = rngDungeon.nextInt(MAXIMUM_DIMENSION - MINIMUM_DIMENSION + 1) + MINIMUM_DIMENSION;
 
 
-		//System.out.println(iDungeonXSize + " X");
-		//System.out.println(iDungeonYSize + " Y"); //Debugging messages
 
 
-		//CODE BLOCK:
 		//Initializing the DungeonTiles 2D Vector
 		dtlve2DungeonTiles = new Vector<Vector<DungeonTile>>(iDungeonXSize);
 
-		//System.out.println(dtlve2DungeonTiles.capacity());
-		//System.out.println(dtlve2DungeonTiles.size()); //Debugging messages
 
 		for (int iuP1 = 0; iuP1 < iDungeonXSize; iuP1 ++){
 			dtlve2DungeonTiles.add( new Vector<DungeonTile>(iDungeonYSize));
@@ -78,16 +73,13 @@ public class Dungeon {
 				dtlve2DungeonTiles.get(iuP1).get(iuP2).initShape(iuP1, iuP2);
 			}
 		}
-		//END OF CODE BLOCK
 
 
-		//CODE BLOCK:
 		//Creating the open spaces in the dungeon
 		int iDungeonPointAmt = rngDungeon.nextInt(7) + 5;
 		int[] iaPointXWeb = new int[iDungeonPointAmt];
 		int[] iaPointYWeb = new int[iDungeonPointAmt];
 
-		//SUB-CODE-BLOCK:
 		//Creates random points within the map.
 		for (int iuP1 = 0; iuP1 < iDungeonPointAmt; iuP1 ++){
 			iaPointXWeb[iuP1] = rngDungeon.nextInt(iDungeonXSize);
@@ -95,9 +87,7 @@ public class Dungeon {
 			iaPointYWeb[iuP1] = rngDungeon.nextInt(iDungeonYSize);
 			System.out.println("YWEBP#"+iuP1+": " + iaPointYWeb[iuP1]);
 		}
-		//END OF SUB-CODE-BLOCK
 
-		//SUB-CODE-BLOCK:
 		//Connects all of these random points to eachother using the makePath() method.
 		for (int iuP1 = 0; iuP1 < iDungeonPointAmt; iuP1 ++){
 			for (int iuP2 = 0; iuP2 < iDungeonPointAmt; iuP2 ++){
@@ -105,7 +95,6 @@ public class Dungeon {
 				makePath(iaPointXWeb[iuP1] , iaPointYWeb[iuP1] , iaPointXWeb[iuP2] , iaPointYWeb[iuP2]);
 			}
 		}
-		//END OF SUB-CODE-BLOCK
 
 
 
@@ -119,7 +108,6 @@ public class Dungeon {
 		cullLoneTiles(TileType.WALL, 4, TileType.FLOOR, true); //A dungeon-smoothing method.
 		setExit();
 		
-		//END OF CODE BLOCKS
 		
 		
 
@@ -149,7 +137,6 @@ public class Dungeon {
 		double dRandPerc;
 
 
-		//CODE BLOCK
 		//Builds a path of FLOOR to the end point by moving tile by tile in the direction of the end point.
 		//But there is a chance of going away from the end point, to create non-monotonous paths.
 		while (iCurrentX != endX && iCurrentY != endY){

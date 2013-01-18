@@ -78,7 +78,7 @@ public class DungeonGame {
 		//addEntity(ContentLibrary.RAT_BLUEPRINT, 10,17,0, new ControllerAI(), new SkeletonCreature(), ContentLibrary.CREATURE_COLORS);
 		//addEntity(ContentLibrary.DIRTY_BUBBLE_BLUEPRINT, 12,12,0, new ControllerAI(), new SkeletonBubble(), ContentLibrary.DIRTY_BUBBLE_COLORS);
 		//addEntity(ContentLibrary.DIRTY_BUBBLE_BLUEPRINT, 15,15,0, new ControllerAI(), new SkeletonBubble(), ContentLibrary.DIRTY_BUBBLE_COLORS);
-
+		entveCurrentEntities.get(0).addItem(new Item(ContentLibrary.DUSTER_BLUEPRINT, new ControllerItem(), new SkeletonDuster(), ContentLibrary.DUSTER_COLORS, 0, handleEntity(0).ensSkeleton.sklaSkeleton[5]));
 
 
 		dngCurrentDungeon = new Dungeon(iCurrentMapSeed);
@@ -138,8 +138,6 @@ public class DungeonGame {
 	}
 
 	public static void moveEntity(int iEntityID){
-		//TODO if (wall then block all collisions or lose 20% of health per half second)
-		//TODO Finish this method with map collision detection, entity collision detection.
 		
 		boolean bXHandled = false;
 		boolean bYHandled = false;
@@ -264,6 +262,7 @@ public class DungeonGame {
 		handleEntity(iEntityID).shiftYPos(dEntityYShift);
 
 	}
+	
 	private static boolean intersectsCircleMapTile(double circleX, double circleY, double circleRadius, int mapX, int mapY){
 
 		//Distance from circle center to map tile center (non-negative)
@@ -316,6 +315,18 @@ public class DungeonGame {
 		
 	}
 	
+	public static int addItem(Item toAdd){
+		for (int iuP1 = 0; iuP1 < entveCurrentEntities.size(); iuP1 ++){
+			if (entveCurrentEntities.get(iuP1).isNull()){
+				entveCurrentEntities.set(iuP1, toAdd);
+				return iuP1;
+			}
+		}
+		
+		entveCurrentEntities.add(toAdd);
+		return entveCurrentEntities.size() - 1;
+		
+	}
 	
 	public static void removeEntity(int entityID){
 		entveCurrentEntities.set(entityID , ContentLibrary.nullEntity);

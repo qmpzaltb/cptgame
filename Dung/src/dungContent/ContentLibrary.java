@@ -38,8 +38,24 @@ public class ContentLibrary {
 		ColorList.WINDOWS_95_TEAL
 	};
 	
+	public static final Color[] DUSTER_COLORS = new Color[]{
+		Color.BLUE,
+		Color.WHITE,
+		Color.WHITE,
+		Color.WHITE,
+		Color.WHITE,
+		Color.WHITE,
+		Color.WHITE,
+		Color.WHITE,
+		Color.WHITE
+		
+	};
+	
 	public static final EntityBlueprint PLAYER_BLUEPRINT = new EntityBlueprint(0.15, 0.05, 0, true, true);
 	public static final EntityBlueprint RAT_BLUEPRINT = new EntityBlueprint(0.20, 0.05, 1, true, true);
 	public static final EntityBlueprint DIRTY_BUBBLE_BLUEPRINT = new EntityBlueprint(0.55, 0.025, 1, false, true);
+	
+	public static final ItemBlueprint DUSTER_BLUEPRINT = new ItemBlueprint(0.0, -0.18, 0.00175);
+	
 	
 }
