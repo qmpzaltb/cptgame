@@ -338,7 +338,7 @@ public class Dungeon {
 		
 	//start or end position is not passable
 	if (dtlve2DungeonTiles.get(iStartX).get(iStartY).tileType == TileType.WALL || dtlve2DungeonTiles.get(iStartX).get(iStartY).tileType == TileType.WALLEDGE || dtlve2DungeonTiles.get(iTargetX).get(iTargetY).tileType == TileType.WALL || dtlve2DungeonTiles.get(iTargetX).get(iTargetY).tileType == TileType.WALLEDGE)
-		return noPath; //could not find path
+		return null; //could not find path
 
     int CurrentScores[][] = new int[iStartX][iStartY]; //map of current scores
     int HeuristicScores[][] = new int[iDungeonXSize][iDungeonYSize]; //map of heuristic scores
@@ -373,7 +373,7 @@ public class Dungeon {
     
     boolean Parents[][] = new boolean[iDungeonXSize][iDungeonYSize]; //mapping of nodes to their parents
 
-    
+    /*
     while (!queue.isEmpty()) //handles all nodes in queue
     	
     
@@ -435,7 +435,8 @@ public class Dungeon {
         if (NodeY < ObjMaxIndex(Grid[1]))
             ScoreNode(EndX,EndY,NodeX,NodeY,Grid,NodeX,NodeY + 1,OpenHeap,OpenMap,VisitedNodes,CurrentScores,HeuristicScores,TotalScores,Parents);
     }
-    return noPath; //could not find a path
+    */
+    return null; //could not find a path
 	}
 	
 	
