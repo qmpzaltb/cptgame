@@ -22,6 +22,10 @@
 package dungMain;
 
 import java.awt.Point;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.PriorityQueue;
@@ -29,6 +33,7 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.Vector;
 
+import sun.audio.*;
 import dungContent.ControllerPlayer;
 
 /**
@@ -105,7 +110,7 @@ public class Dungeon {
 		//** add this into your application code as appropriate
 		// Open an input stream  to the audio file.
 		try {
-			InputStream in = new FileInputStream("E:\\lavtown.wav");
+			InputStream in = new FileInputStream("lavtown.wav");
 
 			// Create an AudioStream object from the input stream.
 			try {
@@ -354,7 +359,7 @@ public class Dungeon {
 				if (dtlve2DungeonTiles.get(iuP1).get(iuP2).getTileType() == typeOfTile) arrofcords.add(new Point(iuP1, iuP2));
 			}
 		}
-		return (Point[])(arrofcords.toArray());
+		return (arrofcords.toArray(new Point[arrofcords.size()]));
 	}
 	
 	
@@ -367,13 +372,12 @@ public class Dungeon {
 	//Translated and encorporated to Java by Justin Baradi
 	//-------------------------------------------------------
 	private Point[] FindPath (int[][] dungGrid, int iStartX, int iStartY, int iTargetX, int iTargetY) {
-		Point[] noPath;
 		
 	//start or end position is not passable
 	if (dtlve2DungeonTiles.get(iStartX).get(iStartY).tileType == TileType.WALL || dtlve2DungeonTiles.get(iStartX).get(iStartY).tileType == TileType.WALLEDGE || dtlve2DungeonTiles.get(iTargetX).get(iTargetY).tileType == TileType.WALL || dtlve2DungeonTiles.get(iTargetX).get(iTargetY).tileType == TileType.WALLEDGE)
 		return null; //could not find path
 	if (dungGrid[iStartX][iStartY] == 1 || dungGrid[iTargetX][iTargetY] == 1)
-		return noPath; //could not find path
+		return null; //could not find path
 
     int CurrentScores[][] = new int[iStartX][iStartY]; //map of current scores
     int HeuristicScores[][] = new int[iDungeonXSize][iDungeonYSize]; //map of heuristic scores
@@ -395,15 +399,6 @@ public class Dungeon {
     OpenMap[iStartX][iStartY] = true;
     
     boolean VisitedNodes[][] = new boolean[iDungeonXSize][iDungeonYSize]; //map of visited nodes
-    
-    Point[] allwalls = retrieveAllTileCoords(TileType.WALL);
-    Point[] allwalledges = retrieveAllTileCoords(TileType.WALLEDGE);
-    for (int iWallIndex = 0; iWallIndex < allwalls.length - 1; iWallIndex ++) //for every wall, set true as a visited node
-    	VisitedNodes[allwalls[iWallIndex].x][allwalls[iWallIndex].y] = true;
-    for (int iWalledgeIndex = 0; iWalledgeIndex < allwalledges.length - 1; iWalledgeIndex ++)//for every walledge, set true as a visited node
-    	VisitedNodes[allwalledges[iWalledgeIndex].x][allwalledges[iWalledgeIndex].y] = true;
-    
-    
     
     boolean Parents[][] = new boolean[iDungeonXSize][iDungeonYSize]; //mapping of nodes to their parents
 
@@ -476,7 +471,7 @@ public class Dungeon {
 	}
 	
 	
-	
+	/*
 	
 	ScoreNode(int iTargetX, int iTargetY, int iNodeX, int iNodeY, int[][] dungGrid, int iNextNodeX, int iNextNodeY, OpenHeap, boolean[] OpenMap, boolean[] VisitedNodes, int[][] CurrentScores, int[][] HeuristicScores, int[][] TotalScores, Point[] Parents)
 	{
@@ -514,7 +509,7 @@ public class Dungeon {
 	}
 	
 	
-	
+	*/
 	
 	
 	
