@@ -51,6 +51,12 @@ public class ContentLibrary {
 		
 	};
 	
+	public static final Color[] BROOM_COLORS = new Color[]{
+		ColorList.DARK_WOOD,
+		ColorList.STRAW
+		
+	};
+	
 	public static final EntityBlueprint PLAYER_BLUEPRINT = new EntityBlueprint(0.15, 0.05, 0, true, true);
 	public static final EntityBlueprint RAT_BLUEPRINT = new EntityBlueprint(0.20, 0.05, 1, true, true);
 	public static final EntityBlueprint DIRTY_BUBBLE_BLUEPRINT = new EntityBlueprint(0.55, 0.025, 1, false, true);

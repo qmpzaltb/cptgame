@@ -19,7 +19,10 @@ public class ControllerItem extends EntityController {
 	@Override
 	public void doIntersectionAction() {
 		// TODO Auto-generated method stub
-
+	}
+	
+	public void doItemAbility(){
+		
 	}
 
 }

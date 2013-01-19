@@ -76,13 +76,13 @@ public class GameGraphics extends JPanel{
 		rhiRenderingSettings.put(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE); //No known effect
 		rhiRenderingSettings.put(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR); //No known effect
 		rhiRenderingSettings.put(RenderingHints.KEY_DITHERING, RenderingHints.VALUE_DITHER_ENABLE); //No known effect
-		
+
 	}
 
 	public void paintComponent(Graphics g){
-		
+
 		lGfxLoopStartTime = System.currentTimeMillis(); //FPS count begins.
-		
+
 		//Initializes the graphics
 		dGameZoomScale = dNextGameZoomScale;
 		iAntiAliasingTileSizeAdjustment = Math.max((int)Math.round(1 / dGameZoomScale) , 1);
@@ -183,33 +183,28 @@ public class GameGraphics extends JPanel{
 			for (int iuP1 = 0; iuP1 < DungeonGame.entveCurrentEntities.size(); iuP1 ++){
 				Entity entToRender = DungeonGame.entveCurrentEntities.get(iuP1);
 				if (!DungeonGame.entveCurrentEntities.get(iuP1).isNull()){
-				System.out.println(iuP1);
-				System.out.println("Rendering: " + entToRender.iEntityID); //Debugging messages
 					AffineTransform transf = gfx2D.getTransform();
-				dEntityRelativeXShift = entToRender.getXPos() * 64;
-				dEntityRelativeYShift = entToRender.getYPos() * 64;
-				dEntityHeadingRotate = entToRender.getHeading();
-				
-				System.out.println("@XSHIFT: " + dEntityRelativeXShift);
-				System.out.println("@YSHIFT: " + dEntityRelativeYShift);
+					dEntityRelativeXShift = entToRender.getXPos() * 64;
+					dEntityRelativeYShift = entToRender.getYPos() * 64;
+					dEntityHeadingRotate = entToRender.getHeading();
 
-				gfx2D.translate((dEntityRelativeXShift), (dEntityRelativeYShift));
-				gfx2D.rotate(dEntityHeadingRotate);
+					gfx2D.translate((dEntityRelativeXShift), (dEntityRelativeYShift));
+					gfx2D.rotate(dEntityHeadingRotate);
 
-				//gfx2D.rotate(Math.PI / -2);
-				//gfx2D.setColor(Color.RED);
-				//gfx2D.drawString("This is where I point my squirt bottle of hyper-chlorine windex ammonia solution.", 10, 4); //Debugging message (to show heading of entities)
-				//gfx2D.rotate(Math.PI / 2);
+					//gfx2D.rotate(Math.PI / -2);
+					//gfx2D.setColor(Color.RED);
+					//gfx2D.drawString("This is where I point my squirt bottle of hyper-chlorine windex ammonia solution.", 10, 4); //Debugging message (to show heading of entities)
+					//gfx2D.rotate(Math.PI / 2);
 
-				//Renders the limbs of entities
-				for (SkeletonLimb lmbToRender : entToRender.ensSkeleton.sklaSkeleton){
-					lmbToRender.drawLimb(gfx2D);
-				}
+					//Renders the limbs of entities
+					for (SkeletonLimb lmbToRender : entToRender.ensSkeleton.sklaSkeleton){
+						lmbToRender.drawLimb(gfx2D);
+					}
 
-				gfx2D.setStroke(new BasicStroke());
-				//gfx2D.rotate((-1) * dEntityHeadingRotate);
-				//gfx2D.translate((-1) * (dEntityRelativeXShift), (-1) * (dEntityRelativeYShift));
-				gfx2D.setTransform(transf);
+					gfx2D.setStroke(new BasicStroke());
+					//gfx2D.rotate((-1) * dEntityHeadingRotate);
+					//gfx2D.translate((-1) * (dEntityRelativeXShift), (-1) * (dEntityRelativeYShift));
+					gfx2D.setTransform(transf);
 
 				}
 			}
@@ -240,14 +235,14 @@ public class GameGraphics extends JPanel{
 			gfx2D.drawString("Heading : " + playerEntity.dHeading + " rad.", 5, getHeight() - 30);
 			gfx2D.drawString("Scale : " + dGameZoomScale , 5, getHeight() - 20);
 			//END OF CODE BLOCK
-			
-			
+
+
 		} else {
 			//Loading screen.
 			gfx2D.setColor(Color.WHITE);
 			gfx2D.drawString("Loading...", getWidth() / 2, getHeight() / 2);
 		}
-		
+
 		lGfxLoopEndTime = System.currentTimeMillis(); //FPS count ends
 		lGfxLoopActualMSPFO = lGfxLoopEndTime - lGfxLoopStartTime;
 

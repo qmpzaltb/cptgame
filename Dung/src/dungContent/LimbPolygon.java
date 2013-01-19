@@ -30,6 +30,7 @@ public class LimbPolygon extends SkeletonLimb {
 	
 	public LimbPolygon(int[] xPoints, int[] yPoints, double orientation, double scale){
 		dHeading = orientation;
+		dScale = scale;
 		plyPolygon = new Polygon(xPoints,yPoints,xPoints.length);
 	}
 	

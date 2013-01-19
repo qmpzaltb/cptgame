@@ -20,6 +20,8 @@ public class ColorList {
 	public static final Color GOLD					= new Color(255, 215, 0  );
 	public static final Color KHAKI					= new Color(240, 230, 140);
 	public static final Color SILVER				= new Color(245, 245, 245);
+	public static final Color DARK_WOOD				= new Color(139, 115, 85 );
+	public static final Color STRAW					= new Color(255, 211, 155);
 	
 	public static final Color TRANSPARENT_DIRTY 	= new Color(159, 114, 57 , 200);
 	public static final Color TRANSPARENT_GRAY 		= new Color(128, 128, 128, 128);

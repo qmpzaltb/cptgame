@@ -46,15 +46,14 @@ public class Item extends Entity {
 	
 	public double getXPos(){
 		if (sklLimbAttachedTo != null && iParentEntityID != -1){
-			System.out.println("They are asking for this");
-			dXPos = handleEntity(iParentEntityID).getXPos() +(sklLimbAttachedTo.getAttachPointX() / 64);
+			dXPos = handleEntity(iParentEntityID).getXPos() + Math.cos(getHeading()) * (sklLimbAttachedTo.getAttachPointX() / 64) - Math.sin(getHeading()) * (sklLimbAttachedTo.getAttachPointY() / 64);
 		}
 		return dXPos;
 	}
 	
 	public double getYPos(){
 		if (sklLimbAttachedTo != null && iParentEntityID != -1){
-			dYPos = handleEntity(iParentEntityID).getYPos() +(sklLimbAttachedTo.getAttachPointY() / 64);
+			dYPos = handleEntity(iParentEntityID).getYPos() - Math.cos(Math.PI + getHeading()) * (sklLimbAttachedTo.getAttachPointY() / 64) + Math.sin(getHeading()) * (sklLimbAttachedTo.getAttachPointX() / 64);
 		}
 		return dYPos;
 	}
@@ -62,6 +61,7 @@ public class Item extends Entity {
 	public double getHeading(){
 		if (sklLimbAttachedTo != null && iParentEntityID != -1){
 			dHeading = handleEntity(iParentEntityID).getHeading() + sklLimbAttachedTo.getAttachHeading();
+			System.out.println("ITEM POINTS: " + sklLimbAttachedTo.getAttachHeading());
 		}
 		return dHeading;
 	}
