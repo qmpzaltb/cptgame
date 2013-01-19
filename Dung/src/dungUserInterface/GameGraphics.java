@@ -33,7 +33,7 @@ public class GameGraphics extends JPanel{
 
 
 	public static final double MAX_ZOOM = 1.85;
-	public static final double MIN_ZOOM = 0.15;
+	public static final double MIN_ZOOM = 0.01;
 
 
 

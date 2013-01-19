@@ -20,6 +20,7 @@ import java.util.Vector;
 import dungUserInterface.GameActions;
 import dungUserInterface.GameGraphics;
 import dungUserInterface.GameInput;
+import dungUserInterface.GameMainMenu;
 import dungUserInterface.GameSettings;
 import dungUserInterface.GameWindow;
 import dungContent.*;
@@ -38,7 +39,7 @@ public class DungeonGame {
 
 	private static String strGamePath;
 	
-	private static GameWindow mainGameWindow; 
+	public static GameWindow mainGameWindow; 
 
 	public static Dungeon dngCurrentDungeon;
 	public static Vector<Entity> entveCurrentEntities;
@@ -51,7 +52,7 @@ public class DungeonGame {
 	private static long lTimeToSleep;
 	private static long lLastMSPFO;
 	
-	public static int iCurrentMapSeed = 27839;
+	public static int iCurrentMapSeed = 42;
 	
 	//Good Seeds 4897, 27839,
 	
@@ -65,19 +66,18 @@ public class DungeonGame {
 		
 		//Initialization begins
 		iGameReadinessState = -1;
-		mainGameWindow = new GameWindow();
-
+		mainGameWindow = new GameWindow(); 
+		
 		GameInput.initGameInput();
 		GameSettings.initGameSettings();
 		GameSettings.setDefaultKeyBindings();
 		ColorScheme.initColorScheme();
-		mainGameWindow.show();
 
 
 		iMSPFOGmAdj = GameSettings.iMSPFOGm;
 		lCurrentFrame = 0;
 		mainGameWindow.start();
-
+		
 		entveCurrentEntities = new Vector<Entity>();
 		addEntity(ContentLibrary.PLAYER_BLUEPRINT, 0,0,0, new ControllerPlayer(), new SkeletonHumanoid(), ContentLibrary.PLAYER_COLORS);
 		//addEntity(ContentLibrary.RAT_BLUEPRINT, 10,17,0, new ControllerAI(), new SkeletonCreature(), ContentLibrary.CREATURE_COLORS);
@@ -91,13 +91,18 @@ public class DungeonGame {
 		iGameReadinessState += 1;
 		//Initialization ends
 		
+		GameMainMenu.showMenu();
+		boolean readyToStartGame = false;
+		
 		//The Gameplay Loop
+		mainGameWindow.show();  //TRANSFER TO GAME MAIN MENU!
 		while (true){
-			doGameLoop();
-			ColorScheme.updateColorList();
-			lCurrentFrame ++;
+			if(readyToStartGame){
+				doGameLoop();
+				ColorScheme.updateColorList();
+				lCurrentFrame ++;
+			}
 		}
-
 	}
 
 	private static void doGameLoop() {
