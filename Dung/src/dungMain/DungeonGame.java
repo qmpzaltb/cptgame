@@ -15,6 +15,7 @@
 package dungMain;
 
 import java.awt.Color;
+import java.io.File;
 import java.util.Vector;
 import dungUserInterface.GameActions;
 import dungUserInterface.GameGraphics;
@@ -35,6 +36,8 @@ import dungContent.SkeletonHumanoid;
 public class DungeonGame {
 
 
+	private static String strGamePath;
+	
 	private static GameWindow mainGameWindow; 
 
 	public static Dungeon dngCurrentDungeon;
@@ -58,6 +61,8 @@ public class DungeonGame {
 
 	public static void main(String[] args){
 
+		strGamePath = new File("").getAbsolutePath();
+		
 		//Initialization begins
 		iGameReadinessState = -1;
 		mainGameWindow = new GameWindow();
@@ -413,6 +418,9 @@ public class DungeonGame {
 	}
 	public static long getLastMSPFO(){
 		return lLastMSPFO;
+	}
+	public static String getGamePath(){
+		return strGamePath;
 	}
 
 }

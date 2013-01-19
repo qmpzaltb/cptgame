@@ -35,6 +35,7 @@ import java.util.Vector;
 
 import sun.audio.*;
 import dungContent.ControllerPlayer;
+import dungUserInterface.GameSounds;
 
 /**
  * Dungeon:
@@ -107,23 +108,7 @@ public class Dungeon {
 
 
 
-		//** add this into your application code as appropriate
-		// Open an input stream  to the audio file.
-		try {
-			InputStream in = new FileInputStream("lavtown.wav");
-
-			// Create an AudioStream object from the input stream.
-			try {
-				AudioStream as = new AudioStream(in);
-				AudioPlayer.player.start(as);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		GameSounds.musicPlayer("lavtown.wav");
 		
 		
 		

@@ -46,7 +46,6 @@ public class Item extends Entity {
 	
 	public double getXPos(){
 		if (sklLimbAttachedTo != null && iParentEntityID != -1){
-			System.out.println("They are asking for this");
 			dXPos = handleEntity(iParentEntityID).getXPos() +(sklLimbAttachedTo.getAttachPointX() / 64);
 		}
 		return dXPos;
