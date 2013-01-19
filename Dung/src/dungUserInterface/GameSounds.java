@@ -12,6 +12,7 @@ import java.net.URL;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+import javax.sound.sampled.FloatControl;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.JApplet;
@@ -116,20 +117,33 @@ public class GameSounds {
 	
 	
 
-	private static AudioClip currentMusic;
+	private static Clip currentMusic;
 	
 	public static void musicPlayer(String file) {
 		try {
 			System.out.println(DungeonGame.getGamePath() + "\\music\\" + file);
 			URL musicURL = new File(DungeonGame.getGamePath() + "\\music\\" + file).toURI().toURL();
-			currentMusic = JApplet.newAudioClip(musicURL);
-			currentMusic.loop();
+	        AudioInputStream audioIn = AudioSystem.getAudioInputStream(musicURL);
+	        currentMusic = AudioSystem.getClip();
+			currentMusic.loop(Clip.LOOP_CONTINUOUSLY);
 			System.out.println("The consensus is that the music works.");
 		}
 		catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
+	public static void incVolume() { //Increases volume for music
+		FloatControl gainControl = 
+			    (FloatControl) currentMusic.getControl(FloatControl.Type.MASTER_GAIN);
+			gainControl.setValue(+10.0f); // Adds to volume by 10 decibels.
+	}
+	public static void decVolume() { //Decreases volume for music
+		FloatControl gainControl = 
+			    (FloatControl) currentMusic.getControl(FloatControl.Type.MASTER_GAIN);
+			gainControl.setValue(-10.0f); // Reduces volume by 10 decibels.
+	}
+	
+	
 	public static void stopMusic() {
 		currentMusic.stop();
 	}
