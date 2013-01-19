@@ -183,6 +183,7 @@ public class GameGraphics extends JPanel{
 			for (int iuP1 = 0; iuP1 < DungeonGame.entveCurrentEntities.size(); iuP1 ++){
 				Entity entToRender = DungeonGame.entveCurrentEntities.get(iuP1);
 				if (!DungeonGame.entveCurrentEntities.get(iuP1).isNull()){
+
 					AffineTransform transf = gfx2D.getTransform();
 					dEntityRelativeXShift = entToRender.getXPos() * 64;
 					dEntityRelativeYShift = entToRender.getYPos() * 64;

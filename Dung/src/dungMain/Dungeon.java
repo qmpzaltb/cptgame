@@ -22,13 +22,20 @@
 package dungMain;
 
 import java.awt.Point;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.PriorityQueue;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Vector;
 
+import sun.audio.*;
 import dungContent.ControllerPlayer;
+import dungUserInterface.GameSounds;
 
 /**
  * Dungeon:
@@ -58,6 +65,7 @@ public class Dungeon {
 		//Defines the size of the dungeon according to the seed.
 		iDungeonXSize = rngDungeon.nextInt(MAXIMUM_DIMENSION - MINIMUM_DIMENSION + 1) + MINIMUM_DIMENSION;
 		iDungeonYSize = rngDungeon.nextInt(MAXIMUM_DIMENSION - MINIMUM_DIMENSION + 1) + MINIMUM_DIMENSION;
+		int[][] dungSimpGrid = new int[iDungeonXSize][iDungeonYSize];
 
 
 
@@ -100,7 +108,7 @@ public class Dungeon {
 
 
 
-		
+		GameSounds.musicPlayer("lavtown.wav");
 		
 		
 		
@@ -108,6 +116,7 @@ public class Dungeon {
 		setSpawn();
 		makeWallEdges(); //Creates the edge of the map
 		cullLoneTiles(TileType.WALL, 4, TileType.FLOOR, true); //A dungeon-smoothing method.
+		dungSimpGrid = getSimpDungGrid(dungSimpGrid);
 		setExit();
 		
 		
@@ -116,6 +125,10 @@ public class Dungeon {
 		DungeonGame.iGameReadinessState += 1;
 	}
 
+	
+	
+	
+	
 	private void makePath(int startX, int startY, int endX, int endY){
 
 		dtlve2DungeonTiles.get(startX).get(startY).setTileType(TileType.FLOOR);
@@ -277,7 +290,24 @@ public class Dungeon {
 		isOneExitInstance = true; //set to true, just in case
 	}
 	
-	@SuppressWarnings("unused") //This function replaces a randomly selected tile (that you select) on the map and you can replace it with anything (such as a xp tile or similarly)
+	
+	
+	//this function returns a simplified version of the dungeon grid (used usually for path finding method)
+	private int[][] getSimpDungGrid (int[][] iaGridArray) {
+	    for (int[] row : iaGridArray)
+	        Arrays.fill(row, 0);
+		
+		Point[] allwalls = getAllTileCoords(TileType.WALL);
+	    Point[] allwalledges = getAllTileCoords(TileType.WALLEDGE);
+	    for (int iWallIndex = 0; iWallIndex < allwalls.length - 1; iWallIndex ++) //for every wall, set true as a visited node
+	    	iaGridArray[allwalls[iWallIndex].x][allwalls[iWallIndex].y] = 1;
+	    for (int iWalledgeIndex = 0; iWalledgeIndex < allwalledges.length - 1; iWalledgeIndex ++)//for every walledge, set true as a visited node
+	    	iaGridArray[allwalledges[iWalledgeIndex].x][allwalledges[iWalledgeIndex].y] = 1;
+	    
+	    return iaGridArray;
+	}
+	
+	//This function replaces a randomly selected tile (that you select) on the map and you can replace it with anything (such as a xp tile or similarly)
 	private Point setRandomPoint(TileType tileToReplace, TileType replacingTile){
 		int iAmtOfFloor = 0;
 		for (int iuP1 = 0; iuP1 < iDungeonXSize; iuP1 ++){
@@ -305,16 +335,16 @@ public class Dungeon {
 		}
 		return null;
 	}
-
-	@SuppressWarnings("unused") //This function retrieves all coordinates that are associate with the tile
-	private Point[] retrieveAllTileCoords(TileType typeOfTile) {
+	
+	//This function retrieves all coordinates that are associate with the tile
+	private Point[] getAllTileCoords(TileType typeOfTile) {
 		ArrayList<Point> arrofcords = new ArrayList<Point>();
 		for (int iuP1 = 0; iuP1 < iDungeonXSize; iuP1 ++){
 			for (int iuP2 = 0; iuP2 < iDungeonYSize; iuP2 ++){
 				if (dtlve2DungeonTiles.get(iuP1).get(iuP2).getTileType() == typeOfTile) arrofcords.add(new Point(iuP1, iuP2));
 			}
 		}
-		return (Point[])(arrofcords.toArray());
+		return (arrofcords.toArray(new Point[arrofcords.size()]));
 	}
 	
 	
@@ -322,22 +352,16 @@ public class Dungeon {
 	
 	
 	
-	
-	//private Point[] retrieveTile() {
-		
-	
-	//}
-	
-	
 	//-------------------------------------------------------
 	//Algorithm for Path Finding using A* by Anthony Zhang
 	//Translated and encorporated to Java by Justin Baradi
 	//-------------------------------------------------------
-	private Point[] FindPath (int iStartX, int iStartY, int iTargetX, int iTargetY) {
-		Point[] noPath;
+	private Point[] FindPath (int[][] dungGrid, int iStartX, int iStartY, int iTargetX, int iTargetY) {
 		
 	//start or end position is not passable
 	if (dtlve2DungeonTiles.get(iStartX).get(iStartY).tileType == TileType.WALL || dtlve2DungeonTiles.get(iStartX).get(iStartY).tileType == TileType.WALLEDGE || dtlve2DungeonTiles.get(iTargetX).get(iTargetY).tileType == TileType.WALL || dtlve2DungeonTiles.get(iTargetX).get(iTargetY).tileType == TileType.WALLEDGE)
+		return null; //could not find path
+	if (dungGrid[iStartX][iStartY] == 1 || dungGrid[iTargetX][iTargetY] == 1)
 		return null; //could not find path
 
     int CurrentScores[][] = new int[iStartX][iStartY]; //map of current scores
@@ -345,16 +369,15 @@ public class Dungeon {
     int TotalScores[][] = new int[iDungeonXSize][iDungeonYSize];
     TotalScores[iStartX][iStartY] = 0;
 
-    
+
     PriorityQueue<String> OpenHeap = new PriorityQueue<String>(11,
-	        new Comparator<String>() {
-	          public int compare(String o1, String o2) {
-	            int population1 = Integer.parseInt(o1.split("|")[1].trim());
-	            int population2 = Integer.parseInt(o2.split("|")[1].trim());
-	            return population2 - population1;
-	          }
-	        });
-    
+    		new Comparator<String>() {
+    	public int compare(String o1, String o2) {
+    		int node1 = Integer.parseInt(o1.split("|")[1].trim());
+    		int node2 = Integer.parseInt(o2.split("|")[1].trim());
+    		return node1 - node2;
+    	}
+    });
     
     
     boolean OpenMap[][] = new boolean[iDungeonXSize][iDungeonYSize]; 
@@ -362,38 +385,31 @@ public class Dungeon {
     
     boolean VisitedNodes[][] = new boolean[iDungeonXSize][iDungeonYSize]; //map of visited nodes
     
-    Point[] allwalls = retrieveAllTileCoords(TileType.WALL);
-    Point[] allwalledges = retrieveAllTileCoords(TileType.WALLEDGE);
-    for (int iWallIndex = 0; iWallIndex < allwalls.length - 1; iWallIndex ++) //for every wall, set true as a visited node
-    	VisitedNodes[allwalls[iWallIndex].x][allwalls[iWallIndex].y] = true;
-    for (int iWalledgeIndex = 0; iWalledgeIndex < allwalledges.length - 1; iWalledgeIndex ++)//for every walledge, set true as a visited node
-    	VisitedNodes[allwalledges[iWalledgeIndex].x][allwalledges[iWalledgeIndex].y] = true;
-    
-    
-    
     boolean Parents[][] = new boolean[iDungeonXSize][iDungeonYSize]; //mapping of nodes to their parents
 
     /*
     while (!queue.isEmpty()) //handles all nodes in queue
+    Point Parents[] = new Point[iDungeonXSize*iDungeonYSize]; //mapping of nodes to their parents
     	
+
+    int iMaxIndex = 0;
     
-    
-    while (MaxIndex = ObjMaxIndex(OpenHeap)) //loop while there are entries in the open list
+    while (iMaxIndex == OpenHeap.size()) //loop while there are entries in the open list
     {
         //select the node having the lowest total score
         Point Node = OpenHeap[1];
         int NodeX = Node.x;
         int NodeY = Node.y; //obtain the minimum value in the heap
-        OpenHeap[1] = OpenHeap[MaxIndex];
-        OpenHeap.Remove(MaxIndex);
-        MaxIndex--; //move the last entry in the heap to the beginning
+        OpenHeap[1] = OpenHeap[iMaxIndex];
+        OpenHeap.Remove(iMaxIndex);
+        iMaxIndex--; //move the last entry in the heap to the beginning
         Index = 1;
         ChildIndex = 2;
-        while (ChildIndex <= MaxIndex)
+        while (ChildIndex <= iMaxIndex)
         {
             Node1 = OpenHeap[ChildIndex];
             Node2 = OpenHeap[ChildIndex + 1];
-            if (ChildIndex < MaxIndex && TotalScores[Node1.X][Node1.Y] > TotalScores[Node2.X][Node2.Y]) //obtain the index of the lower of the two child nodes if there are two of them
+            if (ChildIndex < iMaxIndex && TotalScores[Node1.X][Node1.Y] > TotalScores[Node2.X][Node2.Y]) //obtain the index of the lower of the two child nodes if there are two of them
                 ChildIndex++;
             else
                 Node2 = Node1;
@@ -438,6 +454,49 @@ public class Dungeon {
     */
     return null; //could not find a path
 	}
+	
+	
+	/*
+	
+	ScoreNode(int iTargetX, int iTargetY, int iNodeX, int iNodeY, int[][] dungGrid, int iNextNodeX, int iNextNodeY, OpenHeap, boolean[] OpenMap, boolean[] VisitedNodes, int[][] CurrentScores, int[][] HeuristicScores, int[][] TotalScores, Point[] Parents)
+	{
+	    If (Grid[NextNodeX,NextNodeY] || VisitedNodes[NextNodeX,NextNodeY]) ;next node is a wall or is in the closed list
+	        Return
+	    BestCurrentScore := CurrentScores[NodeX,NodeY] + 1 ;add the distance between the current node and the next to the current distance
+
+	    If !OpenMap[NextNodeX,NextNodeY]
+	    {
+	        HeuristicScores[NextNodeX,NextNodeY] := Abs(EndX - NextNodeX) + Abs(EndY - NextNodeY) ;wip: diagonal distance: Max(Abs(EndX - NextNodeX),Abs(EndY - NextNodeY))
+
+	        CurrentScores[NextNodeX,NextNodeY] := BestCurrentScore
+	        TotalScores[NextNodeX,NextNodeY] := BestCurrentScore + HeuristicScores[NextNodeX,NextNodeY]
+	        Parents[NextNodeX,NextNodeY] := Object("X",NodeX,"Y",NodeY)
+
+	        ;append the value to the end of the heap array
+	        Index := ObjMaxIndex(OpenHeap), Index := Index ? (Index + 1) : 1
+	        OpenHeap[Index] := Object("X",NextNodeX,"Y",NextNodeY)
+	        OpenMap[NextNodeX,NextNodeY] := 1 ;add the entry to the open map
+
+	        ;rearrange the array to satisfy the minimum heap property
+	        ParentIndex := Index >> 1, Node1 := OpenHeap[Index], Node2 := OpenHeap[ParentIndex]
+	        While, Index > 1 && TotalScores[Node1.X,Node1.Y] < TotalScores[Node2.X,Node2.Y] ;child entry is less than its parent
+	        {
+	            Temp1 := OpenHeap[ParentIndex], OpenHeap[ParentIndex] := OpenHeap[Index], OpenHeap[Index] := Temp1 ;swap the two elements so that the child entry is greater than its parent
+	            Index := ParentIndex, ParentIndex >>= 1 ;move to the parent entry
+	        }
+	    }
+	    Else If (BestCurrentScore >= CurrentScores[NextNodeX,NextNodeY])
+	    {
+	        CurrentScores[NextNodeX,NextNodeY] := BestCurrentScore
+	        TotalScores[NextNodeX,NextNodeY] := BestCurrentScore + HeuristicScores[NextNodeX,NextNodeY]
+	        Parents[NextNodeX,NextNodeY] := Object("X",NodeX,"Y",NodeY)
+	    }
+	}
+	
+	
+	*/
+	
+	
 	
 	
 	
