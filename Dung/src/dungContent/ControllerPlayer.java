@@ -138,7 +138,7 @@ public class ControllerPlayer extends EntityController{
 		if (handleEntity(iEntityID).entityAction == AnimationType.IDLE){ //If the entity is idle, they are eligible to do a special action/animation
 			if (GameInput.baActions[GameActions.ATTACK_USE_PRIMARY]){ //such as swing their fist
 					handleEntity(iEntityID).lEntityActionTime = 45;
-					handleEntity(iEntityID).entityAction = AnimationType.ATTACK_SPEAR_RIGHTHAND;
+					handleEntity(iEntityID).entityAction = AnimationType.ATTACK_SWORD_RIGHTHAND;
 			}
 			if (GameInput.baActions[GameActions.ATTACK_USE_SECONDARY]){ //and swing their other fist
 				handleEntity(iEntityID).lEntityActionTime = 45;

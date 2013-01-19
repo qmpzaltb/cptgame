@@ -59,6 +59,10 @@ public class GameGraphics extends JPanel{
 	double dViewYShift;
 	double dPlayerXPos;
 	double dPlayerYPos;
+	
+	
+	double duLASTXPOS;
+	double duCURRENTXPOS;
 
 
 	private static double dGameZoomScale = 1.0;
@@ -180,8 +184,18 @@ public class GameGraphics extends JPanel{
 			//CODE BLOCK:
 			//Rendering of Entities
 
+			
+			
 			for (int iuP1 = 0; iuP1 < DungeonGame.entveCurrentEntities.size(); iuP1 ++){
 				Entity entToRender = DungeonGame.entveCurrentEntities.get(iuP1);
+				
+				if (iuP1 == 1){
+					duLASTXPOS = duCURRENTXPOS;
+					duCURRENTXPOS = entToRender.dXPos;
+					System.out.println("DELTAXPOS: " + (duCURRENTXPOS - duLASTXPOS));
+				}
+				
+				
 				if (!DungeonGame.entveCurrentEntities.get(iuP1).isNull()){
 
 					AffineTransform transf = gfx2D.getTransform();

@@ -61,7 +61,6 @@ public class Item extends Entity {
 	public double getHeading(){
 		if (sklLimbAttachedTo != null && iParentEntityID != -1){
 			dHeading = handleEntity(iParentEntityID).getHeading() + sklLimbAttachedTo.getAttachHeading();
-			System.out.println("ITEM POINTS: " + sklLimbAttachedTo.getAttachHeading());
 		}
 		return dHeading;
 	}
