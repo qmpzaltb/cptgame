@@ -91,7 +91,7 @@ public class DungeonGame {
 		iGameReadinessState += 1;
 		//Initialization ends
 		
-		GameMainMenu.showMenu();
+		GameMainMenu.graphics();
 		boolean readyToStartGame = false;
 		
 		//The Gameplay Loop
