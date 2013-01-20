@@ -78,8 +78,10 @@ public class GameSettings {
 		iaActionOfButton[KeyEvent.VK_Q]			= GameActions.SCROLL_BACKWARD_EQUIPMENT;
 		iaActionOfButton[KeyEvent.VK_T]			= GameActions.SCROLL_EQUIP_PAGE_FORWARD;
 		iaActionOfButton[KeyEvent.VK_R]			= GameActions.SCROLL_EQUIP_PAGE_BACKWARD;
-		iaActionOfButton[KeyEvent.VK_COMMA]	= GameActions.ZOOM_IN;
-		iaActionOfButton[KeyEvent.VK_PERIOD]		= GameActions.ZOOM_OUT;
+		iaActionOfButton[KeyEvent.VK_COMMA]		= GameActions.ZOOM_IN;
+		iaActionOfButton[KeyEvent.VK_PERIOD]	= GameActions.ZOOM_OUT;
+		iaActionOfButton[KeyEvent.VK_P] = GameActions.VOLUME_INCREASE;
+		iaActionOfButton[KeyEvent.VK_O] = GameActions.VOLUME_DECREASE;
 	}
 	
 	

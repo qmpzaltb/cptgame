@@ -73,15 +73,17 @@ public class GameActions {
 	public static final int SCROLL_EQUIP_PAGE_BACKWARD 	= 54;
 	public static final int ATTACK_USE_PRIMARY_TRIGGER 	= 55;
 	public static final int ATTACK_USE_SECONDARY_TRIGGER= 56;
-
+	public static final int VOLUME_INCREASE				= 57;
+	public static final int VOLUME_DECREASE				= 58;
+	public static final int VOLUME_MUTE					= 59;
 	
-	public static final int TOP_INDEX_OF_REQUESTS		= 56;
+	public static final int TOP_INDEX_OF_REQUESTS		= 59;
 	
 	//Request on button release, derequest on action complete or button press.
-	public static final int ATTACK_RELEASE_PRIMARY		= 57; //Special case, triggered when button is released. Uses same key as ATTACK_USE_PRIMARY. Derequest on press as well.
-	public static final int ATTACK_RELEASE_SECONDARY	= 58; //Special case, triggered when button is released. Uses same key as ATTACK_USE_SECONDARY. Derequest on press as well.
+	public static final int ATTACK_RELEASE_PRIMARY		= 60; //Special case, triggered when button is released. Uses same key as ATTACK_USE_PRIMARY. Derequest on press as well.
+	public static final int ATTACK_RELEASE_SECONDARY	= 61; //Special case, triggered when button is released. Uses same key as ATTACK_USE_SECONDARY. Derequest on press as well.
 	
-	public static final int TOP_INDEX_OF_RELEASES		= 58;
+	public static final int TOP_INDEX_OF_RELEASES		= 61;
 	
-	public static final int ACTIONS_VARIETY 			= 59;
+	public static final int ACTIONS_VARIETY 			= 62;
 }

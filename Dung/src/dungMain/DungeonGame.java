@@ -22,6 +22,7 @@ import dungUserInterface.GameGraphics;
 import dungUserInterface.GameInput;
 import dungUserInterface.GameMainMenu;
 import dungUserInterface.GameSettings;
+import dungUserInterface.GameSounds;
 import dungUserInterface.GameWindow;
 import dungContent.*;
 import dungEntity.*;
@@ -38,7 +39,7 @@ public class DungeonGame {
 
 
 	private static String strGamePath;
-	
+
 	public static GameWindow mainGameWindow; 
 
 	public static Dungeon dngCurrentDungeon;
@@ -51,28 +52,28 @@ public class DungeonGame {
 	private static long lCurrentFrame;
 	private static long lTimeToSleep;
 	private static long lLastMSPFO;
-	
+
 	public static int iCurrentMapSeed = 42;
 	//Good Seeds 4897, 27839,
-	
+
 	public static final double DISTANCE_TO_KEEP_FROM_WALL = 0.001;
 
 	public static int iGameReadinessState;
-	
-	
-	
+
+
+
 	private static boolean bRenderGame;
 	private static boolean bRenderMenu;
-	
+
 
 	public static void main(String[] args){
 
 		strGamePath = new File("").getAbsolutePath();
-		
+
 		//Initialization begins
 		iGameReadinessState = -1;
 		mainGameWindow = new GameWindow(); 
-		
+
 		GameInput.initGameInput();
 		GameSettings.initGameSettings();
 		GameSettings.setDefaultKeyBindings();
@@ -82,7 +83,7 @@ public class DungeonGame {
 		iMSPFOGmAdj = GameSettings.iMSPFOGm;
 		lCurrentFrame = 0;
 		mainGameWindow.start();
-		
+
 		entveCurrentEntities = new Vector<Entity>();
 		addEntity(ContentLibrary.PLAYER_BLUEPRINT, 0,0,0, new ControllerPlayer(), new SkeletonHumanoid(), ContentLibrary.PLAYER_COLORS);
 		//addEntity(ContentLibrary.RAT_BLUEPRINT, 10,17,0, new ControllerAI(), new SkeletonCreature(), ContentLibrary.CREATURE_COLORS);
@@ -97,8 +98,8 @@ public class DungeonGame {
 		//Initialization ends
 		bRenderMenu = false;
 		bRenderGame = true;
-		
-		
+
+
 		mainGameWindow.show();
 		//The Gameplay Loop
 		while (true){
@@ -153,14 +154,14 @@ public class DungeonGame {
 	}
 
 	public static void moveEntity(int iEntityID){
-		
+
 		boolean bXHandled = false;
 		boolean bYHandled = false;
 		boolean bCollidesWithWalls = handleEntity(iEntityID).collidesWithWalls();
 		//X and Y displacements of the entity, provided that there will be no collisions.
 		double dEntityXShift = Math.sin(handleEntity(iEntityID).getMovementDirection()) * handleEntity(iEntityID).dMovementMagnitude;
 		double dEntityYShift = (-1) * Math.cos(handleEntity(iEntityID).getMovementDirection()) * handleEntity(iEntityID).dMovementMagnitude;
-		
+
 		//The pre-movement xposition, yposition, and circle radius.
 		double dCurrentXPos = handleEntity(iEntityID).getXPos();
 		double dCurrentYPos = handleEntity(iEntityID).getYPos();
@@ -194,7 +195,7 @@ public class DungeonGame {
 			dEntityXShift = 0;
 		}
 
-		
+
 		//Handling left-way movement
 		if (dNewXPosCenter > 0 + dCurrentSize){
 			if (dEntityXShift < 0 && !bXHandled && bCollidesWithWalls){ //Entity is moving left
@@ -271,13 +272,13 @@ public class DungeonGame {
 				}
 			}
 		}
-		
+
 		//Moves the character by shifting their X and Y coordinates.
 		handleEntity(iEntityID).shiftXPos(dEntityXShift);
 		handleEntity(iEntityID).shiftYPos(dEntityYShift);
 
 	}
-	
+
 	private static boolean intersectsCircleMapTile(double circleX, double circleY, double circleRadius, int mapX, int mapY){
 
 		//Distance from circle center to map tile center (non-negative)
@@ -316,7 +317,7 @@ public class DungeonGame {
 	public static int addEntity(EntityBlueprint ebp, double xPos, double yPos, double heading, EntityController controller, EntitySkeleton skeleton, Color[] skeletonColorSet){
 		return addEntity(xPos, yPos, ebp.getRadius(), heading, ebp.getAlleigance(), ebp.getSpeed(), ebp.getEntityCollision(), ebp.getWallCollision(), controller, skeleton, skeletonColorSet);
 	}
-	
+
 	public static int addEntity(double xPos, double yPos, double radius, double heading, int alleigance, double speed, boolean entityCollision, boolean wallCollision, EntityController controller, EntitySkeleton skeleton, Color[] skeletonColorSet){
 		for (int iuP1 = 0; iuP1 < entveCurrentEntities.size(); iuP1 ++){
 			if (entveCurrentEntities.get(iuP1).isNull()){
@@ -324,12 +325,12 @@ public class DungeonGame {
 				return iuP1;
 			}
 		}
-		
+
 		entveCurrentEntities.add(new Entity(entveCurrentEntities.size(), xPos, yPos, radius, heading, alleigance, speed, entityCollision, wallCollision, controller, skeleton, skeletonColorSet));
 		return entveCurrentEntities.size() - 1;
-		
+
 	}
-	
+
 	public static int addItem(Item toAdd){
 		for (int iuP1 = 0; iuP1 < entveCurrentEntities.size(); iuP1 ++){
 			if (entveCurrentEntities.get(iuP1).isNull()){
@@ -337,17 +338,17 @@ public class DungeonGame {
 				return iuP1;
 			}
 		}
-		
+
 		entveCurrentEntities.add(toAdd);
 		return entveCurrentEntities.size() - 1;
-		
+
 	}
-	
+
 	public static void removeEntity(int entityID){
 		entveCurrentEntities.set(entityID , ContentLibrary.nullEntity);
 	}
-	
-	
+
+
 
 	public static boolean isWalkable(TileType type){
 		switch (type){
@@ -377,7 +378,7 @@ public class DungeonGame {
 	}
 
 	private static void doNonGameplayInput(){
-		
+
 		//Handle zoomin/zoomout requests.
 		if (GameInput.baActions[GameActions.ZOOM_IN]){
 			GameGraphics.increaseZoom();
@@ -385,6 +386,19 @@ public class DungeonGame {
 		if (GameInput.baActions[GameActions.ZOOM_OUT]){
 			GameGraphics.decreaseZoom();
 		}
+		if (GameInput.baActions[GameActions.VOLUME_INCREASE]){
+			GameSounds.incVolume();
+			GameInput.baActions[GameActions.VOLUME_INCREASE] = false;
+		}
+		if (GameInput.baActions[GameActions.VOLUME_DECREASE]){
+			GameSounds.decVolume();
+			GameInput.baActions[GameActions.VOLUME_DECREASE] = false;
+		}
+
+
+
+
+
 	}
 
 	public static int valueInBoundsX(int value){
@@ -393,7 +407,7 @@ public class DungeonGame {
 	public static int valueInBoundsY(int value){
 		return Math.max(Math.min(dngCurrentDungeon.iDungeonYSize, value), 0);
 	}
-	
+
 	public static boolean isValueInBoundsX(int value){
 		return (value >= 0 && value < dngCurrentDungeon.iDungeonXSize);
 	}
@@ -432,7 +446,7 @@ public class DungeonGame {
 	public static String getGamePath(){
 		return strGamePath;
 	}
-	
+
 	public static boolean isRenderingMenu(){
 		return bRenderMenu;
 	}

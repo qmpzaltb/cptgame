@@ -42,7 +42,7 @@ public class GameMainMenu extends JPanel{
 
 	
 	public GameMainMenu(){
-		filImage = new File("\\images\\logo.gif");
+		filImage = new File("\\images\\logo.png");
 		try {
 			imgLogo = ImageIO.read(filImage);
 			System.out.println("IMAGE READ");
