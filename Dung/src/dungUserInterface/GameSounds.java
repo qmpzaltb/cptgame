@@ -29,7 +29,7 @@ public class GameSounds {
 
 	private static final float VOLUME_MAX = 6.0f;
 	private static final float VOLUME_MIN = -60.0f;
-	private static float fCurrentVolume = 0.0f;
+	public static float fCurrentVolume = 0.0f;
 	
 	//Not sure if we need this to implement multi sounds
 	//int[] maxSimultSounds = new int[15];
@@ -71,11 +71,13 @@ public class GameSounds {
 				wavPlayer("SPREE5.wav"); break;
 			}
 			case SPREE6:{
-				int rand = (int) Math.random() * 2;
+				int rand = (int) Math.random() * 3;
 				if (rand == 0) {
 					wavPlayer("SANITARY.wav"); break;
 				} else if (rand == 1) {
 					wavPlayer("SANITARY2.wav"); break;
+				} else if (rand == 2) {
+					wavPlayer("SANITARY3.wav"); break;
 				}
 			}
 			

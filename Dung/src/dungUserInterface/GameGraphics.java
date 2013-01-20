@@ -230,16 +230,19 @@ public class GameGraphics extends JPanel{
 		gfx2D.fillRect(0, getHeight() - 100, 400, 105);
 		gfx2D.setColor(Color.GREEN);
 
-		gfx2D.drawString("PLAYER X: " + playerEntity.dXPos , 5 , getHeight() - 85);
-		gfx2D.drawString("PLAYER Y: " + playerEntity.dYPos , 5 , getHeight() - 75);
-		gfx2D.drawString("MSPFO (gfx): " + (lGfxLoopActualMSPFO) + ", which means that FPS: " + 1000.0 / (lGfxLoopActualMSPFO) , 5, getHeight() - 65);
-		gfx2D.drawString("MSPFO (game): " + DungeonGame.getLastMSPFO() + ", which means that FPS: " + 1000.0 / DungeonGame.getLastMSPFO() , 5, getHeight() - 55);
+		gfx2D.drawString("PLAYER X: " + playerEntity.dXPos , 5 , getHeight() - 90);
+		gfx2D.drawString("PLAYER Y: " + playerEntity.dYPos , 5 , getHeight() - 80);
+		gfx2D.drawString("MSPFO (gfx): " + (lGfxLoopActualMSPFO) + ", which means that FPS: " + 1000.0 / (lGfxLoopActualMSPFO) , 5, getHeight() - 70);
+		gfx2D.drawString("MSPFO (game): " + DungeonGame.getLastMSPFO() + ", which means that FPS: " + 1000.0 / DungeonGame.getLastMSPFO() , 5, getHeight() - 60);
 
 		gfx2D.setColor(ColorList.GUI_RED);
 		gfx2D.drawString("Health: sqrt(1/0) ---  PROTIP: PRESS WASD, M1, M2, SHIFT, UP, DOWN, COMMA, PERIOD", 5, getHeight() - 40);
+		gfx2D.setColor(ColorList.GOLD);
+		gfx2D.drawString("Volume of Music: " + GameSounds.fCurrentVolume , 5, getHeight() - 30);
+		
 		gfx2D.setColor(ColorList.GUI_BLACK);
-		gfx2D.drawString("Heading : " + playerEntity.dHeading + " rad.", 5, getHeight() - 30);
-		gfx2D.drawString("Scale : " + dGameZoomScale , 5, getHeight() - 20);
+		gfx2D.drawString("Heading : " + playerEntity.dHeading + " rad.", 5, getHeight() - 20);
+		gfx2D.drawString("Scale : " + dGameZoomScale , 5, getHeight() - 10);
 		
 		if (GameEvents.iFrameBeforeRemove > 0) {
 			gfx2D.setColor(ColorList.dynamicVoid);
