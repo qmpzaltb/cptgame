@@ -206,7 +206,6 @@ public class GameSounds {
 		
 		fCurrentVolume += 1f;
 		fCurrentVolume = Math.min(fCurrentVolume, VOLUME_MAX);
-		System.out.println(fCurrentVolume);
 		gainControl.setValue(fCurrentVolume); // Adds to volume by 10 decibels.
 	}
 	public static void decVolume() { //Decreases volume for music
@@ -215,7 +214,6 @@ public class GameSounds {
 		
 		fCurrentVolume -= 1f;
 		fCurrentVolume = Math.max(fCurrentVolume, VOLUME_MIN);
-		System.out.println(fCurrentVolume);
 		gainControl.setValue(fCurrentVolume); // Reduces volume by 1 decibels.
 	}
 	
