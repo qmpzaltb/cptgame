@@ -3,6 +3,7 @@ package dungUserInterface;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
@@ -235,7 +236,11 @@ public class GameGraphics extends JPanel{
 		if (GameEvents.iFrameBeforeRemove > 0) {
 			gfx2D.setColor(ColorList.dynamicVoid);
 			gfx2D.setFont(fntDisplayFont);
-			gfx2D.drawString(GameEvents.strDisplay, getWidth() / 2, getHeight() / 2 - (getHeight() / 4));
+			
+			FontMetrics fmSizeFinder = gfx2D.getFontMetrics();
+			gfx2D.drawString(GameEvents.strDisplay, getWidth() / 2 - (fmSizeFinder.stringWidth(GameEvents.strDisplay) / 2) , getHeight() / 4);
+			
+			
 			GameEvents.iFrameBeforeRemove -= 1;
 			if (GameEvents.iFrameBeforeRemove <= 0) {
 				GameEvents.strDisplay = "";
