@@ -276,7 +276,21 @@ public class GameGraphics extends JPanel{
 		iCanvasXLoc = getX();
 		iCanvasYLoc = getY();
 
-
+		gfx2D.setColor(ColorList.GUI_RED);
+		gfx2D.drawString("Health: sqrt(1/0) ---  PROTIP: PRESS WASD, M1, M2, SHIFT, UP, DOWN, COMMA, PERIOD", 5, getHeight() - 40);
+		gfx2D.setColor(ColorList.GUI_BLACK);
+		//gfx2D.drawString("Heading : " + playerEntity.dHeading + " rad.", 5, getHeight() - 30);
+		gfx2D.drawString("Scale : " + dGameZoomScale , 5, getHeight() - 20);
+		//END OF CODE BLOCK
+		if (GameEvents.iFrameBeforeRemove > 0) {
+			gfx2D.setColor(ColorList.dynamicVoid);
+			g.setFont(fntDisplayFont);
+			g.drawString(GameEvents.strDisplay, getWidth() / 2, getHeight() / 2 - (getHeight() / 4));
+			GameEvents.iFrameBeforeRemove -= 1;
+			if (GameEvents.iFrameBeforeRemove <= 0) {
+				GameEvents.strDisplay = "";
+			}
+		}
 
 
 
