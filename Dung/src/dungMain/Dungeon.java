@@ -120,7 +120,6 @@ public class Dungeon {
 		DungeonGame.iGameReadinessState += 1;
 
 		GameEvents.doAction(EventType.LEVELMUSICINC);
-		GameEvents.doAction(EventType.LEVELMUSICINC);
 		GameEvents.doAction(EventType.ROUNDSTART);
 	}
 
