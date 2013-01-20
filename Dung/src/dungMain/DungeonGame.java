@@ -108,6 +108,11 @@ public class DungeonGame {
 				ColorScheme.updateColorList();
 				lCurrentFrame ++;
 			}
+			//Do features such as zoom in, zoom out, calling out menus, etc.
+			doNonGameplayInput();
+			//Checks whether different music needs to be played
+			GameSounds.updateMusic();
+			regulateFramerate();
 		}
 	}
 
@@ -120,39 +125,38 @@ public class DungeonGame {
 			toUpdate.encController.doNextAction();
 		}
 
-		//Do features such as zoom in, zoom out, calling out menus, etc.
-		doNonGameplayInput();
-
-
-		//CODE BLOCK:
-		//Framerate regulator
-		lGameLoopEndTime = System.currentTimeMillis();
-		lGameLoopTimeTaken = (lGameLoopEndTime - lGameLoopStartTime);
-		lLastMSPFO = lGameLoopTimeTaken;
-
-		//Framerate regulator for stable gameplay.
-		if (lCurrentFrame % GameSettings.iFPSRegulationPeriod == 0){ //Every "GameSettings.iFPSRegulationPeriod" amount of frames,
-			if (iMSPFOGmAdj < lGameLoopTimeTaken){ //If the current framerate is insufficient,
-				iMSPFOGmAdj ++; //slow the game down.
-			} else if (lGameLoopTimeTaken > GameSettings.iMSPFOGm){ //But if the framerate is slower than the max and the framerate is more than sufficient,
-				iMSPFOGmAdj --; //speed the game up.
-			}
-		}
-
-		//System.out.println("ms for gameplay frame: " + lGameLoopTimeTaken);
-		lTimeToSleep = iMSPFOGmAdj - lGameLoopTimeTaken;
-		if (lTimeToSleep > 0){ //Because we don't want to sleep for negative times. Because we don't know what that does.
-			try {
-				//Thread.yield(); Unknown effects
-				Thread.sleep(iMSPFOGmAdj - lGameLoopTimeTaken);
-			} catch (InterruptedException e) {
-				System.err.println("Who interrupted the main thread's slumber?");
-			}
-		}
-		//END OF CODE BLOCK
 
 	}
+	
+	private static void regulateFramerate(){
+	//CODE BLOCK:
+			//Framerate regulator
+			lGameLoopEndTime = System.currentTimeMillis();
+			lGameLoopTimeTaken = (lGameLoopEndTime - lGameLoopStartTime);
+			lLastMSPFO = lGameLoopTimeTaken;
 
+			//Framerate regulator for stable gameplay.
+			if (lCurrentFrame % GameSettings.iFPSRegulationPeriod == 0){ //Every "GameSettings.iFPSRegulationPeriod" amount of frames,
+				if (iMSPFOGmAdj < lGameLoopTimeTaken){ //If the current framerate is insufficient,
+					iMSPFOGmAdj ++; //slow the game down.
+				} else if (lGameLoopTimeTaken > GameSettings.iMSPFOGm){ //But if the framerate is slower than the max and the framerate is more than sufficient,
+					iMSPFOGmAdj --; //speed the game up.
+				}
+			}
+
+			//System.out.println("ms for gameplay frame: " + lGameLoopTimeTaken);
+			lTimeToSleep = iMSPFOGmAdj - lGameLoopTimeTaken;
+			if (lTimeToSleep > 0){ //Because we don't want to sleep for negative times. Because we don't know what that does.
+				try {
+					//Thread.yield(); Unknown effects
+					Thread.sleep(iMSPFOGmAdj - lGameLoopTimeTaken);
+				} catch (InterruptedException e) {
+					System.err.println("Who interrupted the main thread's slumber?");
+				}
+			}
+			//END OF CODE BLOCK
+	}
+	
 	public static void moveEntity(int iEntityID){
 
 		boolean bXHandled = false;

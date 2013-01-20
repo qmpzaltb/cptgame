@@ -107,11 +107,6 @@ public class Dungeon {
 				makePath(iaPointXWeb[iuP1] , iaPointYWeb[iuP1] , iaPointXWeb[iuP2] , iaPointYWeb[iuP2]);
 			}
 		}
-
-
-
-		GameSounds.musicPlayer("lav.wav");
-		
 		
 		
 		//All methods required for the game at start
@@ -121,9 +116,12 @@ public class Dungeon {
 		dungSimpGrid = getSimpDungGrid(dungSimpGrid);
 		setExit();
 
-		GameEvents.doAction(EventType.ROUNDSTART);
 		
 		DungeonGame.iGameReadinessState += 1;
+
+		GameEvents.doAction(EventType.LEVELMUSICINC);
+		GameEvents.doAction(EventType.LEVELMUSICINC);
+		GameEvents.doAction(EventType.ROUNDSTART);
 	}
 
 	

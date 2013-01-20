@@ -1,6 +1,7 @@
 package dungUserInterface;
 
 public enum SoundType {
+	//sounds
 	MOVE,
 	STARTROUND,
 	ENDROUND,
@@ -14,5 +15,14 @@ public enum SoundType {
 	DIRTY,
 	NEWITEM,
 	GAMEOVER,
-	ITEM
+	ITEM,
+	
+	//music
+	LAV,
+	LAV2,
+	LAV3,
+	LAV4,
+	LAVDEF,
+	PEGNERD20
+	
 }
