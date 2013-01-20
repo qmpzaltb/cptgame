@@ -74,16 +74,16 @@ public class SkeletonHumanoid extends EntitySkeleton{
 				sklaSkeleton[5].setDoubleY2(-5 * Math.cos((2 * Math.PI / 60) * dAdjustedTime) + 0);
 				sklaSkeleton[5].setDoubleX2(5 * Math.sin((2 * Math.PI / 60) * dAdjustedTime) + 15);
 			} else if (iAnimTime <= 30){
-				double dAdjustedTime = - 15 * Math.cos((2 * Math.PI / 60) * iAnimTime) + 15;
+				double dAdjustedTime = - 15 * Math.cos((2 * Math.PI / 60) * iAnimTime);
 				
-				double duElbowJointX = (5 * Math.cos((2 * Math.PI / 60) * dAdjustedTime) + 15);
-				double duElbowJointY = (5 * Math.cos((2 * Math.PI / 60) * dAdjustedTime) + 0);
+				double duElbowJointX = (5 * Math.cos((2 * Math.PI / 60) * dAdjustedTime) + 10);
+				double duElbowJointY = (-5 * Math.sin((2 * Math.PI / 60) * dAdjustedTime) + 0);
 				sklaSkeleton[3].setDoubleX2(duElbowJointX);
 				sklaSkeleton[3].setDoubleY2(duElbowJointY);
 				sklaSkeleton[5].setDoubleX1(duElbowJointX);
 				sklaSkeleton[5].setDoubleY1(duElbowJointY);
-				sklaSkeleton[5].setDoubleX2(5 * Math.cos((2 * Math.PI / 60) * dAdjustedTime) + 10);
-				sklaSkeleton[5].setDoubleY2(-100 * Math.sin((2 * Math.PI / 60) * dAdjustedTime) + 0 );
+				sklaSkeleton[5].setDoubleX2(10 * Math.cos((2 * Math.PI / 60) * dAdjustedTime) + 5);
+				sklaSkeleton[5].setDoubleY2(-8 * Math.sin((2 * Math.PI / 45) * dAdjustedTime));
 				
 				//sklaSkeleton[3].setDoubleY2( 5 * Math.cos());
 				

@@ -29,8 +29,6 @@ public class SkeletonCreature extends EntitySkeleton{
 	public void doAnimation(AnimationType animType, long animTime) {
 		switch (animType){
 		case MOVE:{
-
-
 			int iTimeInAnimCycle = (int)(animTime % 60); //60 because 60. Arbitrary period of the animation.
 
 			//four legged animals basically walk like regular humans but they got an extra pair of feet! (Source: Me imitating an animal walking) ... This is why I just made two copies of the humanoid walking, because that is how the legs for creatures move

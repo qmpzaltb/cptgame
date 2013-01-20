@@ -72,7 +72,7 @@ public class LimbLine extends SkeletonLimb{
 	}
 
 	public double getAttachHeading() {
-		return Math.atan2(dRelativeLimbX1 - dRelativeLimbX2, dRelativeLimbY1 - dRelativeLimbY2);
+		return Math.atan2(dRelativeLimbX2 - dRelativeLimbX1, dRelativeLimbY2 - dRelativeLimbY1);
 	}
 
 }

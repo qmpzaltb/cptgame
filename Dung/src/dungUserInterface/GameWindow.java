@@ -1,5 +1,7 @@
 package dungUserInterface;
 
+import java.awt.Dimension;
+
 import javax.swing.JFrame;
 import dungContent.ColorList;
 import dungMain.DungeonGame;
@@ -15,6 +17,12 @@ import dungMain.DungeonGame;
 public class GameWindow extends Thread {
 
 	public static final String NAME = "Dung";
+	
+	
+	public static final int RESOLUTION_X_MINIMUM = 640;
+	public static final int RESOLUTION_Y_MINIMUM = 480;
+	
+	
 
 	//boolean runningRenderer;
 
@@ -27,11 +35,12 @@ public class GameWindow extends Thread {
 
 	public GameWindow(){
 		super("DungGFX");
-		//Initializing the window of the game
+		//Initializing the windows of the game.
 		frMainWindow = new JFrame(NAME);
 		frMainWindow.setSize(1080, 640);
+		frMainWindow.setMinimumSize(new Dimension(RESOLUTION_X_MINIMUM, RESOLUTION_Y_MINIMUM));
 		frMainWindow.setBackground(ColorList.UNDISCOVERED);
-		frMainWindow.setResizable(false);
+		frMainWindow.setResizable(true);
 		frMainWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		grGraphicsRenderer = new GameGraphics();
 		gmmMainMenuRenderer = new GameMainMenu();

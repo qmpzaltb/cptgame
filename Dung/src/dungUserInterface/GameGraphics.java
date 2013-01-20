@@ -90,11 +90,13 @@ public class GameGraphics extends JPanel{
 
 	public void renderGameGraphics(Graphics2D gfx2D){
 		Entity playerEntity = DungeonGame.entveCurrentEntities.get(dungContent.ControllerPlayer.iPlayerEntityID);
+		
+		
 		dPlayerXPos = playerEntity.dXPos;
 		dPlayerYPos = playerEntity.dYPos;
 		dViewXShift = (iCanvasXSize / 2) * (1/dGameZoomScale) - (dPlayerXPos * 64);
 		dViewYShift = (iCanvasYSize / 2) * (1/dGameZoomScale) - (dPlayerYPos * 64) ;
-
+		
 
 		//CODE BLOCK:
 		//Rendering of Dungeons
@@ -172,11 +174,13 @@ public class GameGraphics extends JPanel{
 		for (int iuP1 = 0; iuP1 < DungeonGame.entveCurrentEntities.size(); iuP1 ++){
 			Entity entToRender = DungeonGame.entveCurrentEntities.get(iuP1);
 
+			
+			/*
 			if (iuP1 == 1){
 				duLASTXPOS = duCURRENTXPOS;
 				duCURRENTXPOS = entToRender.dXPos;
 				System.out.println("DELTAXPOS: " + (duCURRENTXPOS - duLASTXPOS));
-			}
+			}*/ //Information about jitter bug. Uncomment to diagnose.
 
 
 			if (!DungeonGame.entveCurrentEntities.get(iuP1).isNull()){
