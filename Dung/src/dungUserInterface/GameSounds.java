@@ -137,6 +137,7 @@ public class GameSounds {
 			URL musicURL = new File(DungeonGame.getGamePath() + "\\music\\" + file).toURI().toURL();
 	        AudioInputStream audioIn = AudioSystem.getAudioInputStream(musicURL);
 	        currentMusic = AudioSystem.getClip();
+	        currentMusic.open(audioIn);
 			currentMusic.loop(Clip.LOOP_CONTINUOUSLY);
 			System.out.println("The consensus is that the music works.");
 		}
