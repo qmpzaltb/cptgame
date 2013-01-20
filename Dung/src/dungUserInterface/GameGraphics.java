@@ -44,7 +44,9 @@ public class GameGraphics extends JPanel{
 	private static int iCanvasYLoc;
 
 	private Font fntGuiFont;
+	
 	private Font fntDisplayFont;
+	private boolean bMiniDisplay;
 
 	private RenderingHints rhiRenderingSettings;
 	private static int iAntiAliasingTileSizeAdjustment = 1;
@@ -229,6 +231,7 @@ public class GameGraphics extends JPanel{
 		gfx2D.setColor(ColorList.GUI_BLACK);
 		gfx2D.drawString("Heading : " + playerEntity.dHeading + " rad.", 5, getHeight() - 30);
 		gfx2D.drawString("Scale : " + dGameZoomScale , 5, getHeight() - 20);
+		
 		if (GameEvents.iFrameBeforeRemove > 0) {
 			gfx2D.setColor(ColorList.VOID);
 			gfx2D.setFont(fntDisplayFont);
@@ -238,6 +241,17 @@ public class GameGraphics extends JPanel{
 				GameEvents.strDisplay = "";
 			}
 		}
+		/*
+		if (GameEvents.iFrameBeforeRemove > 0) {
+			gfx2D.setColor(ColorList.dynamicVoid);
+			g.setFont(fntDisplayFont);
+			g.drawString(GameEvents.strDisplay, getWidth() / 2, getHeight() / 2 - (getHeight() / 4));
+			GameEvents.iFrameBeforeRemove -= 1;
+			if (GameEvents.iFrameBeforeRemove <= 0) {
+				GameEvents.strDisplay = "";
+			}
+		}*/ //I dont know which one is right or wrong.
+
 		//END OF CODE BLOCK
 
 
@@ -261,6 +275,8 @@ public class GameGraphics extends JPanel{
 		iCanvasYSize = getHeight();
 		iCanvasXLoc = getX();
 		iCanvasYLoc = getY();
+
+
 
 
 
