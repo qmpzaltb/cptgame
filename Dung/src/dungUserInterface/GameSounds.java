@@ -63,6 +63,18 @@ public class GameSounds {
 			case SPREE4:{
 				wavPlayer("SPREE4.wav"); break;
 			}
+			case SPREE5:{
+				wavPlayer("SPREE5.wav"); break;
+			}
+			case SPREE6:{
+				int rand = (int) Math.random() * 2;
+				if (rand == 0) {
+					wavPlayer("SANITARY.wav"); break;
+				} else if (rand == 1) {
+					wavPlayer("SANITARY2.wav"); break;
+				}
+			}
+			
 			case ACE:{
 				wavPlayer("SPOTLESS.wav"); break;
 			}
@@ -81,8 +93,8 @@ public class GameSounds {
 					wavPlayer("MOVE4.wav"); break;
 				}
 			}
-			case NEWWEAPON:{
-				wavPlayer("NEWWEAPON.wav"); break;
+			case NEWITEM:{
+				wavPlayer("NEWITEM.wav"); break;
 			}
 			case ITEM:{
 				wavPlayer("DUSTER.wav"); break;

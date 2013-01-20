@@ -53,7 +53,6 @@ public class DungeonGame {
 	private static long lLastMSPFO;
 	
 	public static int iCurrentMapSeed = 42;
-	
 	//Good Seeds 4897, 27839,
 	
 	public static final double DISTANCE_TO_KEEP_FROM_WALL = 0.001;
@@ -96,12 +95,10 @@ public class DungeonGame {
 
 		iGameReadinessState += 1;
 		//Initialization ends
-		
 		bRenderMenu = true;
 		
 		
 		mainGameWindow.show();
-		
 		//The Gameplay Loop
 		while (true){
 			if (bRenderGame){

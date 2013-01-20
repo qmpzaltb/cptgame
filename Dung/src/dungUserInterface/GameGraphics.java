@@ -44,6 +44,7 @@ public class GameGraphics extends JPanel{
 	private static int iCanvasYLoc;
 
 	private Font fntGuiFont;
+	private Font fntDisplayFont;
 
 	private RenderingHints rhiRenderingSettings;
 	private static int iAntiAliasingTileSizeAdjustment = 1;
@@ -72,7 +73,8 @@ public class GameGraphics extends JPanel{
 
 
 		fntGuiFont = new Font("Courier New" , Font.BOLD, 12); //I don't even know. Just make sure its a good, readable, preferrably monospaced, font.
-
+		fntDisplayFont =  new Font("Lucida Sans" , Font.BOLD, 26);
+		
 		rhiRenderingSettings = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON); //Smoother shapes, but map becomes buggy.
 		//WORKAROUND: I extended tile pixel width/height by one pixel. Still 64 wide though, if you know what I mean.
 		rhiRenderingSettings.put(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON); //Smoother text
@@ -227,6 +229,15 @@ public class GameGraphics extends JPanel{
 		gfx2D.setColor(ColorList.GUI_BLACK);
 		gfx2D.drawString("Heading : " + playerEntity.dHeading + " rad.", 5, getHeight() - 30);
 		gfx2D.drawString("Scale : " + dGameZoomScale , 5, getHeight() - 20);
+		if (GameEvents.iFrameBeforeRemove > 0) {
+			gfx2D.setColor(ColorList.VOID);
+			gfx2D.setFont(fntDisplayFont);
+			gfx2D.drawString(GameEvents.strDisplay, getWidth() / 2 - (getWidth() / 4), getHeight() / 2 - (getHeight() / 4));
+			GameEvents.iFrameBeforeRemove -= 1;
+			if (GameEvents.iFrameBeforeRemove <= 0) {
+				GameEvents.strDisplay = "";
+			}
+		}
 		//END OF CODE BLOCK
 
 
@@ -272,6 +283,11 @@ public class GameGraphics extends JPanel{
 	private void drawTile(Graphics2D g, int tileX, int tileY){
 		//Draws a map tile
 		g.fillRect(tileX * 64, tileY * 64, 64 + iAntiAliasingTileSizeAdjustment, 64 + iAntiAliasingTileSizeAdjustment);
+	}
+	private void displayEventText(Graphics2D g, String text){
+		
+		
+		
 	}
 
 	public static int getXLoc(){

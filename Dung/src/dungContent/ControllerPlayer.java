@@ -20,6 +20,7 @@ public class ControllerPlayer extends EntityController{
 
 	public static int iPlayerEntityID; //A variable that tells other classes which entity is the player's entity.
 	
+	public static int iCleanSpree; //Gets and sets the amount of "Cleans" the player has committed
 	
 	private static EntitySpatialKnowledge spkKnowledge; //The "knowledge" of the player - what the player sees, has seen, and has not seen.
 	private int currentX; //For updating EntitySpatialKnowledge in a conservative matter (i.e., not every frame, but only when the tile changes.)
@@ -171,6 +172,12 @@ public class ControllerPlayer extends EntityController{
 	public Item[] initializeInventory(){
 		return new Item[240];
 	}
-	
+
+	public static void setCleanSpree(int cleanSpree) { //gets the current clean spree
+		iCleanSpree = cleanSpree;
+	}
+	public static int getCleanSpree() { //sets the current clean spree
+		return iCleanSpree;
+	}
 	
 }

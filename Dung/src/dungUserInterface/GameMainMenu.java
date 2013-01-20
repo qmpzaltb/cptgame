@@ -51,7 +51,6 @@ public class GameMainMenu extends JPanel{
 			e.printStackTrace();
 		}
 	}
-
 	
 	public void paintComponent(Graphics2D gfx2D){
 

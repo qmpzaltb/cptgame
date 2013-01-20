@@ -6,7 +6,7 @@ public enum EventType {
 	MOVEMENT,
 	SPREE,
 	GAMEOVER,
-	NEWWEAPON,
+	NEWITEM,
 	ITEM
 	
 	
