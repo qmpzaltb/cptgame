@@ -110,7 +110,7 @@ public class Dungeon {
 
 
 
-		GameSounds.musicPlayer("lavtowndef.wav");
+		GameSounds.musicPlayer("lav.wav");
 		
 		
 		
@@ -120,10 +120,9 @@ public class Dungeon {
 		cullLoneTiles(TileType.WALL, 4, TileType.FLOOR, true); //A dungeon-smoothing method.
 		dungSimpGrid = getSimpDungGrid(dungSimpGrid);
 		setExit();
-		
-		
-		GameEvents.doAction(EventType.ROUNDSTART);
 
+		GameEvents.doAction(EventType.ROUNDSTART);
+		
 		DungeonGame.iGameReadinessState += 1;
 	}
 
