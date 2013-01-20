@@ -8,9 +8,11 @@ public enum SoundType {
 	SPREE2,
 	SPREE3,
 	SPREE4,
+	SPREE5,
+	SPREE6,
 	ACE,
 	DIRTY,
-	NEWWEAPON,
+	NEWITEM,
 	GAMEOVER,
 	ITEM
 }

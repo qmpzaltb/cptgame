@@ -32,7 +32,7 @@ import dungEntity.SkeletonLimb;
 @SuppressWarnings("serial")
 public class GameMainMenu extends JPanel{
 	public static void main(String[] args){
-		frame.setVisible(true);
+		//frame.setVisible(true);
 	}
 
 	public static void graphics(Graphics g) {

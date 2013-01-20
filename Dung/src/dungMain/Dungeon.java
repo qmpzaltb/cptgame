@@ -35,6 +35,8 @@ import java.util.Vector;
 
 import sun.audio.*;
 import dungContent.ControllerPlayer;
+import dungUserInterface.EventType;
+import dungUserInterface.GameEvents;
 import dungUserInterface.GameSounds;
 
 /**
@@ -120,7 +122,7 @@ public class Dungeon {
 		setExit();
 		
 		
-		
+		GameEvents.doAction(EventType.ROUNDSTART);
 
 		DungeonGame.iGameReadinessState += 1;
 	}
