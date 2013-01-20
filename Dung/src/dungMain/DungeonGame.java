@@ -95,7 +95,8 @@ public class DungeonGame {
 
 		iGameReadinessState += 1;
 		//Initialization ends
-		bRenderMenu = true;
+		bRenderMenu = false;
+		bRenderGame = true;
 		
 		
 		mainGameWindow.show();
