@@ -253,7 +253,7 @@ public class GameGraphics extends JPanel{
 			gfx2D.drawString("Scale : " + dGameZoomScale , 5, getHeight() - 20);
 			//END OF CODE BLOCK
 			if (GameEvents.iFrameBeforeRemove > 0) {
-				gfx2D.setColor(ColorList.VOID);
+				gfx2D.setColor(ColorList.dynamicVoid);
 				g.setFont(fntDisplayFont);
 				g.drawString(GameEvents.strDisplay, getWidth() / 2 - (getWidth() / 4), getHeight() / 2 - (getHeight() / 4));
 				GameEvents.iFrameBeforeRemove -= 1;
