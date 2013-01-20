@@ -108,7 +108,7 @@ public class Dungeon {
 
 
 
-		GameSounds.musicPlayer("lavtown.wav");
+		GameSounds.musicPlayer("lavtowndef.wav");
 		
 		
 		

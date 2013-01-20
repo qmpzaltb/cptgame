@@ -59,8 +59,8 @@ public class GameGraphics extends JPanel{
 	double dViewYShift;
 	double dPlayerXPos;
 	double dPlayerYPos;
-	
-	
+
+
 	double duLASTXPOS;
 	double duCURRENTXPOS;
 
@@ -80,6 +80,155 @@ public class GameGraphics extends JPanel{
 		rhiRenderingSettings.put(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE); //No known effect
 		rhiRenderingSettings.put(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR); //No known effect
 		rhiRenderingSettings.put(RenderingHints.KEY_DITHERING, RenderingHints.VALUE_DITHER_ENABLE); //No known effect
+
+	}
+
+	public void renderGameGraphics(Graphics2D gfx2D){
+		Entity playerEntity = DungeonGame.entveCurrentEntities.get(dungContent.ControllerPlayer.iPlayerEntityID);
+		dPlayerXPos = playerEntity.dXPos;
+		dPlayerYPos = playerEntity.dYPos;
+		dViewXShift = (iCanvasXSize / 2) * (1/dGameZoomScale) - (dPlayerXPos * 64);
+		dViewYShift = (iCanvasYSize / 2) * (1/dGameZoomScale) - (dPlayerYPos * 64) ;
+
+
+		//CODE BLOCK:
+		//Rendering of Dungeons
+		gfx2D.translate(dViewXShift, dViewYShift);
+
+
+		for (int iuP1 = 0; iuP1 < DungeonGame.dngCurrentDungeon.getXSize(); iuP1 ++){
+			for (int iuP2 = 0; iuP2 < DungeonGame.dngCurrentDungeon.getYSize(); iuP2 ++){
+				KnowledgeType tileKnowledge = ControllerPlayer.getKnowledge().getKnowledgeOfTile(iuP1, iuP2);
+				//tileKnowledge = KnowledgeType.IS_VISIBLE; //Uncomment to disable fog of war
+				if (tileKnowledge == KnowledgeType.NEVER_VISIBLE){
+					gfx2D.setColor(ColorList.UNDISCOVERED);
+					drawTile(gfx2D,iuP1,iuP2);
+				} else {
+					switch (DungeonGame.dngCurrentDungeon.dtlve2DungeonTiles.get(iuP1).get(iuP2).tileType){
+					case WALL:{
+						if (tileKnowledge == KnowledgeType.WAS_VISIBLE){
+							gfx2D.setColor(ColorList.WALL_FOG_OF_WAR);
+						} else{
+							gfx2D.setColor(ColorList.WALL);
+						}
+						drawTile(gfx2D,iuP1,iuP2);
+						break;
+					}
+					case WALLEDGE:{
+						if (tileKnowledge == KnowledgeType.WAS_VISIBLE){
+							gfx2D.setColor(ColorList.VOID_FOG_OF_WAR);
+						} else{
+							gfx2D.setColor(ColorList.dynamicVoid);
+						}
+						drawTile(gfx2D,iuP1,iuP2);
+						break;
+					}
+					case FLOOR:{
+						if (tileKnowledge == KnowledgeType.WAS_VISIBLE){
+							gfx2D.setColor(ColorList.FLOOR_FOG_OF_WAR);
+						} else{
+							gfx2D.setColor(ColorList.FLOOR);
+						}
+						drawTile(gfx2D,iuP1,iuP2);
+						break;
+					}
+					case ENTRANCE:{
+						if (tileKnowledge == KnowledgeType.WAS_VISIBLE){
+							gfx2D.setColor(ColorList.ENTRANCE_FOG_OF_WAR);
+						} else{
+							gfx2D.setColor(ColorList.dynamicEntrance);
+						}
+						drawTile(gfx2D,iuP1,iuP2);
+						break;
+					}
+					case EXIT:{
+						if (tileKnowledge == KnowledgeType.WAS_VISIBLE){
+							gfx2D.setColor(ColorList.EXIT_FOG_OF_WAR);
+						} else{
+							gfx2D.setColor(ColorList.dynamicExit);
+						}
+						drawTile(gfx2D,iuP1,iuP2);
+						break;
+					}
+					}
+				}
+
+			}
+
+		}
+		//END OF CODE BLOCK
+
+
+		//CODE BLOCK:
+		//Rendering of Entities
+
+
+
+		for (int iuP1 = 0; iuP1 < DungeonGame.entveCurrentEntities.size(); iuP1 ++){
+			Entity entToRender = DungeonGame.entveCurrentEntities.get(iuP1);
+
+			if (iuP1 == 1){
+				duLASTXPOS = duCURRENTXPOS;
+				duCURRENTXPOS = entToRender.dXPos;
+				System.out.println("DELTAXPOS: " + (duCURRENTXPOS - duLASTXPOS));
+			}
+
+
+			if (!DungeonGame.entveCurrentEntities.get(iuP1).isNull()){
+
+				AffineTransform transf = gfx2D.getTransform();
+				dEntityRelativeXShift = entToRender.getXPos() * 64;
+				dEntityRelativeYShift = entToRender.getYPos() * 64;
+				dEntityHeadingRotate = entToRender.getHeading();
+
+				gfx2D.translate((dEntityRelativeXShift), (dEntityRelativeYShift));
+				gfx2D.rotate(dEntityHeadingRotate);
+
+				//gfx2D.rotate(Math.PI / -2);
+				//gfx2D.setColor(Color.RED);
+				//gfx2D.drawString("This is where I point my squirt bottle of hyper-chlorine windex ammonia solution.", 10, 4); //Debugging message (to show heading of entities)
+				//gfx2D.rotate(Math.PI / 2);
+
+				//Renders the limbs of entities
+				for (SkeletonLimb lmbToRender : entToRender.ensSkeleton.sklaSkeleton){
+					lmbToRender.drawLimb(gfx2D);
+				}
+
+				gfx2D.setStroke(new BasicStroke());
+				//gfx2D.rotate((-1) * dEntityHeadingRotate);
+				//gfx2D.translate((-1) * (dEntityRelativeXShift), (-1) * (dEntityRelativeYShift));
+				gfx2D.setTransform(transf);
+
+			}
+		}
+
+		gfx2D.translate((-1) * dViewXShift, (-1) * dViewYShift);
+		//END OF CODE BLOCK
+
+
+
+		//CODE BLOCK:
+		//Rendering of the GUI
+		gfx2D.scale(1 / dGameZoomScale, 1 /  dGameZoomScale); //Resets the zooming scale.
+
+
+		//This is a very basic GUI. We will (WE MUST) change it.
+		gfx2D.setColor(ColorList.GUI_TRANSPARENT_GRAY);
+		gfx2D.fillRect(0, getHeight() - 100, 400, 105);
+		gfx2D.setColor(Color.GREEN);
+
+		gfx2D.drawString("PLAYER X: " + playerEntity.dXPos , 5 , getHeight() - 85);
+		gfx2D.drawString("PLAYER Y: " + playerEntity.dYPos , 5 , getHeight() - 75);
+		gfx2D.drawString("MSPFO (gfx): " + (lGfxLoopActualMSPFO) + ", which means that FPS: " + 1000.0 / (lGfxLoopActualMSPFO) , 5, getHeight() - 65);
+		gfx2D.drawString("MSPFO (game): " + DungeonGame.getLastMSPFO() + ", which means that FPS: " + 1000.0 / DungeonGame.getLastMSPFO() , 5, getHeight() - 55);
+
+		gfx2D.setColor(ColorList.GUI_RED);
+		gfx2D.drawString("Health: sqrt(1/0) ---  PROTIP: PRESS WASD, M1, M2, SHIFT, UP, DOWN, COMMA, PERIOD", 5, getHeight() - 40);
+		gfx2D.setColor(ColorList.GUI_BLACK);
+		gfx2D.drawString("Heading : " + playerEntity.dHeading + " rad.", 5, getHeight() - 30);
+		gfx2D.drawString("Scale : " + dGameZoomScale , 5, getHeight() - 20);
+		//END OF CODE BLOCK
+
 
 	}
 
@@ -105,153 +254,9 @@ public class GameGraphics extends JPanel{
 
 
 		if (DungeonGame.iGameReadinessState >= 0){ //When the game is being played (i.e., not loading)
-
-			Entity playerEntity = DungeonGame.entveCurrentEntities.get(dungContent.ControllerPlayer.iPlayerEntityID);
-			dPlayerXPos = playerEntity.dXPos;
-			dPlayerYPos = playerEntity.dYPos;
-			dViewXShift = (iCanvasXSize / 2) * (1/dGameZoomScale) - (dPlayerXPos * 64);
-			dViewYShift = (iCanvasYSize / 2) * (1/dGameZoomScale) - (dPlayerYPos * 64) ;
-
-
-			//CODE BLOCK:
-			//Rendering of Dungeons
-			gfx2D.translate(dViewXShift, dViewYShift);
-
-
-			for (int iuP1 = 0; iuP1 < DungeonGame.dngCurrentDungeon.getXSize(); iuP1 ++){
-				for (int iuP2 = 0; iuP2 < DungeonGame.dngCurrentDungeon.getYSize(); iuP2 ++){
-					KnowledgeType tileKnowledge = ControllerPlayer.getKnowledge().getKnowledgeOfTile(iuP1, iuP2);
-					//tileKnowledge = KnowledgeType.IS_VISIBLE; //Uncomment to disable fog of war
-					if (tileKnowledge == KnowledgeType.NEVER_VISIBLE){
-						gfx2D.setColor(ColorList.UNDISCOVERED);
-						drawTile(gfx2D,iuP1,iuP2);
-					} else {
-						switch (DungeonGame.dngCurrentDungeon.dtlve2DungeonTiles.get(iuP1).get(iuP2).tileType){
-						case WALL:{
-							if (tileKnowledge == KnowledgeType.WAS_VISIBLE){
-								gfx2D.setColor(ColorList.WALL_FOG_OF_WAR);
-							} else{
-								gfx2D.setColor(ColorList.WALL);
-							}
-							drawTile(gfx2D,iuP1,iuP2);
-							break;
-						}
-						case WALLEDGE:{
-							if (tileKnowledge == KnowledgeType.WAS_VISIBLE){
-								gfx2D.setColor(ColorList.VOID_FOG_OF_WAR);
-							} else{
-								gfx2D.setColor(ColorList.dynamicVoid);
-							}
-							drawTile(gfx2D,iuP1,iuP2);
-							break;
-						}
-						case FLOOR:{
-							if (tileKnowledge == KnowledgeType.WAS_VISIBLE){
-								gfx2D.setColor(ColorList.FLOOR_FOG_OF_WAR);
-							} else{
-								gfx2D.setColor(ColorList.FLOOR);
-							}
-							drawTile(gfx2D,iuP1,iuP2);
-							break;
-						}
-						case ENTRANCE:{
-							if (tileKnowledge == KnowledgeType.WAS_VISIBLE){
-								gfx2D.setColor(ColorList.ENTRANCE_FOG_OF_WAR);
-							} else{
-								gfx2D.setColor(ColorList.dynamicEntrance);
-							}
-							drawTile(gfx2D,iuP1,iuP2);
-							break;
-						}
-						case EXIT:{
-							if (tileKnowledge == KnowledgeType.WAS_VISIBLE){
-								gfx2D.setColor(ColorList.EXIT_FOG_OF_WAR);
-							} else{
-								gfx2D.setColor(ColorList.dynamicExit);
-							}
-							drawTile(gfx2D,iuP1,iuP2);
-							break;
-						}
-						}
-					}
-
-				}
-
+			if (DungeonGame.isRenderingGame()){
+				renderGameGraphics(gfx2D);
 			}
-			//END OF CODE BLOCK
-
-
-			//CODE BLOCK:
-			//Rendering of Entities
-
-			
-			
-			for (int iuP1 = 0; iuP1 < DungeonGame.entveCurrentEntities.size(); iuP1 ++){
-				Entity entToRender = DungeonGame.entveCurrentEntities.get(iuP1);
-				
-				if (iuP1 == 1){
-					duLASTXPOS = duCURRENTXPOS;
-					duCURRENTXPOS = entToRender.dXPos;
-					System.out.println("DELTAXPOS: " + (duCURRENTXPOS - duLASTXPOS));
-				}
-				
-				
-				if (!DungeonGame.entveCurrentEntities.get(iuP1).isNull()){
-
-					AffineTransform transf = gfx2D.getTransform();
-					dEntityRelativeXShift = entToRender.getXPos() * 64;
-					dEntityRelativeYShift = entToRender.getYPos() * 64;
-					dEntityHeadingRotate = entToRender.getHeading();
-
-					gfx2D.translate((dEntityRelativeXShift), (dEntityRelativeYShift));
-					gfx2D.rotate(dEntityHeadingRotate);
-
-					//gfx2D.rotate(Math.PI / -2);
-					//gfx2D.setColor(Color.RED);
-					//gfx2D.drawString("This is where I point my squirt bottle of hyper-chlorine windex ammonia solution.", 10, 4); //Debugging message (to show heading of entities)
-					//gfx2D.rotate(Math.PI / 2);
-
-					//Renders the limbs of entities
-					for (SkeletonLimb lmbToRender : entToRender.ensSkeleton.sklaSkeleton){
-						lmbToRender.drawLimb(gfx2D);
-					}
-
-					gfx2D.setStroke(new BasicStroke());
-					//gfx2D.rotate((-1) * dEntityHeadingRotate);
-					//gfx2D.translate((-1) * (dEntityRelativeXShift), (-1) * (dEntityRelativeYShift));
-					gfx2D.setTransform(transf);
-
-				}
-			}
-
-			gfx2D.translate((-1) * dViewXShift, (-1) * dViewYShift);
-			//END OF CODE BLOCK
-
-
-
-			//CODE BLOCK:
-			//Rendering of the GUI
-			gfx2D.scale(1 / dGameZoomScale, 1 /  dGameZoomScale); //Resets the zooming scale.
-
-
-			//This is a very basic GUI. We will (WE MUST) change it.
-			gfx2D.setColor(ColorList.GUI_TRANSPARENT_GRAY);
-			gfx2D.fillRect(0, getHeight() - 100, 400, 105);
-			gfx2D.setColor(Color.GREEN);
-
-			gfx2D.drawString("PLAYER X: " + playerEntity.dXPos , 5 , getHeight() - 85);
-			gfx2D.drawString("PLAYER Y: " + playerEntity.dYPos , 5 , getHeight() - 75);
-			gfx2D.drawString("MSPFO (gfx): " + (lGfxLoopActualMSPFO) + ", which means that FPS: " + 1000.0 / (lGfxLoopActualMSPFO) , 5, getHeight() - 65);
-			gfx2D.drawString("MSPFO (game): " + DungeonGame.getLastMSPFO() + ", which means that FPS: " + 1000.0 / DungeonGame.getLastMSPFO() , 5, getHeight() - 55);
-
-			gfx2D.setColor(ColorList.GUI_RED);
-			gfx2D.drawString("Health: sqrt(1/0) ---  PROTIP: PRESS WASD, M1, M2, SHIFT, UP, DOWN, COMMA, PERIOD", 5, getHeight() - 40);
-			gfx2D.setColor(ColorList.GUI_BLACK);
-			gfx2D.drawString("Heading : " + playerEntity.dHeading + " rad.", 5, getHeight() - 30);
-			gfx2D.drawString("Scale : " + dGameZoomScale , 5, getHeight() - 20);
-			//END OF CODE BLOCK
-
-
 		} else {
 			//Loading screen.
 			gfx2D.setColor(Color.WHITE);

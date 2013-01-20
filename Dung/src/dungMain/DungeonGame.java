@@ -59,6 +59,12 @@ public class DungeonGame {
 	public static final double DISTANCE_TO_KEEP_FROM_WALL = 0.001;
 
 	public static int iGameReadinessState;
+	
+	
+	
+	private static boolean bRenderGame;
+	private static boolean bRenderMenu;
+	
 
 	public static void main(String[] args){
 
@@ -91,13 +97,14 @@ public class DungeonGame {
 		iGameReadinessState += 1;
 		//Initialization ends
 		
-		GameMainMenu.graphics();
-		boolean readyToStartGame = false;
+		bRenderMenu = true;
+		
+		
+		mainGameWindow.show();
 		
 		//The Gameplay Loop
-		mainGameWindow.show();  //TRANSFER TO GAME MAIN MENU!
 		while (true){
-			if(readyToStartGame){
+			if (bRenderGame){
 				doGameLoop();
 				ColorScheme.updateColorList();
 				lCurrentFrame ++;
@@ -426,6 +433,19 @@ public class DungeonGame {
 	}
 	public static String getGamePath(){
 		return strGamePath;
+	}
+	
+	public static boolean isRenderingMenu(){
+		return bRenderMenu;
+	}
+	public static boolean isRenderingGame(){
+		return bRenderGame;
+	}
+	public static void renderMenu(boolean renderState){
+		bRenderMenu = renderState;
+	}
+	public static void renderGame(boolean renderState){
+		bRenderGame = renderState;
 	}
 
 }

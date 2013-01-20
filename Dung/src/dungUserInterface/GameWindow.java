@@ -2,6 +2,7 @@ package dungUserInterface;
 
 import javax.swing.JFrame;
 import dungContent.ColorList;
+import dungMain.DungeonGame;
 
 
 /**
@@ -20,6 +21,7 @@ public class GameWindow extends Thread {
 
 	JFrame frMainWindow;
 	GameGraphics grGraphicsRenderer;
+	GameMainMenu gmmMainMenuRenderer;
 	GameKeyboardInput kiKeyboardListener;
 	GameMouseInput miMouseListener;
 
@@ -32,6 +34,8 @@ public class GameWindow extends Thread {
 		frMainWindow.setResizable(false);
 		frMainWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		grGraphicsRenderer = new GameGraphics();
+		gmmMainMenuRenderer = new GameMainMenu();
+		frMainWindow.add(gmmMainMenuRenderer);
 		frMainWindow.add(grGraphicsRenderer);
 		//frMainWindow.setUndecorated(true);
 
@@ -100,6 +104,10 @@ public class GameWindow extends Thread {
 					System.err.println("Interruption error in the GameWindow class. How?");
 					e.printStackTrace();
 				}
+			}
+			
+			if (DungeonGame.isRenderingMenu()){
+				gmmMainMenuRenderer.setVisible(true);
 			}
 
 

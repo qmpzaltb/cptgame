@@ -5,10 +5,17 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.RenderingHints;
 import java.awt.Window;
 import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -22,38 +29,35 @@ import dungEntity.SkeletonLimb;
 
 
 /**
- * GameGraphics:
- * A class that attaches to a JFrame as a component.
- * This class converts the information from the Gameplay thread to graphical information (shapes, text, lines, etc.)
- * This conversion is done through the "paintComponent" method.
- * The drawing of skeleton limbs is done in the Limb's individual classes.
+ * GameMainMenu:
+ * A class that handles the menu screen.
  */
 
 @SuppressWarnings("serial")
 public class GameMainMenu extends JPanel{
-	public static void main(String[] args){
-		frame.setVisible(true);
+
+	File filImage;
+
+	Image imgLogo;
+
+	
+	public GameMainMenu(){
+		filImage = new File("\\images\\logo.gif");
+		try {
+			imgLogo = ImageIO.read(filImage);
+			System.out.println("IMAGE READ");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
-	public static void graphics(Graphics g) {
-		JFrame frame = new JFrame("Cleansanity");
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setSize(351, 469);
-		frame.getContentPane().setBackground(Color.BLACK);
-		frame.setResizable(false);
-		frame.setLocationRelativeTo(null);
+	
+	public void paintComponent(Graphics2D gfx2D){
 
-
-		String imgStr = "C:\\Users\\Nerman Nicholas\\Documents\\GitHub\\cptgame\\Dung\\images\\logo.gif";
-
-
-		ImageIcon image = new ImageIcon(imgStr);
-		JLabel label1 = new JLabel(" ", image, JLabel.CENTER);
-		frame.getContentPane().add(label1);
-
-		frame.validate();
-
-		//mainGameWindow.show();  
+		gfx2D.setColor(Color.WHITE);
+		gfx2D.fillRect(10, 10, 1000, 10);
+		gfx2D.drawImage(imgLogo, 20, 20, 200, 100, null);
 
 	}
 
