@@ -28,7 +28,7 @@ import sun.audio.AudioStream;
 public class GameSounds {
 
 	private static final float VOLUME_MAX = 6.0f;
-	private static final float VOLUME_MIN = -6.0f; //??
+	private static final float VOLUME_MIN = -60.0f;
 	private static float fCurrentVolume = 0.0f;
 	
 	
@@ -145,7 +145,7 @@ public class GameSounds {
 	        currentMusic = AudioSystem.getClip();
 	        currentMusic.open(audioIn);
 			currentMusic.loop(Clip.LOOP_CONTINUOUSLY);
-			System.out.println("The consensus is that the music works.");
+			//System.out.println("The consensus is that the music works.");
 		}
 		catch (Exception e) {
 			e.printStackTrace();
@@ -157,6 +157,7 @@ public class GameSounds {
 		
 		fCurrentVolume += 1f;
 		fCurrentVolume = Math.min(fCurrentVolume, VOLUME_MAX);
+		System.out.println(fCurrentVolume);
 		gainControl.setValue(fCurrentVolume); // Adds to volume by 10 decibels.
 	}
 	public static void decVolume() { //Decreases volume for music
@@ -165,6 +166,7 @@ public class GameSounds {
 		
 		fCurrentVolume -= 1f;
 		fCurrentVolume = Math.max(fCurrentVolume, VOLUME_MIN);
+		System.out.println(fCurrentVolume);
 		gainControl.setValue(fCurrentVolume); // Reduces volume by 10 decibels.
 	}
 	
