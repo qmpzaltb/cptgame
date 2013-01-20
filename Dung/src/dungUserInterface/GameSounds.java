@@ -16,6 +16,7 @@ import javax.sound.sampled.FloatControl;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.JApplet;
+import javax.swing.plaf.basic.BasicInternalFrameTitlePane.MaximizeAction;
 
 import dungContent.ColorList;
 import dungEntity.KnowledgeType;
@@ -26,6 +27,11 @@ import sun.audio.AudioStream;
 
 public class GameSounds {
 
+	private static final float VOLUME_MAX = 6.0f;
+	private static final float VOLUME_MIN = -6.0f; //??
+	private static float fCurrentVolume = 0.0f;
+	
+	
 	//Not sure if we need this to implement multi sounds
 	//int[] maxSimultSounds = new int[15];
 
@@ -148,12 +154,18 @@ public class GameSounds {
 	public static void incVolume() { //Increases volume for music
 		FloatControl gainControl = 
 			    (FloatControl) currentMusic.getControl(FloatControl.Type.MASTER_GAIN);
-			gainControl.setValue(+10.0f); // Adds to volume by 10 decibels.
+		
+		fCurrentVolume += 1f;
+		fCurrentVolume = Math.min(fCurrentVolume, VOLUME_MAX);
+		gainControl.setValue(fCurrentVolume); // Adds to volume by 10 decibels.
 	}
 	public static void decVolume() { //Decreases volume for music
 		FloatControl gainControl = 
 			    (FloatControl) currentMusic.getControl(FloatControl.Type.MASTER_GAIN);
-			gainControl.setValue(-10.0f); // Reduces volume by 10 decibels.
+		
+		fCurrentVolume -= 1f;
+		fCurrentVolume = Math.max(fCurrentVolume, VOLUME_MIN);
+		gainControl.setValue(fCurrentVolume); // Reduces volume by 10 decibels.
 	}
 	
 	

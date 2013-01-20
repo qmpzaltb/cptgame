@@ -45,6 +45,7 @@ public class GameGraphics extends JPanel{
 	private static int iCanvasYLoc;
 
 	private Font fntGuiFont;
+	private FontMetrics fmDisplayFontSizeFinder;
 	
 	private Font fntDisplayFont;
 	private boolean bMiniDisplay;
@@ -77,6 +78,9 @@ public class GameGraphics extends JPanel{
 
 		fntGuiFont = new Font("Courier New" , Font.BOLD, 12); //I don't even know. Just make sure its a good, readable, preferrably monospaced, font.
 		fntDisplayFont =  new Font("Lucida Sans" , Font.BOLD, 26);
+		
+		
+		fmDisplayFontSizeFinder = getFontMetrics(fntDisplayFont);
 		
 		rhiRenderingSettings = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON); //Smoother shapes, but map becomes buggy.
 		//WORKAROUND: I extended tile pixel width/height by one pixel. Still 64 wide though, if you know what I mean.
@@ -237,8 +241,7 @@ public class GameGraphics extends JPanel{
 			gfx2D.setColor(ColorList.dynamicVoid);
 			gfx2D.setFont(fntDisplayFont);
 			
-			FontMetrics fmSizeFinder = gfx2D.getFontMetrics();
-			gfx2D.drawString(GameEvents.strDisplay, getWidth() / 2 - (fmSizeFinder.stringWidth(GameEvents.strDisplay) / 2) , getHeight() / 4);
+			gfx2D.drawString(GameEvents.strDisplay, getWidth() / 2 - (fmDisplayFontSizeFinder.stringWidth(GameEvents.strDisplay) / 2) , getHeight() / 4);
 			
 			
 			GameEvents.iFrameBeforeRemove -= 1;
