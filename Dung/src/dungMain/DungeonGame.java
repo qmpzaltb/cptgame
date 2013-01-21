@@ -145,13 +145,17 @@ public class DungeonGame {
 		//Tells the entity controllers of every entity to do their next action.
 		for (Entity toUpdate : entveCurrentEntities){
 			if (!toUpdate.isNull()){
-			toUpdate.encController.doNextAction();
-			if (toUpdate.encController.isEntityDead()){
-				removeEntity(toUpdate.iEntityID);
-				GameEvents.doAction(EventType.SPREE);
+				toUpdate.encController.doNextAction();
+				if (toUpdate.encController.isEntityDead()){
+					removeEntity(toUpdate.iEntityID);
+					Dungeon.iNumberOfEnemies--;
+					if (Dungeon.iNumberOfEnemies == 0)
+						GameEvents.doAction(EventType.ACE);
+					else
+						GameEvents.doAction(EventType.SPREE);
+				}
 			}
-			}
-			
+
 		}
 
 

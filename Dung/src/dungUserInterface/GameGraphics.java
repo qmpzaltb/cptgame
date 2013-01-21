@@ -16,6 +16,7 @@ import dungContent.ControllerPlayer;
 import dungEntity.Entity;
 import dungEntity.KnowledgeType;
 import dungEntity.SkeletonLimb;
+import dungMain.Dungeon;
 import dungMain.DungeonGame;
 
 
@@ -231,17 +232,18 @@ public class GameGraphics extends JPanel{
 		gfx2D.setColor(Color.GREEN);
 
 		if (bDebugView) {
-			gfx2D.drawString("PLAYER X: " + playerEntity.dXPos , 5 , getHeight() - 90);
-			gfx2D.drawString("PLAYER Y: " + playerEntity.dYPos , 5 , getHeight() - 80);
-			gfx2D.drawString("MSPFO (gfx): " + (lGfxLoopActualMSPFO) + ", which means that FPS: " + 1000.0 / (lGfxLoopActualMSPFO) , 5, getHeight() - 70);
-			gfx2D.drawString("MSPFO (game): " + DungeonGame.getLastMSPFO() + ", which means that FPS: " + 1000.0 / DungeonGame.getLastMSPFO() , 5, getHeight() - 60);
+			gfx2D.drawString("PLAYER X: " + playerEntity.dXPos , 5 , getHeight() - 105);
+			gfx2D.drawString("PLAYER Y: " + playerEntity.dYPos , 5 , getHeight() - 95);
+			gfx2D.drawString("MSPFO (gfx): " + (lGfxLoopActualMSPFO) + ", which means that FPS: " + 1000.0 / (lGfxLoopActualMSPFO) , 5, getHeight() - 85);
+			gfx2D.drawString("MSPFO (game): " + DungeonGame.getLastMSPFO() + ", which means that FPS: " + 1000.0 / DungeonGame.getLastMSPFO() , 5, getHeight() - 75);
 		}
 		gfx2D.setColor(ColorList.GUI_RED);
-		gfx2D.drawString("Health: " + DungeonGame.handleEntity(ControllerPlayer.iPlayerEntityID).getIntegrity(), 5, getHeight() - 40);
+		gfx2D.drawString("Health: " + DungeonGame.handleEntity(ControllerPlayer.iPlayerEntityID).getIntegrity(), 5, getHeight() - 60);
 		gfx2D.setColor(ColorList.PALE_SKIN);
-		gfx2D.drawString("Stamina: " + ControllerPlayer.getStamina(), 5, getHeight() - 30);
+		gfx2D.drawString("Stamina: " + ControllerPlayer.getStamina(), 5, getHeight() - 50);
 		gfx2D.setColor(ColorList.GOLD);
-		gfx2D.drawString("Volume of Music (in dB): " + GameSounds.fCurrentVolume , 5, getHeight() - 20);
+		gfx2D.drawString("Volume of Music (in dB): " + GameSounds.fCurrentVolume , 5, getHeight() - 40);
+		gfx2D.drawString("Enemies Left: " + Dungeon.iNumberOfEnemies , 5, getHeight() - 40);
 
 		if (bDebugView) {
 			gfx2D.setColor(ColorList.GUI_BLACK);
