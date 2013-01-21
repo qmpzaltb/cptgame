@@ -76,6 +76,10 @@ public class GameEvents {
 			GameSounds.playSound(SoundType.ITEM);
 			break;
 		}
+		case SWINGITEM:{
+			GameSounds.playSound(SoundType.ITEMBROOM);
+			break;
+		}
 		
 		case LEVELMUSICINC:{
 			iLevelOfMusic++;

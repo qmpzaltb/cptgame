@@ -6,7 +6,9 @@ import dungEntity.EntitySpatialKnowledge;
 import dungEntity.Item;
 import dungMain.DungeonGame;
 import static dungMain.DungeonGame.handleEntity;
+import dungUserInterface.EventType;
 import dungUserInterface.GameActions;
+import dungUserInterface.GameEvents;
 import dungUserInterface.GameInput;
 
 /**
@@ -98,6 +100,17 @@ public class ControllerPlayer extends EntityController{
 			handleEntity(iEntityID).setMovementDirection(handleEntity(iEntityID).dHeading + Math.PI); //Moves player backwards where they are facing
 		}
 		//END OF CODE BLOCK
+		
+		//CODE BLOCK:
+		//Handles sounds for movement
+		if (handleEntity(iEntityID).bEntityMoving == true) {
+			GameEvents.doAction(EventType.MOVEMENT);
+		}
+		//END OF CODE BLOCK
+		
+		
+		
+		
 		
 		
 		//Glitch : the speed modified will continue even if shift is not pressed. This is done by holding shift, then pressing and holding down any WASD keys, then releasing the shift key.

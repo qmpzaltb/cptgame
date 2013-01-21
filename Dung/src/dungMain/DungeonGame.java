@@ -111,7 +111,7 @@ public class DungeonGame {
 			//Do features such as zoom in, zoom out, calling out menus, etc.
 			doNonGameplayInput();
 			//Checks whether different music needs to be played
-			GameSounds.updateMusic();
+			GameSounds.updateGameSounds();
 			regulateFramerate();
 		}
 	}

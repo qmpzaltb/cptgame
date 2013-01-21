@@ -50,6 +50,8 @@ public class Dungeon {
 	public static final int MINIMUM_DIMENSION = 20;
 	public static final int MAXIMUM_DIMENSION = 100;
 
+	int[][] dungSimpGrid;
+	
 	int iSeed; //the seed will represent a different spawn point of an enormous map
 	boolean isOneExitInstance = false; //check if there is already an exit point in the map in order to go to the next level
 	public Vector<Vector<DungeonTile>> dtlve2DungeonTiles;
@@ -67,7 +69,7 @@ public class Dungeon {
 		//Defines the size of the dungeon according to the seed.
 		iDungeonXSize = rngDungeon.nextInt(MAXIMUM_DIMENSION - MINIMUM_DIMENSION + 1) + MINIMUM_DIMENSION;
 		iDungeonYSize = rngDungeon.nextInt(MAXIMUM_DIMENSION - MINIMUM_DIMENSION + 1) + MINIMUM_DIMENSION;
-		int[][] dungSimpGrid = new int[iDungeonXSize][iDungeonYSize];
+		dungSimpGrid = new int[iDungeonXSize][iDungeonYSize];
 
 
 
@@ -348,11 +350,11 @@ public class Dungeon {
 	
 	
 	
-	
+	/*
 	
 	//-------------------------------------------------------
 	//Algorithm for Path Finding using A* by Anthony Zhang
-	//Translated and encorporated to Java by Justin Baradi
+	//Translated and incorporated to Java by Justin Baradi
 	//-------------------------------------------------------
 	private Point[] FindPath (int[][] dungGrid, int iStartX, int iStartY, int iTargetX, int iTargetY) {
 		
@@ -373,21 +375,17 @@ public class Dungeon {
     	public int compare(String o1, String o2) {
     		int node1 = Integer.parseInt(o1.split("|")[1].trim());
     		int node2 = Integer.parseInt(o2.split("|")[1].trim());
-    		return node1 - node2;
+    		return dungGrid[node1][node2];
     	}
     });
     
+    OpenHeap.add(iStartX + "|" + iStartY);
     
     boolean OpenMap[][] = new boolean[iDungeonXSize][iDungeonYSize]; 
     OpenMap[iStartX][iStartY] = true;
-    
     boolean VisitedNodes[][] = new boolean[iDungeonXSize][iDungeonYSize]; //map of visited nodes
-    
-    boolean Parents[][] = new boolean[iDungeonXSize][iDungeonYSize]; //mapping of nodes to their parents
 
-    /*
-    while (!queue.isEmpty()) //handles all nodes in queue
-    Point Parents[] = new Point[iDungeonXSize*iDungeonYSize]; //mapping of nodes to their parents
+    Point Parents[][] = new Point[iDungeonXSize][iDungeonYSize]; //mapping of nodes to their parents
     	
 
     int iMaxIndex = 0;
@@ -395,40 +393,22 @@ public class Dungeon {
     while (iMaxIndex == OpenHeap.size()) //loop while there are entries in the open list
     {
         //select the node having the lowest total score
-        Point Node = OpenHeap[1];
-        int NodeX = Node.x;
-        int NodeY = Node.y; //obtain the minimum value in the heap
-        OpenHeap[1] = OpenHeap[iMaxIndex];
-        OpenHeap.Remove(iMaxIndex);
-        iMaxIndex--; //move the last entry in the heap to the beginning
-        Index = 1;
-        ChildIndex = 2;
-        while (ChildIndex <= iMaxIndex)
-        {
-            Node1 = OpenHeap[ChildIndex];
-            Node2 = OpenHeap[ChildIndex + 1];
-            if (ChildIndex < iMaxIndex && TotalScores[Node1.X][Node1.Y] > TotalScores[Node2.X][Node2.Y]) //obtain the index of the lower of the two child nodes if there are two of them
-                ChildIndex++;
-            else
-                Node2 = Node1;
-            Node1 = OpenHeap[Index];
-            if (TotalScores[Node1.X][Node1.Y] < TotalScores[Node2.X][Node2.Y]) //stop updating if the parent is less than or equal to the child
-                break;
-            Temp1 = OpenHeap[Index];
-            OpenHeap[Index] = OpenHeap[ChildIndex];
-            OpenHeap[ChildIndex] = Temp1; //swap the two elements so that the child entry is greater than the parent
-            Index = ChildIndex;
-            ChildIndex = ChildIndex << 1; //move to the child entry
-        }
-        OpenMap[NodeX][NodeY] = 0; //remove the entry from the open map
+        String Node = OpenHeap.poll();
+        int NodeX = Integer.parseInt(Node.split("|")[1].trim());
+        int NodeY = Integer.parseInt(Node.split("|")[2].trim()); //obtain the minimum value in the heap
+        int iIndex = 1;
+        int iChildIndex = 2;
+        
+        OpenMap[NodeX][NodeY] = true; //remove the entry from the open map
 
         //check if the node is the goal
-        if (NodeX == EndX && NodeY == EndY)
+        if (NodeX == iTargetX && NodeY == iTargetY)
         {
         	Point[] Path = new Point[iDungeonXSize*iDungeonYSize];
-            for (int i = 0; i < Path.length(); i++)
+            for (int i = 0; i < (iDungeonXSize*iDungeonYSize); i++)
             {
-                Path.Insert(1,Object("X",NodeX,"Y",NodeY));
+                Path[i] = new Point(NodeX, NodeY);
+                Parents[] = 
                 Node = Parents[NodeX][NodeY];
                 if (!IsObject(Node))
                     break;
@@ -438,65 +418,55 @@ public class Dungeon {
             return Path;
         }
 
-        VisitedNodes[NodeX][NodeY] = 1;
+        VisitedNodes[NodeX][NodeY] = true;
 
         if (NodeX > 1)
-            ScoreNode(EndX,EndY,NodeX,NodeY,Grid,NodeX - 1,NodeY,OpenHeap,OpenMap,VisitedNodes,CurrentScores,HeuristicScores,TotalScores,Parents);
-        if (NodeX < ObjMaxIndex(Grid))
-            ScoreNode(EndX,EndY,NodeX,NodeY,Grid,NodeX + 1,NodeY,OpenHeap,OpenMap,VisitedNodes,CurrentScores,HeuristicScores,TotalScores,Parents);
+            ScoreNode(iTargetX,iTargetY,NodeX,NodeY,dungGrid,NodeX - 1,NodeY,OpenHeap,OpenMap,VisitedNodes,CurrentScores,HeuristicScores,TotalScores,Parents);
+        if (NodeX < iDungeonXSize)
+            ScoreNode(iTargetX,iTargetY,NodeX,NodeY,dungGrid,NodeX + 1,NodeY,OpenHeap,OpenMap,VisitedNodes,CurrentScores,HeuristicScores,TotalScores,Parents);
         if (NodeY > 1)
-            ScoreNode(EndX,EndY,NodeX,NodeY,Grid,NodeX,NodeY - 1,OpenHeap,OpenMap,VisitedNodes,CurrentScores,HeuristicScores,TotalScores,Parents);
-        if (NodeY < ObjMaxIndex(Grid[1]))
-            ScoreNode(EndX,EndY,NodeX,NodeY,Grid,NodeX,NodeY + 1,OpenHeap,OpenMap,VisitedNodes,CurrentScores,HeuristicScores,TotalScores,Parents);
+            ScoreNode(iTargetX,iTargetY,NodeX,NodeY,dungGrid,NodeX,NodeY - 1,OpenHeap,OpenMap,VisitedNodes,CurrentScores,HeuristicScores,TotalScores,Parents);
+        if (NodeY < iDungeonYSize)
+            ScoreNode(iTargetX,iTargetY,NodeX,NodeY,dungGrid,NodeX,NodeY + 1,OpenHeap,OpenMap,VisitedNodes,CurrentScores,HeuristicScores,TotalScores,Parents);
     }
-    */
+    
     return null; //could not find a path
 	}
 	
 	
-	/*
 	
-	ScoreNode(int iTargetX, int iTargetY, int iNodeX, int iNodeY, int[][] dungGrid, int iNextNodeX, int iNextNodeY, OpenHeap, boolean[] OpenMap, boolean[] VisitedNodes, int[][] CurrentScores, int[][] HeuristicScores, int[][] TotalScores, Point[] Parents)
+	private void ScoreNode(int iTargetX, int iTargetY, int iNodeX, int iNodeY, int[][] dungGrid, int iNextNodeX, int iNextNodeY, PriorityQueue<String> OpenHeap, boolean[][] OpenMap, boolean[][] VisitedNodes, int[][] CurrentScores, int[][] HeuristicScores, int[][] TotalScores, Point[][] Parents)
 	{
-	    If (Grid[NextNodeX,NextNodeY] || VisitedNodes[NextNodeX,NextNodeY]) ;next node is a wall or is in the closed list
-	        Return
-	    BestCurrentScore := CurrentScores[NodeX,NodeY] + 1 ;add the distance between the current node and the next to the current distance
+	    if (dungGrid[iNextNodeX][iNextNodeY] == 1 || VisitedNodes[iNextNodeX][iNextNodeY] == true); //next node is a wall or is in the closed list
+	        return;
+	    int iBestCurrentScore = CurrentScores[iNodeX][iNodeY] + 1; //add the distance between the current node and the next to the current distance
 
-	    If !OpenMap[NextNodeX,NextNodeY]
+	    if (!(OpenMap[iNextNodeX][iNextNodeY]))
 	    {
-	        HeuristicScores[NextNodeX,NextNodeY] := Abs(EndX - NextNodeX) + Abs(EndY - NextNodeY) ;wip: diagonal distance: Max(Abs(EndX - NextNodeX),Abs(EndY - NextNodeY))
+	        HeuristicScores[iNextNodeX][iNextNodeY] = Math.abs(iTargetX - iNextNodeX) + Math.abs(iTargetY - iNextNodeY) ; //diagonal distance: Max(Abs(EndX - NextNodeX),Abs(EndY - NextNodeY))
 
-	        CurrentScores[NextNodeX,NextNodeY] := BestCurrentScore
-	        TotalScores[NextNodeX,NextNodeY] := BestCurrentScore + HeuristicScores[NextNodeX,NextNodeY]
-	        Parents[NextNodeX,NextNodeY] := Object("X",NodeX,"Y",NodeY)
+	        CurrentScores[iNextNodeX][iNextNodeY] = iBestCurrentScore;
+	        TotalScores[iNextNodeX][iNextNodeY] = iBestCurrentScore + HeuristicScores[iNextNodeX][iNextNodeY];
+	        Parents[iNextNodeX][iNextNodeY] = new Point(iNodeX,iNodeY);
 
-	        ;append the value to the end of the heap array
-	        Index := ObjMaxIndex(OpenHeap), Index := Index ? (Index + 1) : 1
-	        OpenHeap[Index] := Object("X",NextNodeX,"Y",NextNodeY)
-	        OpenMap[NextNodeX,NextNodeY] := 1 ;add the entry to the open map
-
-	        ;rearrange the array to satisfy the minimum heap property
-	        ParentIndex := Index >> 1, Node1 := OpenHeap[Index], Node2 := OpenHeap[ParentIndex]
-	        While, Index > 1 && TotalScores[Node1.X,Node1.Y] < TotalScores[Node2.X,Node2.Y] ;child entry is less than its parent
-	        {
-	            Temp1 := OpenHeap[ParentIndex], OpenHeap[ParentIndex] := OpenHeap[Index], OpenHeap[Index] := Temp1 ;swap the two elements so that the child entry is greater than its parent
-	            Index := ParentIndex, ParentIndex >>= 1 ;move to the parent entry
-	        }
+	        //append the value to the end of the heap array
+	        OpenHeap.add(iNextNodeX + "|" + iNextNodeY);
+	        
+	        
 	    }
-	    Else If (BestCurrentScore >= CurrentScores[NextNodeX,NextNodeY])
+	    else if (iBestCurrentScore >= CurrentScores[iNextNodeX][iNextNodeY])
 	    {
-	        CurrentScores[NextNodeX,NextNodeY] := BestCurrentScore
-	        TotalScores[NextNodeX,NextNodeY] := BestCurrentScore + HeuristicScores[NextNodeX,NextNodeY]
-	        Parents[NextNodeX,NextNodeY] := Object("X",NodeX,"Y",NodeY)
+	        CurrentScores[iNextNodeX][iNextNodeY] = iBestCurrentScore;
+	        TotalScores[iNextNodeX][iNextNodeY] = iBestCurrentScore + HeuristicScores[iNextNodeX][iNextNodeY];
+	        Parents[iNextNodeX][iNextNodeY] = Object("X",NodeX,"Y",NodeY);
 	    }
 	}
 	
 	
+	
+	
+	
 	*/
-	
-	
-	
-	
 	
 	
 	
