@@ -317,7 +317,7 @@ public class Dungeon {
 						isOneExitInstance = true;
 						iExitX = iuP1;
 						iExitY = iuP2;
-						//System.out.println(iuP1 + " X and " + iuP2 + " Y is the EXIT LOCATION :D");
+						System.out.println(iuP1 + " X and " + iuP2 + " Y is the EXIT LOCATION :D");
 						break placingExit;
 					}
 				}
