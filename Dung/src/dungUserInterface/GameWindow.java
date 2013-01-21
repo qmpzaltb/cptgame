@@ -19,8 +19,8 @@ public class GameWindow extends Thread {
 	public static final String NAME = "Dung";
 	
 	
-	public static final int RESOLUTION_X_MINIMUM = 640;
-	public static final int RESOLUTION_Y_MINIMUM = 480;
+	public static final int RESOLUTION_X_MINIMUM = 344;
+	public static final int RESOLUTION_Y_MINIMUM = 256;
 	
 	
 

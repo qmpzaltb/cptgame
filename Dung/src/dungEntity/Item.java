@@ -46,14 +46,16 @@ public class Item extends Entity {
 	
 	public double getXPos(){
 		if (sklLimbAttachedTo != null && iParentEntityID != -1){
-			dXPos = handleEntity(iParentEntityID).getXPos() + Math.cos(getHeading()) * (sklLimbAttachedTo.getAttachPointX() / 64) - Math.sin(getHeading()) * (sklLimbAttachedTo.getAttachPointY() / 64);
+			//dXPos = handleEntity(iParentEntityID).getXPos() + (Math.sin(getHeading()) * (sklLimbAttachedTo.getAttachPointX() / 64.0)) - (Math.cos(getHeading()) * (sklLimbAttachedTo.getAttachPointY() / 64.0));
+			dXPos = handleEntity(iParentEntityID).getXPos() + (Math.cos(handleEntity(iParentEntityID).getHeading()) * (sklLimbAttachedTo.getAttachPointX() / 64.0)) - (Math.sin(handleEntity(iParentEntityID).getHeading()) * (sklLimbAttachedTo.getAttachPointY() / 64.0));
+			//System.out.println("X COMPENSATION: " + (Math.sin(getHeading()) * (sklLimbAttachedTo.getAttachPointX() / 64.0) * 64));
 		}
 		return dXPos;
 	}
 	
 	public double getYPos(){
 		if (sklLimbAttachedTo != null && iParentEntityID != -1){
-			dYPos = handleEntity(iParentEntityID).getYPos() - Math.cos(Math.PI + getHeading()) * (sklLimbAttachedTo.getAttachPointY() / 64) + Math.sin(getHeading()) * (sklLimbAttachedTo.getAttachPointX() / 64);
+			dYPos = handleEntity(iParentEntityID).getYPos() + (Math.cos(handleEntity(iParentEntityID).getHeading()) * (sklLimbAttachedTo.getAttachPointY() / 64.0)) + (Math.sin(handleEntity(iParentEntityID).getHeading()) * (sklLimbAttachedTo.getAttachPointX() / 64.0));
 		}
 		return dYPos;
 	}

@@ -40,6 +40,7 @@ public class Entity {
 	public double dHeading;
 	public double dNormalSpeed;
 	
+	public boolean bDamageAreaActive;
 	public double dDamageAreaXPos;
 	public double dDamageAreaYPos;
 	public double dDamageAreaRadius;
@@ -63,6 +64,9 @@ public class Entity {
 	}
 	
 	public Entity(int entityID, double xPos, double yPos, double radius, double heading, int alleigance, double speed, boolean entityCollision, boolean wallCollision, EntityController controller, EntitySkeleton skeleton, Color[] skeletonColorSet){
+		
+		iEntityIntegrityMax = 100;
+		iEntityIntegrityCurrent = iEntityIntegrityMax;
 		
 		iEntityID = entityID;
 		dXPos = xPos;
@@ -147,6 +151,18 @@ public class Entity {
 	
 	public int addItem(Item toAdd){
 		return DungeonGame.addItem(toAdd);
+	}
+	
+	
+	public int getIntegrity(){
+		return iEntityIntegrityCurrent;
+	}
+	public int getMaxIntegrity(){
+		return iEntityIntegrityMax;
+	}
+	public void incrementIntegrity(int integrityIncrement){
+		iEntityIntegrityCurrent += integrityIncrement;
+		iEntityIntegrityCurrent = Math.min(iEntityIntegrityMax, iEntityIntegrityCurrent);
 	}
 	
 }

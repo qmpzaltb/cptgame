@@ -33,7 +33,7 @@ public class GameGraphics extends JPanel{
 	//private static final long serialVersionUID = 990000001; //Required by Eclipse? Why?
 
 
-	public static final double MAX_ZOOM = 1.85;
+	public static final double MAX_ZOOM = 3.85;
 	public static final double MIN_ZOOM = 0.01;
 
 

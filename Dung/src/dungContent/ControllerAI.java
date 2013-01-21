@@ -32,7 +32,9 @@ public class ControllerAI extends EntityController{
 	
 	@Override
 	public boolean isEntityDead() {
-		// TODO Auto-generated method stub
+		if (handleEntity(iEntityID).getIntegrity() <= 0){
+			return true;
+		}
 		return false;
 	}
 
