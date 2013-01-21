@@ -17,6 +17,9 @@ package dungMain;
 import java.awt.Color;
 import java.io.File;
 import java.util.Vector;
+
+import javax.swing.JOptionPane;
+
 import dungUserInterface.GameActions;
 import dungUserInterface.GameGraphics;
 import dungUserInterface.GameInput;
@@ -28,6 +31,8 @@ import dungContent.*;
 import dungEntity.*;
 import dungContent.SkeletonHumanoid;
 
+
+
 /**
  * DungeonGame:
  * The main class of the game.
@@ -37,6 +42,7 @@ import dungContent.SkeletonHumanoid;
  */
 public class DungeonGame {
 
+	public static final double DISTANCE_TO_KEEP_FROM_WALL = 0.001;
 
 	private static String strGamePath;
 
@@ -56,7 +62,7 @@ public class DungeonGame {
 	public static int iCurrentMapSeed = 42;
 	//Good Seeds 4897, 27839,
 
-	public static final double DISTANCE_TO_KEEP_FROM_WALL = 0.001;
+
 
 	public static int iGameReadinessState;
 
@@ -68,6 +74,19 @@ public class DungeonGame {
 
 	public static void main(String[] args){
 
+		JOptionPane.showMessageDialog(null, "CLEANSANITY\n" +
+				"Instructions:\n" +
+				"Use W, A, S, and D to move the Cleansinator towards the exit (a pulsating GREEN tile)\n" +
+				"Clean the forces of dirt by pointing at them and pressing the RIGHT or LEFT MOUSE BUTTONS.\n" +
+				"Use COMMA and PERIOD to zoom in and out.\n" +
+				"Press SHIFT to toggle sprint.\n" + 
+				"Use P and O to increase/decrease the volume.", "CLEANSANITY", JOptionPane.PLAIN_MESSAGE);
+		
+		iCurrentMapSeed = JOptionPane.showInputDialog(null, "Input a game seed:", "CLEANSANITY", JOptionPane.INFORMATION_MESSAGE).hashCode();
+		
+		JOptionPane.showMessageDialog(null, "CLEANSANITY\n" +
+				"NOW PLAYING: " + iCurrentMapSeed, "CLEANSANITY", JOptionPane.PLAIN_MESSAGE);
+		
 		strGamePath = new File("").getAbsolutePath();
 
 		//Initialization begins
@@ -87,7 +106,7 @@ public class DungeonGame {
 		entveCurrentEntities = new Vector<Entity>();
 		addEntity(ContentLibrary.PLAYER_BLUEPRINT, 0,0,0, new ControllerPlayer(), new SkeletonHumanoid(), ContentLibrary.PLAYER_COLORS);
 		//addEntity(ContentLibrary.RAT_BLUEPRINT, 10,17,0, new ControllerAI(), new SkeletonCreature(), ContentLibrary.CREATURE_COLORS);
-		//addEntity(ContentLibrary.DIRTY_BUBBLE_BLUEPRINT, 12,12,0, new ControllerAI(), new SkeletonBubble(), ContentLibrary.DIRTY_BUBBLE_COLORS);
+		addEntity(ContentLibrary.DIRTY_BUBBLE_BLUEPRINT, 12,12,0, new ControllerAI(), new SkeletonBubble(), ContentLibrary.DIRTY_BUBBLE_COLORS);
 		//addEntity(ContentLibrary.DIRTY_BUBBLE_BLUEPRINT, 15,15,0, new ControllerAI(), new SkeletonBubble(), ContentLibrary.DIRTY_BUBBLE_COLORS);
 		entveCurrentEntities.get(0).addItem(new Item(ContentLibrary.DUSTER_BLUEPRINT, new ControllerItem(), new SkeletonDuster(), ContentLibrary.DUSTER_COLORS, 0, handleEntity(0).ensSkeleton.sklaSkeleton[5]));
 		entveCurrentEntities.get(0).addItem(new Item(ContentLibrary.DUSTER_BLUEPRINT, new ControllerItem(), new SkeletonBroom(), ContentLibrary.BROOM_COLORS, 0, handleEntity(0).ensSkeleton.sklaSkeleton[6]));
@@ -103,6 +122,9 @@ public class DungeonGame {
 		mainGameWindow.show();
 		//The Gameplay Loop
 		while (true){
+			
+			lGameLoopStartTime = System.currentTimeMillis();
+			
 			if (bRenderGame){
 				doGameLoop();
 				ColorScheme.updateColorList();
@@ -117,8 +139,6 @@ public class DungeonGame {
 	}
 
 	private static void doGameLoop() {
-
-		lGameLoopStartTime = System.currentTimeMillis();
 
 		//Tells the entity controllers of every entity to do their next action.
 		for (Entity toUpdate : entveCurrentEntities){

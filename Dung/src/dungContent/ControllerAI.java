@@ -45,16 +45,19 @@ public class ControllerAI extends EntityController{
 		//CODE BLOCK:
 		//Finding the closest hostile entity to the entity being controlled.
 		if (iFramesUntilNewEnemyCheck < iFramesSinceLastEnemyCheck){ 	//When it is time to recalculate which entity is closest,
+			
+			
 			iNearestEnemyEntity = -1; 									//reset the closest entity to "no entity"
 			dNearestEntityDistanceSquared = MAX_DISTANCE; 				//and set the distance to pseudo-infinity (relative to the map)
 
 			for (Entity currentEntity : DungeonGame.entveCurrentEntities){ 										//Parse through all the entities
-				if (currentEntity.getAlleigance() != handleEntity(iEntityID).getAlleigance()){ 					//If the entity being parsed is of a different alleigance,
+				if (currentEntity.getAlleigance() != handleEntity(iEntityID).getAlleigance() && currentEntity.getAlleigance() != -1){ 					//If the entity being parsed is of a different alleigance,
 					double dDeltaX = Math.abs(currentEntity.getXPos() - handleEntity(iEntityID).getXPos()); 	//Find the displacement X...
 					double dDeltaY = Math.abs(currentEntity.getYPos() - handleEntity(iEntityID).getYPos());		//Find the displacement Y...
 					double dDistanceSquared = dDeltaX * dDeltaX + dDeltaY * dDeltaY;							//Find the displacement^2 of the entities (to avoid the costly sqrt())
 					if (dDistanceSquared < dNearestEntityDistanceSquared){	//If it is less than the old closest entity
 						iNearestEnemyEntity = currentEntity.iEntityID;		//the new closest entity becomes this entity
+						System.out.println("ITS THIS GUY:" + iNearestEnemyEntity);
 						dNearestEntityDistanceSquared = dDistanceSquared;	//and the new closest distance becomes this distance
 					}
 				}
@@ -89,9 +92,9 @@ public class ControllerAI extends EntityController{
 			handleEntity(iEntityID).entityAction = AnimationType.IDLE; 	//they are idling.
 		}
 
-		if (DungeonGame.handleEntity(iEntityID).entityAction == AnimationType.IDLE){	//If they are idling, they are eligible for another action
-			DungeonGame.handleEntity(iEntityID).lEntityActionTime = 45;	
-			DungeonGame.handleEntity(iEntityID).entityAction = AnimationType.TROLL;
+		if (handleEntity(iEntityID).entityAction == AnimationType.IDLE){	//If they are idling, they are eligible for another action
+			handleEntity(iEntityID).lEntityActionTime = 45;	
+			handleEntity(iEntityID).entityAction = AnimationType.TROLL;
 		}
 			
 		//Finally, the skeleton is told to do the animation that the entity is doing.
@@ -99,7 +102,7 @@ public class ControllerAI extends EntityController{
 		//END OF CODE BLOCK
 
 
-		DungeonGame.handleEntity(iEntityID).lEntityActionTime -= 1; //The animation progresses.
+		handleEntity(iEntityID).lEntityActionTime -= 1; //The animation progresses.
 	}
 
 	@Override
