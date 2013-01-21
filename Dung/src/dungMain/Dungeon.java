@@ -122,7 +122,8 @@ public class Dungeon {
 				makePath(iaPointXWeb[iuP1] , iaPointYWeb[iuP1] , iaPointXWeb[iuP2] , iaPointYWeb[iuP2]);
 			}
 		}
-		
+
+		makePath(iSpawnX , iSpawnY , iExitX, iExitY); //makes a path from spawn to exit
 		
 		//All methods required for the game at start
 		setSpawn();
@@ -132,7 +133,6 @@ public class Dungeon {
 		setExit();
 		spawnEnemies();
 
-		makePath(iSpawnX , iSpawnY , iExitX, iExitY); //makes a path from spawn to exit
 		
 		GameEvents.doAction(EventType.LEVELMUSICINC);
 		//--Plays ALL levels of music
@@ -261,7 +261,7 @@ public class Dungeon {
 				if (dtlve2DungeonTiles.get(iuP1).get(iuP2).getTileType() == TileType.FLOOR) {
 					iNumUntilNextSpawn--;
 					if (iNumUntilNextSpawn == 0) {
-						iNumUntilNextSpawn = (iDungeonXSize / 5) + (iDungeonYSize / 5);
+						iNumUntilNextSpawn = (iDungeonXSize / 3) + (iDungeonYSize / 3);
 						DungeonGame.addEntity(ContentLibrary.DIRTY_BUBBLE_BLUEPRINT, (iuP1 + 0.5), (iuP2 + 0.5), 0, new ControllerAI(), new SkeletonBubble(), ContentLibrary.DIRTY_BUBBLE_COLORS);
 					}
 				}
