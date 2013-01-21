@@ -29,14 +29,12 @@ public class GameSounds {
 
 	private static final float VOLUME_MAX = 6.0f;
 	private static final float VOLUME_MIN = -60.0f;
-	private static float fCurrentVolume = 0.0f;
-	
+	public static float fCurrentVolume = 0.0f;
 	
 	//Not sure if we need this to implement multi sounds
 	//int[] maxSimultSounds = new int[15];
 
 	public static void playSound(SoundType typeOfSound) {
-
 		switch (typeOfSound){
 			case STARTROUND:{
 				wavPlayer("STARTROUND.wav"); break;
@@ -73,11 +71,13 @@ public class GameSounds {
 				wavPlayer("SPREE5.wav"); break;
 			}
 			case SPREE6:{
-				int rand = (int) Math.random() * 2;
+				int rand = (int) Math.random() * 3;
 				if (rand == 0) {
 					wavPlayer("SANITARY.wav"); break;
 				} else if (rand == 1) {
 					wavPlayer("SANITARY2.wav"); break;
+				} else if (rand == 2) {
+					wavPlayer("SANITARY3.wav"); break;
 				}
 			}
 			
@@ -110,9 +110,6 @@ public class GameSounds {
 		
 	}
 	
-	
-	
-	
 	private static void wavPlayer(String file) {
 		try {
 			InputStream in = new FileInputStream("sounds\\" + file);
@@ -136,6 +133,58 @@ public class GameSounds {
 	
 
 	private static Clip currentMusic;
+	private static boolean musicPlayRequested;
+	private static SoundType typeOfMusicRequested;
+	
+	//Used ONLY if there is no music running in the background
+	public static void playIniMusic(SoundType typeOfMusic) {
+		playMusicType(typeOfMusic);
+		
+	}
+	
+	public static void requestMusicPlay(SoundType typeOfMusic){
+		musicPlayRequested = true;
+		typeOfMusicRequested = typeOfMusic;
+	}
+	
+	public static void updateMusic() {
+		
+		if (musicPlayRequested){
+			//waits for the initial music to stop
+			if (currentMusic.isActive() == true) {
+				if (currentMusic.getFramePosition() >= currentMusic.getFrameLength() - 1) {
+					currentMusic.close();
+					//then play the selected music
+					playMusicType(typeOfMusicRequested);
+					musicPlayRequested = false;
+				}
+			}
+		}
+	}
+	
+	private static void playMusicType(SoundType typeOfMusic){
+		switch (typeOfMusic){
+		case LAV:{
+			musicPlayer("lav.wav"); break;
+		}
+		case LAV2:{
+			musicPlayer("lav2.wav"); break;
+		}
+		case LAV3:{
+			musicPlayer("lav3.wav"); break;
+		}
+		case LAV4:{
+			musicPlayer("lav4.wav"); break;
+		}
+		case LAVDEF:{
+			musicPlayer("lavtowndef.wav"); break;
+		}
+		case PEGNERD20:{
+			musicPlayer("pegboard20.wav"); break;
+		}
+		}
+	}
+	
 	
 	public static void musicPlayer(String file) {
 		try {
@@ -157,7 +206,6 @@ public class GameSounds {
 		
 		fCurrentVolume += 1f;
 		fCurrentVolume = Math.min(fCurrentVolume, VOLUME_MAX);
-		System.out.println(fCurrentVolume);
 		gainControl.setValue(fCurrentVolume); // Adds to volume by 10 decibels.
 	}
 	public static void decVolume() { //Decreases volume for music
@@ -166,8 +214,7 @@ public class GameSounds {
 		
 		fCurrentVolume -= 1f;
 		fCurrentVolume = Math.max(fCurrentVolume, VOLUME_MIN);
-		System.out.println(fCurrentVolume);
-		gainControl.setValue(fCurrentVolume); // Reduces volume by 10 decibels.
+		gainControl.setValue(fCurrentVolume); // Reduces volume by 1 decibels.
 	}
 	
 	

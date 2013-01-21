@@ -4,6 +4,7 @@ import dungContent.ControllerPlayer;
 
 public class GameEvents {
 	
+	private static int iLevelOfMusic = 0;
 	public static int iFrameBeforeRemove;
 	public static String strDisplay;
 	
@@ -75,6 +76,21 @@ public class GameEvents {
 			GameSounds.playSound(SoundType.ITEM);
 			break;
 		}
+		
+		case LEVELMUSICINC:{
+			iLevelOfMusic++;
+			
+			if (iLevelOfMusic == 1) {
+				GameSounds.playIniMusic(SoundType.LAV); break;
+			} else if (iLevelOfMusic == 2) {
+				GameSounds.requestMusicPlay(SoundType.LAV2); break;
+			} else if (iLevelOfMusic == 3) {
+				GameSounds.requestMusicPlay(SoundType.LAV3); break;
+			} else if (iLevelOfMusic >= 4) {
+				GameSounds.requestMusicPlay(SoundType.LAV4); break;
+			}
+		}
+		
 		default: {
 			System.err.println("An error has occurred: no such game event.");
 		}
