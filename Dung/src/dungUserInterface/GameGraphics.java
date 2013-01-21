@@ -112,7 +112,7 @@ public class GameGraphics extends JPanel{
 		for (int iuP1 = 0; iuP1 < DungeonGame.dngCurrentDungeon.getXSize(); iuP1 ++){
 			for (int iuP2 = 0; iuP2 < DungeonGame.dngCurrentDungeon.getYSize(); iuP2 ++){
 				KnowledgeType tileKnowledge = ControllerPlayer.getKnowledge().getKnowledgeOfTile(iuP1, iuP2);
-				tileKnowledge = KnowledgeType.IS_VISIBLE; //Uncomment to disable fog of war
+				//tileKnowledge = KnowledgeType.IS_VISIBLE; //Uncomment to disable fog of war
 				if (tileKnowledge == KnowledgeType.NEVER_VISIBLE){
 					gfx2D.setColor(ColorList.UNDISCOVERED);
 					drawTile(gfx2D,iuP1,iuP2);
@@ -188,7 +188,7 @@ public class GameGraphics extends JPanel{
 			}*/ //Information about jitter bug. Uncomment to diagnose.
 
 			if (!DungeonGame.entveCurrentEntities.get(iuP1).isNull()){
-
+				if (ControllerPlayer.getKnowledge().entityIsVisible(iuP1)){
 				AffineTransform transf = gfx2D.getTransform();
 				dEntityRelativeXShift = entToRender.getXPos() * 64;
 				dEntityRelativeYShift = entToRender.getYPos() * 64;
@@ -211,7 +211,7 @@ public class GameGraphics extends JPanel{
 				//gfx2D.rotate((-1) * dEntityHeadingRotate);
 				//gfx2D.translate((-1) * (dEntityRelativeXShift), (-1) * (dEntityRelativeYShift));
 				gfx2D.setTransform(transf);
-
+				}
 			}
 		}
 

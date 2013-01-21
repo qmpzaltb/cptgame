@@ -216,8 +216,8 @@ public class ControllerPlayer extends EntityController{
 
 			for (int iuP1 = 0; iuP1 < DungeonGame.entveCurrentEntities.size(); iuP1 ++){
 				if (!handleEntity(iuP1).isNull() && iuP1 != iEntityID){
-					double dDistanceX = (handleEntity(iEntityID).itmaInventory[0].dXPos + handleEntity(iEntityID).itmaInventory[0].dDamageAreaXPos) - handleEntity(iuP1).getXPos();
-					double dDistanceY =   ((handleEntity(iEntityID).itmaInventory[0].dYPos + handleEntity(iEntityID).itmaInventory[0].dDamageAreaYPos) - handleEntity(iuP1).getYPos());;
+					double dDistanceX = (handleEntity(iEntityID).itmaInventory[0].getDamageXPos()) - handleEntity(iuP1).getXPos();
+					double dDistanceY =   (handleEntity(iEntityID).itmaInventory[0].getDamageYPos()) - handleEntity(iuP1).getYPos();
 					double dRadiusThis = handleEntity(iEntityID).itmaInventory[0].dDamageAreaRadius;
 					double dRadiusEnemy = handleEntity(iuP1).dRadius;
 					if (dDistanceX * dDistanceX + dDistanceY * dDistanceY < (dRadiusThis + dRadiusEnemy) * (dRadiusThis + dRadiusEnemy)){
@@ -232,8 +232,8 @@ public class ControllerPlayer extends EntityController{
 
 			for (int iuP1 = 0; iuP1 < DungeonGame.entveCurrentEntities.size(); iuP1 ++){
 				if (!handleEntity(iuP1).isNull() && iuP1 != iEntityID){
-					double dDistanceX = (handleEntity(iEntityID).itmaInventory[1].dXPos + handleEntity(iEntityID).itmaInventory[1].dDamageAreaXPos) - handleEntity(iuP1).getXPos();
-					double dDistanceY =   ((handleEntity(iEntityID).itmaInventory[1].dYPos + handleEntity(iEntityID).itmaInventory[1].dDamageAreaYPos) - handleEntity(iuP1).getYPos());;
+					double dDistanceX = (handleEntity(iEntityID).itmaInventory[1].getDamageXPos()) - handleEntity(iuP1).getXPos();
+					double dDistanceY =   (handleEntity(iEntityID).itmaInventory[1].getDamageYPos()) - handleEntity(iuP1).getYPos();;
 					double dRadiusThis = handleEntity(iEntityID).itmaInventory[1].dDamageAreaRadius;
 					double dRadiusEnemy = handleEntity(iuP1).dRadius;
 					if (dDistanceX * dDistanceX + dDistanceY * dDistanceY < (dRadiusThis + dRadiusEnemy) * (dRadiusThis + dRadiusEnemy)){

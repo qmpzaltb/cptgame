@@ -46,11 +46,13 @@ public class Item extends Entity {
 	
 	public double getXPos(){
 		if (sklLimbAttachedTo != null && iParentEntityID != -1){
-			//dXPos = handleEntity(iParentEntityID).getXPos() + (Math.sin(getHeading()) * (sklLimbAttachedTo.getAttachPointX() / 64.0)) - (Math.cos(getHeading()) * (sklLimbAttachedTo.getAttachPointY() / 64.0));
 			dXPos = handleEntity(iParentEntityID).getXPos() + (Math.cos(handleEntity(iParentEntityID).getHeading()) * (sklLimbAttachedTo.getAttachPointX() / 64.0)) - (Math.sin(handleEntity(iParentEntityID).getHeading()) * (sklLimbAttachedTo.getAttachPointY() / 64.0));
-			//System.out.println("X COMPENSATION: " + (Math.sin(getHeading()) * (sklLimbAttachedTo.getAttachPointX() / 64.0) * 64));
+
 		}
 		return dXPos;
+	}
+	public double getDamageXPos(){
+		return getXPos() + ((Math.cos(getHeading()) * (dDamageAreaXPos)) - (Math.sin(getHeading()) * (dDamageAreaYPos)));
 	}
 	
 	public double getYPos(){
@@ -58,6 +60,9 @@ public class Item extends Entity {
 			dYPos = handleEntity(iParentEntityID).getYPos() + (Math.cos(handleEntity(iParentEntityID).getHeading()) * (sklLimbAttachedTo.getAttachPointY() / 64.0)) + (Math.sin(handleEntity(iParentEntityID).getHeading()) * (sklLimbAttachedTo.getAttachPointX() / 64.0));
 		}
 		return dYPos;
+	}
+	public double getDamageYPos(){
+		return getYPos() + ((Math.cos(getHeading()) * (dDamageAreaYPos)) + (Math.sin(getHeading()) * (dDamageAreaXPos)));
 	}
 	
 	public double getHeading(){
