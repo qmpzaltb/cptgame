@@ -2,6 +2,8 @@ package dungContent;
 
 import java.util.Random;
 
+import javax.swing.JOptionPane;
+
 import dungEntity.EntityController;
 import dungEntity.AnimationType;
 import dungEntity.EntitySpatialKnowledge;
@@ -120,9 +122,9 @@ public class ControllerPlayer extends EntityController{
 			for (int i = 0; i < Dungeon.iNextDungeon; i++)
 				newSeed = newRandDung.nextInt();
 			
-			
-			DungeonGame.dngCurrentDungeon = new Dungeon(DungeonGame.iCurrentMapSeed);
-			
+			GameEvents.doAction(EventType.ROUNDEND);
+			JOptionPane.showMessageDialog(null, "GAME OVER. YOU WIN.", "CLEANSANITY", JOptionPane.PLAIN_MESSAGE);
+			System.exit(0);
 		}
 		
 		

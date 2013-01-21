@@ -34,7 +34,15 @@ import java.util.Random;
 import java.util.Vector;
 
 import sun.audio.*;
+import dungContent.ContentLibrary;
+import dungContent.ControllerAI;
+import dungContent.ControllerItem;
 import dungContent.ControllerPlayer;
+import dungContent.SkeletonBroom;
+import dungContent.SkeletonBubble;
+import dungContent.SkeletonDuster;
+import dungContent.SkeletonHumanoid;
+import dungEntity.Item;
 import dungUserInterface.EventType;
 import dungUserInterface.GameEvents;
 import dungUserInterface.GameSounds;
@@ -121,14 +129,15 @@ public class Dungeon {
 		cullLoneTiles(TileType.WALL, 4, TileType.FLOOR, true); //A dungeon-smoothing method.
 		dungSimpGrid = getSimpDungGrid(dungSimpGrid);
 		setExit();
-
+		spawnEnemies();
+		
 		GameEvents.doAction(EventType.LEVELMUSICINC);
 		GameEvents.doAction(EventType.ROUNDSTART);
 		
 		DungeonGame.iGameReadinessState += 1;
 		
 		
-		Point[] test = FindPath(dungSimpGrid, iSpawnX, iSpawnY, iExitX, iExitY);
+		//Point[] test = FindPath(dungSimpGrid, iSpawnX, iSpawnY, iExitX, iExitY);
 		
 		
 	}
@@ -208,20 +217,24 @@ public class Dungeon {
 	
 	@SuppressWarnings("unused")
 	private void makeChamber() {
-		//for ()
-
+		
+		
 	}
-	//
 	@SuppressWarnings("unused")
 	private void makeRoom() {
 
+		
 	}
 	@SuppressWarnings("unused")
 	private void makeHallway() {
-		//for (int iuP1 = 0; iuP1 < iDungeonPointAmt; iuP1 ++){
 
-		//}
+		
 	}
+	
+	
+	
+	
+	
 	private void setSpawn() {
 		Point pntRand = setRandomPoint(TileType.FLOOR,TileType.ENTRANCE); //Creates a random spawn point using another method
 		iSpawnX = pntRand.x;
@@ -233,6 +246,20 @@ public class Dungeon {
 		//TEMORARY CODE PLACEMENT TEMPORARY TEMPORARY LEVEL 3 TEMPORARY
 	}
 	
+	private void spawnEnemies() {
+		int iNumUntilNextSpawn = (iDungeonXSize / 5) + (iDungeonYSize / 5);
+		for (int iuP1 = 0; iuP1 < iDungeonXSize; iuP1 ++){
+			for (int iuP2 = 0; iuP2 < iDungeonYSize; iuP2 ++){
+				if (dtlve2DungeonTiles.get(iuP1).get(iuP2).getTileType() == TileType.FLOOR) {
+					iNumUntilNextSpawn--;
+					if (iNumUntilNextSpawn == 0) {
+						iNumUntilNextSpawn = (iDungeonXSize / 5) + (iDungeonYSize / 5);
+						DungeonGame.addEntity(ContentLibrary.DIRTY_BUBBLE_BLUEPRINT, (iuP1 + 0.5), (iuP2 + 0.5), 0, new ControllerAI(), new SkeletonBubble(), ContentLibrary.DIRTY_BUBBLE_COLORS);
+					}
+				}
+			}
+		}
+	}
 	
 	private void setExit() {
 		
@@ -359,7 +386,7 @@ public class Dungeon {
 	
 	
 	
-	
+	/*
 	
 	//-------------------------------------------------------
 	//Algorithm for Path Finding using A* by Anthony Zhang
@@ -375,7 +402,7 @@ public class Dungeon {
 		
     int CurrentScores[][] = new int[iStartX][iStartY]; //map of current scores
     int HeuristicScores[][] = new int[iDungeonXSize][iDungeonYSize]; //map of heuristic scores
-    final int TotalScores[][] = new int[iDungeonXSize][iDungeonYSize];
+    int TotalScores[][] = new int[iDungeonXSize][iDungeonYSize];
     TotalScores[iStartX][iStartY] = 0;
 
     		
@@ -420,21 +447,21 @@ public class Dungeon {
         if (NodeX == iTargetX && NodeY == iTargetY)
         {
         	Point[] Path = new Point[iDungeonXSize*iDungeonYSize];
-        	/*
-            for (int i = 0; i < (iDungeonXSize*iDungeonYSize); i++)
-            {
-                Path[i] = new Point(NodeX, NodeY);
-                break;
-                
-                Parents[][] = new Point(iNodeX, iNodeY);
-                Node = Parents[NodeX][NodeY];
-                
-                if (!IsObject(Node))
-                    break;
-                NodeX = Node.X;
-                NodeY = Node.Y;
-            }
-            */
+        	
+            //for (int i = 0; i < (iDungeonXSize*iDungeonYSize); i++)
+            //{
+            //    Path[i] = new Point(NodeX, NodeY);
+            //    break;
+            //    
+            //    Parents[][] = new Point(iNodeX, iNodeY);
+            //    Node = Parents[NodeX][NodeY];
+            //    
+            //    if (!IsObject(Node))
+            //        break;
+            //    NodeX = Node.X;
+            //    NodeY = Node.Y;
+            //}
+            
         	for (Point testPoint : Path) {
     			System.out.println(testPoint.x + ", " + testPoint.y);
     		}
@@ -487,7 +514,7 @@ public class Dungeon {
 	}
 	
 	
-	
+	*/
 	
 	
 	
