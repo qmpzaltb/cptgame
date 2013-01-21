@@ -41,6 +41,7 @@ public class ControllerAI extends EntityController{
 	@Override
 	public void doNextAction() {
 		
+		handleEntity(iEntityID).bDamageAreaActive = true;
 		
 		//CODE BLOCK:
 		//Finding the closest hostile entity to the entity being controlled.
@@ -57,7 +58,6 @@ public class ControllerAI extends EntityController{
 					double dDistanceSquared = dDeltaX * dDeltaX + dDeltaY * dDeltaY;							//Find the displacement^2 of the entities (to avoid the costly sqrt())
 					if (dDistanceSquared < dNearestEntityDistanceSquared){	//If it is less than the old closest entity
 						iNearestEnemyEntity = currentEntity.iEntityID;		//the new closest entity becomes this entity
-						System.out.println("ITS THIS GUY:" + iNearestEnemyEntity);
 						dNearestEntityDistanceSquared = dDistanceSquared;	//and the new closest distance becomes this distance
 					}
 				}
@@ -100,7 +100,7 @@ public class ControllerAI extends EntityController{
 		//Finally, the skeleton is told to do the animation that the entity is doing.
 		handleEntity(iEntityID).ensSkeleton.doAnimation(handleEntity(iEntityID).entityAction, handleEntity(iEntityID).lEntityActionTime);
 		//END OF CODE BLOCK
-
+		
 
 		handleEntity(iEntityID).lEntityActionTime -= 1; //The animation progresses.
 	}
