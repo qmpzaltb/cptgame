@@ -21,10 +21,6 @@ public class GameWindow extends Thread {
 	
 	public static final int RESOLUTION_X_MINIMUM = 344;
 	public static final int RESOLUTION_Y_MINIMUM = 256;
-	
-	
-
-	//boolean runningRenderer;
 
 
 	JFrame frMainWindow;

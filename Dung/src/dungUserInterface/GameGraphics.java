@@ -228,7 +228,7 @@ public class GameGraphics extends JPanel{
 
 		//This is a very basic GUI. We will (WE MUST) change it.
 		gfx2D.setColor(ColorList.GUI_TRANSPARENT_GRAY);
-		gfx2D.fillRect(0, getHeight() - 100, 400, 105);
+		gfx2D.fillRect(0, getHeight() - 100, 250, 105);
 		gfx2D.setColor(Color.GREEN);
 
 		if (bDebugView) {
@@ -237,7 +237,7 @@ public class GameGraphics extends JPanel{
 			gfx2D.drawString("MSPFO (gfx): " + (lGfxLoopActualMSPFO) + ", which means that FPS: " + 1000.0 / (lGfxLoopActualMSPFO) , 5, getHeight() - 85);
 			gfx2D.drawString("MSPFO (game): " + DungeonGame.getLastMSPFO() + ", which means that FPS: " + 1000.0 / DungeonGame.getLastMSPFO() , 5, getHeight() - 75);
 		}
-		gfx2D.setColor(ColorList.DENIM);
+		gfx2D.setColor(Color.BLUE);
 		gfx2D.drawString("Cleanliness: " + DungeonGame.handleEntity(ControllerPlayer.iPlayerEntityID).getIntegrity(), 5, getHeight() - 60);
 		gfx2D.setColor(ColorList.PALE_SKIN);
 		gfx2D.drawString("Stamina: " + ControllerPlayer.getStamina(), 5, getHeight() - 50);

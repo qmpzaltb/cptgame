@@ -153,11 +153,6 @@ public class ControllerPlayer extends EntityController{
 		}
 
 
-
-		//Glitch : the speed modified will continue even if shift is not pressed. This is done by holding shift, then pressing and holding down any WASD keys, then releasing the shift key.
-		//That is a feature, not a glitch. Instead of being a push-to-sprint, the game can also be a toggle-to-sprint. This is controllable in GameSettings with the boolean bModifiersAreToggled.
-		//Why did I make this feature? Key ghosting. My keyboard can't sprint up-right, because it doesnt allow those three keys to be pressed at the same time.
-
 		//CODE BLOCK:
 		//Handling sprinting
 		if(GameInput.baActions[GameActions.SPEED_MODIFIER]){ 	//If Sprinting is requested...
@@ -165,7 +160,7 @@ public class ControllerPlayer extends EntityController{
 				GameInput.baActions[GameActions.SPEED_MODIFIER] = false;
 			}
 			if (iStamina >= 5){
-				handleEntity(iEntityID).dMovementMagnitude = handleEntity(iEntityID).dNormalSpeed * 2; 	//Change the entity's speed.
+				handleEntity(iEntityID).dMovementMagnitude = handleEntity(iEntityID).dNormalSpeed * 4; 	//Change the entity's speed.
 				iStamina -=5;
 			}
 

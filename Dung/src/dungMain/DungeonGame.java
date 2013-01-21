@@ -1,4 +1,4 @@
-/* The CPT Game: "Hygienator" OR "Cleanifier" OR "Cleansination" OR <<YOUR NAME FOR THE GAME HERE>>
+/* The CPT Game: CLEANSANITY
  * 
  * A program by:
  *   Justin Baradi
@@ -8,8 +8,7 @@
  * Software designed for:
  *   ICS 4U1 - Father Michael Goetz Secondary School
  * 
- * <<INSERT APPROPRIATE DATE HERE>>
- * <<INSERT OTHER INFORMATION HERE IF NEEDED>>  
+ * 1/7/2013 - 1/21/2013
  */
 
 package dungMain;
@@ -31,8 +30,6 @@ import dungUserInterface.GameSounds;
 import dungUserInterface.GameWindow;
 import dungContent.*;
 import dungEntity.*;
-import dungContent.SkeletonHumanoid;
-
 
 
 /**
@@ -73,9 +70,13 @@ public class DungeonGame {
 	private static boolean bRenderGame;
 	private static boolean bRenderMenu;
 
-
+	/**
+	 * main:
+	 * This method initializes and coordinates the main actions of the game.
+	 * Pre: None
+	 * Post: The game has been completed
+	 */
 	public static void main(String[] args){
-
 		JOptionPane.showMessageDialog(null, "CLEANSANITY\n" +
 				"Instructions:\n" +
 				"Use W, A, S, and D to move the Cleansinator towards the exit (a pulsating GREEN tile)\n" +
@@ -147,6 +148,13 @@ public class DungeonGame {
 		}
 	}
 
+	
+	/**
+	 * doGameLoop:
+	 * This method coordinates the gameplay actions of the game.
+	 * Pre: The game must have been initialized.
+	 * Post: The game's current frame has been computed.
+	 */
 	private static void doGameLoop() {
 
 		//Tells the entity controllers of every entity to do their next action.
@@ -169,6 +177,13 @@ public class DungeonGame {
 
 	}
 
+	
+	/**
+	 * regulateFramerate:
+	 * This method regulates the framerate of the game.
+	 * Pre: The game must have been initialized.
+	 * Post: The game's framerate has been regulated.
+	 */
 	private static void regulateFramerate(){
 		//CODE BLOCK:
 		//Framerate regulator
@@ -198,6 +213,12 @@ public class DungeonGame {
 		//END OF CODE BLOCK
 	}
 
+	/**
+	 * moveEntity:
+	 * This method moves an entity and checks the potential move for collisions.
+	 * Pre: The game must have been initialized. The entity at the index must not be null.
+	 * Post: The entity will have been moved accordingly.
+	 */
 	public static void moveEntity(int iEntityID){
 
 		boolean bXHandled = false;
@@ -324,6 +345,13 @@ public class DungeonGame {
 
 	}
 
+	
+	/**
+	 * intersectsCircleMapTile:
+	 * This method checks whether a circle intersects a specified map tile.
+	 * Pre: The map tile must exist.
+	 * Post: A boolean will be returned indicating whether the shapes collide (true) or do not collide (false)
+	 */
 	private static boolean intersectsCircleMapTile(double circleX, double circleY, double circleRadius, int mapX, int mapY){
 
 		//Distance from circle center to map tile center (non-negative)
@@ -352,17 +380,42 @@ public class DungeonGame {
 
 	}
 
+	/**
+	 * handleEntity:
+	 * This method returns the Entity at the specified index
+	 * Pre: The Entity at the index must exist.
+	 * Post: The Entity's reference will be returned.
+	 */
 	public static Entity handleEntity(int entityID){
 		return entveCurrentEntities.get(entityID);
 	}
+	
+	/**
+	 * handleTile:
+	 * This method returns the DungeonTile at the specified indices.
+	 * Pre: The DungeonTile at the indices must exist.
+	 * Post: The DungeonTile's reference will be returned.
+	 */
 	public static DungeonTile handleTile(int x, int y){
 		return dngCurrentDungeon.dtlve2DungeonTiles.get(x).get(y);
 	}
 
+	/**
+	 * addEntity:
+	 * This method adds an Entity to the game's Entity Vector.
+	 * Pre: None.
+	 * Post: An Entity will have been added to the Entity Vector.
+	 */
 	public static int addEntity(EntityBlueprint ebp, double xPos, double yPos, double heading, EntityController controller, EntitySkeleton skeleton, Color[] skeletonColorSet){
 		return addEntity(xPos, yPos, ebp.getRadius(), heading, ebp.getAlleigance(), ebp.getSpeed(), ebp.getEntityCollision(), ebp.getWallCollision(), controller, skeleton, skeletonColorSet);
 	}
 
+	/**
+	 * addEntity:
+	 * This method adds an Entity to the game's Entity Vector.
+	 * Pre: None.
+	 * Post: An Entity will have been added to the Entity Vector. The index it has been added at will be returned.
+	 */
 	public static int addEntity(double xPos, double yPos, double radius, double heading, int alleigance, double speed, boolean entityCollision, boolean wallCollision, EntityController controller, EntitySkeleton skeleton, Color[] skeletonColorSet){
 		for (int iuP1 = 0; iuP1 < entveCurrentEntities.size(); iuP1 ++){
 			if (entveCurrentEntities.get(iuP1).isNull()){
@@ -376,6 +429,12 @@ public class DungeonGame {
 
 	}
 
+	/**
+	 * addItem:
+	 * This method adds an Item to the game's Entity Vector.
+	 * Pre: None.
+	 * Post: An Item will have been added to the Entity Vector. The index it has been added at will be returned.
+	 */
 	public static int addItem(Item toAdd, Entity addToEntity){
 
 		for (int iuP1 = 0; iuP1 < addToEntity.itmaInventory.length; iuP1 ++){
@@ -396,12 +455,23 @@ public class DungeonGame {
 
 	}
 
+	/**
+	 * removeEntity:
+	 * This method removes an Entity to the game's Entity Vector.
+	 * Pre: An entity must exist at the specified index.
+	 * Post: An entity will have been set to null in the Entity Vector.
+	 */
 	public static void removeEntity(int entityID){
 		entveCurrentEntities.set(entityID , ContentLibrary.nullEntity);
 	}
 
 
-
+	/**
+	 * isWalkable:
+	 * This method determines whether a tile is walkable or not.
+	 * Pre: None.
+	 * Post: The TileType's walkability will be returned (true if walkable, false if not walkable).
+	 */
 	public static boolean isWalkable(TileType type){
 		switch (type){
 		//added the wall types just in case you guys wanted to do something different when the player walks near or over it
@@ -429,6 +499,12 @@ public class DungeonGame {
 		}
 	}
 
+	/**
+	 * doNonGameplayInput:
+	 * This method handles the non-gameplay input of the game.
+	 * Pre: None.
+	 * Post: The game's zoom in/out, volume up/down requests will be handled.
+	 */
 	private static void doNonGameplayInput(){
 
 		//Handle zoomin/zoomout requests.
@@ -457,61 +533,181 @@ public class DungeonGame {
 
 	}
 
+	/**
+	 * valueInBoundsX:
+	 * This method returns the closest value within the x-coordinates of the map.
+	 * Pre: The map must exist.
+	 * Post: Returns the closest value to the parameters that is in the x-coordinates.
+	 */
 	public static int valueInBoundsX(int value){
 		return Math.max(Math.min(dngCurrentDungeon.iDungeonXSize, value), 0);
 	}
+	
+	/**
+	 * valueInBoundsY:
+	 * This method returns the closest value within the y-coordinates of the map.
+	 * Pre: The map must exist.
+	 * Post: Returns the closest value to the parameters that is in the y-coordinates.
+	 */
 	public static int valueInBoundsY(int value){
 		return Math.max(Math.min(dngCurrentDungeon.iDungeonYSize, value), 0);
 	}
 
+	/**
+	 * isValueInBoundsX:
+	 * This method checks whether a value is within the x-coordinates of the map.
+	 * Pre: The map must exist.
+	 * Post: Returns true if the value is within the x-coordinates, false if not.
+	 */
 	public static boolean isValueInBoundsX(int value){
 		return (value >= 0 && value < dngCurrentDungeon.iDungeonXSize);
 	}
+	/**
+	 * isValueInBoundsY:
+	 * This method checks whether a value is within the y-coordinates of the map.
+	 * Pre: The map must exist.
+	 * Post: Returns true if the value is within the y-coordinates, false if not.
+	 */
 	public static boolean isValueInBoundsY(int value){
 		return (value >= 0 && value < dngCurrentDungeon.iDungeonYSize);
 	}
 
+	/**
+	 * getCenterOfWindowX:
+	 * This method returns the center of the window.
+	 * Pre: The window must exist.
+	 * Post: Returns the x-coordinate of the window's center.
+	 */
 	public static int getCenterOfWindowX(){
 		return mainGameWindow.getPositionX() + (mainGameWindow.getSizeX() / 2);
 	}
+	
+	/**
+	 * getCenterOfWindowY:
+	 * This method returns the center of the window.
+	 * Pre: The window must exist.
+	 * Post: Returns the y-coordinate of the window's center.
+	 */
 	public static int getCenterOfWindowY(){
 		return mainGameWindow.getPositionY() + (mainGameWindow.getSizeY() / 2);
 	}
+	
+	/**
+	 * getInsetLocationX:
+	 * This method returns the top left corner of the inset.
+	 * Pre: The window must exist.
+	 * Post: Returns the x-coordinate of the inset's point.
+	 */
 	public static int getInsetLocationX(){
 		return mainGameWindow.getPositionX() + mainGameWindow.getInsetLeft();
 	}
+	
+	/**
+	 * getInsetLocationY:
+	 * This method returns the top left corner of the inset.
+	 * Pre: The window must exist.
+	 * Post: Returns the y-coordinate of the inset's point.
+	 */
 	public static int getInsetLocationY(){
 		return mainGameWindow.getPositionY() + mainGameWindow.getInsetTop();
 	}
 
+	/**
+	 * getWindowSizeX:
+	 * This method returns the width of the window.
+	 * Pre: The window must exist.
+	 * Post: Returns the width of the window.
+	 */
 	public static int getWindowSizeX(){
 		return mainGameWindow.getSizeX();
 	}
+	
+	/**
+	 * getWindowSizeY:
+	 * This method returns the height of the window.
+	 * Pre: The window must exist.
+	 * Post: Returns the height of the window.
+	 */
 	public static int getWindowSizeY(){
 		return mainGameWindow.getSizeY();
 	}
+	
+	/**
+	 * getMillisecondsPerGameplayFrame:
+	 * This method returns the amount of milliseconds it takes to compute the last gameplay frame.
+	 * Pre: The game loop must have begun.
+	 * Post: Returns the amount of milliseconds it takes to compute the last gameplay frame.
+	 */
 	public static int getMillisecondsPerGameplayFrame(){
 		return iMSPFOGmAdj;
 	}
+	
+	/**
+	 * getCurrentFrame:
+	 * This method returns the current frame.
+	 * Pre: The game loop must have begun.
+	 * Post: Returns the current frame.
+	 */
 	public static long getCurrentFrame(){
 		return lCurrentFrame;
 	}
+	
+	/**
+	 * getLastMSPFO:
+	 * This method returns the amount of milliseconds it takes to compute the second-last gameplay frame.
+	 * Pre: The game loop must have begun.
+	 * Post: Returns the amount of milliseconds it takes to compute the second-last gameplay frame.
+	 */
 	public static long getLastMSPFO(){
 		return lLastMSPFO;
 	}
+	
+	/**
+	 * getGamePath:
+	 * This method returns the path to the game's class files.
+	 * Pre: None.
+	 * Post: Returns the path to the game's class files.
+	 */
 	public static String getGamePath(){
 		return strGamePath;
 	}
 
+	/**
+	 * isRenderingMenu:
+	 * This method returns whether the menu is currently being rendered.
+	 * Pre: None.
+	 * Post: Returns whether the menu is currently being rendered.
+	 */
 	public static boolean isRenderingMenu(){
 		return bRenderMenu;
 	}
+	
+	/**
+	 * isRenderingGame:
+	 * This method returns whether the game is currently being rendered.
+	 * Pre: None.
+	 * Post: Returns whether the game is currently being rendered.
+	 */
 	public static boolean isRenderingGame(){
 		return bRenderGame;
 	}
+	
+	/**
+	 * renderMenu:
+	 * This sets whether to render the menu or not.
+	 * Pre: None.
+	 * Post: The menu's 'renderability' has been set.
+	 */
 	public static void renderMenu(boolean renderState){
 		bRenderMenu = renderState;
 	}
+	
+	/**
+	 * renderGame:
+	 * This sets whether to render the game or not.
+	 * Pre: None.
+	 * Post: The game's 'renderability' has been set.
+	 */
 	public static void renderGame(boolean renderState){
 		bRenderGame = renderState;
 	}

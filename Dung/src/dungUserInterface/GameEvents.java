@@ -3,11 +3,11 @@ package dungUserInterface;
 import dungContent.ControllerPlayer;
 
 public class GameEvents {
-	
+
 	private static int iLevelOfMusic = 0;
 	public static int iFrameBeforeRemove;
 	public static String strDisplay;
-	
+
 	public static void doAction(EventType typeOfEvent) {
 		switch(typeOfEvent) {
 		case ROUNDSTART:{
@@ -28,7 +28,7 @@ public class GameEvents {
 		}
 		case SPREE:{
 			int currentSpree = ControllerPlayer.getCleanSpree();
-			
+			currentSpree ++;
 			if (currentSpree == 3) {
 				iFrameBeforeRemove = 120;
 				strDisplay = "CLEANING SPREE";
@@ -54,7 +54,6 @@ public class GameEvents {
 				strDisplay = "SANITARY";
 				GameSounds.playSound(SoundType.SPREE6);
 			}
-				currentSpree ++;
 			ControllerPlayer.setCleanSpree(currentSpree);
 			break;
 		}
@@ -71,9 +70,10 @@ public class GameEvents {
 			break;
 		}
 		case ACE:{
-			iFrameBeforeRemove = 360;
-			strDisplay = "SPOTLESS! All enemies has been cleaned, now you must find the exit.";
+			iFrameBeforeRemove = 600;
+			strDisplay = "SPOTLESS! All enemies has been cleaned! FIND THE EXIT!";
 			GameSounds.playSound(SoundType.ACE);
+			break;
 		}
 		case ITEM:{
 			iFrameBeforeRemove = 120;
@@ -85,10 +85,10 @@ public class GameEvents {
 			GameSounds.playSound(SoundType.ITEMBROOM);
 			break;
 		}
-		
+
 		case LEVELMUSICINC:{
 			iLevelOfMusic++;
-			
+
 			if (iLevelOfMusic == 1) {
 				GameSounds.playIniMusic(SoundType.LAV); break;
 			} else if (iLevelOfMusic == 2) {
@@ -99,14 +99,14 @@ public class GameEvents {
 				GameSounds.requestMusicPlay(SoundType.LAV4); break;
 			}
 		}
-		
+
 		default: {
 			System.err.println("An error has occurred: no such game event.");
 		}
 		} 
-			
+
 	}
 	private static void showTextEvent(String textToShow) {
-		
+
 	}
 }
