@@ -372,20 +372,24 @@ public class Dungeon {
 		System.out.println("OH BOY ITS NOT WORKING");
 		return null; //could not find path
 	}
-	System.out.println("OH BOY ITS WORKING");
 		
     int CurrentScores[][] = new int[iStartX][iStartY]; //map of current scores
     int HeuristicScores[][] = new int[iDungeonXSize][iDungeonYSize]; //map of heuristic scores
-    int TotalScores[][] = new int[iDungeonXSize][iDungeonYSize];
+    final int TotalScores[][] = new int[iDungeonXSize][iDungeonYSize];
     TotalScores[iStartX][iStartY] = 0;
 
-
+    		
     PriorityQueue<String> OpenHeap = new PriorityQueue<String>(11,
     		new Comparator<String>() {
-    	public int compare(String o1, String o2) {
-    		int node1 = Integer.parseInt(o1.split("|")[1].trim());
-    		int node2 = Integer.parseInt(o2.split("|")[1].trim());
-    		return dungGrid[node1][node2];
+    	public String compare(String o1, String o2) {
+    		int node1x = Integer.parseInt(o1.split("|")[1].trim());
+    		int node1y = Integer.parseInt(o1.split("|")[2].trim());
+    		int node2x = Integer.parseInt(o2.split("|")[1].trim());
+    		int node2y = Integer.parseInt(o2.split("|")[2].trim());
+    		if (TotalScores[node1x][node1y] < TotalScores[node2x][node2y])
+    			return node1x + "|" + node1y;
+    		else
+    			return node2x + "|" + node2y;
     	}
     });
     
