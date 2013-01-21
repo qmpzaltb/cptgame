@@ -110,7 +110,7 @@ public class DungeonGame {
 		//addEntity(ContentLibrary.RAT_BLUEPRINT, 10,17,0, new ControllerAI(), new SkeletonCreature(), ContentLibrary.CREATURE_COLORS);
 		//addEntity(ContentLibrary.DIRTY_BUBBLE_BLUEPRINT, 15,15,0, new ControllerAI(), new SkeletonBubble(), ContentLibrary.DIRTY_BUBBLE_COLORS);
 		addItem(new Item(ContentLibrary.DUSTER_BLUEPRINT, new ControllerItem(), new SkeletonDuster(), ContentLibrary.DUSTER_COLORS, 0, handleEntity(0).ensSkeleton.sklaSkeleton[5]), handleEntity(0));
-		addItem(new Item(ContentLibrary.DUSTER_BLUEPRINT, new ControllerItem(), new SkeletonBroom(), ContentLibrary.BROOM_COLORS, 0, handleEntity(0).ensSkeleton.sklaSkeleton[6]), handleEntity(0));
+		addItem(new Item(ContentLibrary.BROOM_BLUEPRINT, new ControllerItem(), new SkeletonBroom(), ContentLibrary.BROOM_COLORS, 0, handleEntity(0).ensSkeleton.sklaSkeleton[6]), handleEntity(0));
 
 		
 		dngCurrentDungeon = new Dungeon(iCurrentMapSeed);
@@ -148,7 +148,12 @@ public class DungeonGame {
 			toUpdate.encController.doNextAction();
 			if (toUpdate.encController.isEntityDead()){
 				removeEntity(toUpdate.iEntityID);
+				ControllerPlayer.iEntitiesCleaned ++;
+				if (ControllerPlayer.iEntitiesCleaned == 10){
+					
+				} else {
 				GameEvents.doAction(EventType.SPREE);
+				}
 			}
 			}
 			

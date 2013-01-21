@@ -28,9 +28,13 @@ public class ControllerPlayer extends EntityController{
 
 	public static int iStamina = 500; //Temporary quick-fix solution for game release.
 
+	
+	
 	public static int iPlayerEntityID; //A variable that tells other classes which entity is the player's entity.
 
 	public static int iCleanSpree; //Gets and sets the amount of "Cleans" the player has committed
+	
+	public static int iEntitiesCleaned;
 
 	private static EntitySpatialKnowledge spkKnowledge; //The "knowledge" of the player - what the player sees, has seen, and has not seen.
 	private int currentX; //For updating EntitySpatialKnowledge in a conservative matter (i.e., not every frame, but only when the tile changes.)

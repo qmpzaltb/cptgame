@@ -62,6 +62,8 @@ public class Item extends Entity {
 		return dYPos;
 	}
 	public double getDamageYPos(){
+		System.out.println("YPOS:: " + getYPos());
+		System.out.println("DAMAGEYPOS: " + (getYPos() +  ((Math.cos(getHeading()) * (dDamageAreaYPos)) + (Math.sin(getHeading()) * (dDamageAreaXPos)))));
 		return getYPos() + ((Math.cos(getHeading()) * (dDamageAreaYPos)) + (Math.sin(getHeading()) * (dDamageAreaXPos)));
 	}
 	
