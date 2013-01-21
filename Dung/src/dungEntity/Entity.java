@@ -163,6 +163,7 @@ public class Entity {
 	public void incrementIntegrity(int integrityIncrement){
 		iEntityIntegrityCurrent += integrityIncrement;
 		iEntityIntegrityCurrent = Math.min(iEntityIntegrityMax, iEntityIntegrityCurrent);
+		iEntityIntegrityCurrent = Math.max(0, iEntityIntegrityCurrent);
 	}
 	
 }

@@ -42,6 +42,14 @@ public class ControllerAI extends EntityController{
 	public void doNextAction() {
 		
 		handleEntity(iEntityID).bDamageAreaActive = true;
+		handleEntity(iEntityID).dDamageAreaRadius = 0.5;
+		double dDistanceX = ((handleEntity(iEntityID).dXPos + handleEntity(iEntityID).dDamageAreaXPos) - handleEntity(0).getXPos());
+		double dDistanceY =   ((handleEntity(iEntityID).dYPos + handleEntity(iEntityID).dDamageAreaYPos) - handleEntity(0).getYPos());;
+		double dRadiusThis = handleEntity(iEntityID).dDamageAreaRadius;
+		double dRadiusEnemy = handleEntity(0).dRadius;
+		if (dDistanceX * dDistanceX + dDistanceY * dDistanceY < (dRadiusThis + dRadiusEnemy) * (dRadiusThis + dRadiusEnemy)){
+			handleEntity(0).incrementIntegrity(-1);
+		}
 		
 		//CODE BLOCK:
 		//Finding the closest hostile entity to the entity being controlled.

@@ -62,6 +62,7 @@ public class ContentLibrary {
 	public static final EntityBlueprint DIRTY_BUBBLE_BLUEPRINT = new EntityBlueprint(0.55, 0.025, 1, false, true, 0 , 0 , 0);
 	
 	public static final ItemBlueprint DUSTER_BLUEPRINT = new ItemBlueprint(0.0, -0.18, 0.00175);
+	public static final ItemBlueprint BROOM_BLUEPRINT = new ItemBlueprint(0.0, -0.50, 0.00175);
 	
 	
 }

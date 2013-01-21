@@ -47,6 +47,14 @@ public class ControllerPlayer extends EntityController{
 
 	@Override
 	public boolean isEntityDead() {
+		if (handleEntity(iEntityID).getIntegrity() <= 0){
+			GameEvents.doAction(EventType.GAMEOVER);
+			JOptionPane.showMessageDialog(null, "GAME OVER. YOU LOSE.", "CLEANSANITY", JOptionPane.PLAIN_MESSAGE);
+			System.exit(0);
+			return true;
+		}
+
+
 		return false;
 	}
 
@@ -129,14 +137,14 @@ public class ControllerPlayer extends EntityController{
 			int newSeed = DungeonGame.iCurrentMapSeed;
 			for (int i = 0; i < Dungeon.iNextDungeon; i++)
 				newSeed = newRandDung.nextInt();
-			
+
 			GameEvents.doAction(EventType.ROUNDEND);
 			JOptionPane.showMessageDialog(null, "GAME OVER. YOU WIN.", "CLEANSANITY", JOptionPane.PLAIN_MESSAGE);
 			System.exit(0);
 		}
-		
-		
-		
+
+
+
 		//Glitch : the speed modified will continue even if shift is not pressed. This is done by holding shift, then pressing and holding down any WASD keys, then releasing the shift key.
 		//That is a feature, not a glitch. Instead of being a push-to-sprint, the game can also be a toggle-to-sprint. This is controllable in GameSettings with the boolean bModifiersAreToggled.
 		//Why did I make this feature? Key ghosting. My keyboard can't sprint up-right, because it doesnt allow those three keys to be pressed at the same time.
@@ -151,7 +159,7 @@ public class ControllerPlayer extends EntityController{
 				handleEntity(iEntityID).dMovementMagnitude = handleEntity(iEntityID).dNormalSpeed * 6; 	//Change the entity's speed.
 				iStamina -=5;
 			}
-			
+
 		} 
 		if (GameInput.baActions[GameActions.SPEED_MODIFIER] == false) {												//But if not...
 			handleEntity(iEntityID).dMovementMagnitude = handleEntity(iEntityID).dNormalSpeed;		//Set it back to normal. 
@@ -197,9 +205,42 @@ public class ControllerPlayer extends EntityController{
 			} else if (GameInput.baActions[GameActions.ATTACK_USE_SECONDARY]){ //and swing their other fist
 				handleEntity(iEntityID).lEntityActionTime = 45;
 				handleEntity(iEntityID).entityAction = AnimationType.ATTACK_SPEAR_LEFTHAND;
+				handleEntity(iEntityID).itmaInventory[1].bDamageAreaActive = true;
 			} else {
 				handleEntity(iEntityID).itmaInventory[0].bDamageAreaActive = false;
 				handleEntity(iEntityID).itmaInventory[1].bDamageAreaActive = false;
+			}
+		}
+
+		if (handleEntity(iEntityID).itmaInventory[0].bDamageAreaActive){
+
+			for (int iuP1 = 0; iuP1 < DungeonGame.entveCurrentEntities.size(); iuP1 ++){
+				if (!handleEntity(iuP1).isNull() && iuP1 != iEntityID){
+					double dDistanceX = (handleEntity(iEntityID).itmaInventory[0].dXPos + handleEntity(iEntityID).itmaInventory[0].dDamageAreaXPos) - handleEntity(iuP1).getXPos();
+					double dDistanceY =   ((handleEntity(iEntityID).itmaInventory[0].dYPos + handleEntity(iEntityID).itmaInventory[0].dDamageAreaYPos) - handleEntity(iuP1).getYPos());;
+					double dRadiusThis = handleEntity(iEntityID).itmaInventory[0].dDamageAreaRadius;
+					double dRadiusEnemy = handleEntity(iuP1).dRadius;
+					if (dDistanceX * dDistanceX + dDistanceY * dDistanceY < (dRadiusThis + dRadiusEnemy) * (dRadiusThis + dRadiusEnemy)){
+						handleEntity(iuP1).incrementIntegrity(-1000);
+						handleEntity(iEntityID).itmaInventory[0].bDamageAreaActive = false;
+					}
+				}
+			}
+		}
+		
+		if (handleEntity(iEntityID).itmaInventory[1].bDamageAreaActive){
+
+			for (int iuP1 = 0; iuP1 < DungeonGame.entveCurrentEntities.size(); iuP1 ++){
+				if (!handleEntity(iuP1).isNull() && iuP1 != iEntityID){
+					double dDistanceX = (handleEntity(iEntityID).itmaInventory[1].dXPos + handleEntity(iEntityID).itmaInventory[1].dDamageAreaXPos) - handleEntity(iuP1).getXPos();
+					double dDistanceY =   ((handleEntity(iEntityID).itmaInventory[1].dYPos + handleEntity(iEntityID).itmaInventory[1].dDamageAreaYPos) - handleEntity(iuP1).getYPos());;
+					double dRadiusThis = handleEntity(iEntityID).itmaInventory[1].dDamageAreaRadius;
+					double dRadiusEnemy = handleEntity(iuP1).dRadius;
+					if (dDistanceX * dDistanceX + dDistanceY * dDistanceY < (dRadiusThis + dRadiusEnemy) * (dRadiusThis + dRadiusEnemy)){
+						handleEntity(iuP1).incrementIntegrity(-60);
+						handleEntity(iEntityID).itmaInventory[1].bDamageAreaActive = false;
+					}
+				}
 			}
 		}
 

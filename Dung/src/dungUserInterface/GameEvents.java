@@ -54,7 +54,7 @@ public class GameEvents {
 				strDisplay = "SANITARY";
 				GameSounds.playSound(SoundType.SPREE6);
 			}
-				
+				currentSpree ++;
 			ControllerPlayer.setCleanSpree(currentSpree);
 			break;
 		}

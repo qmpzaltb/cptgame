@@ -103,6 +103,7 @@ public class Dungeon {
 
 		//Creating the open spaces in the dungeon
 		int iDungeonPointAmt = rngDungeon.nextInt(7) + 5;
+		System.out.println(iDungeonPointAmt);
 		int[] iaPointXWeb = new int[iDungeonPointAmt];
 		int[] iaPointYWeb = new int[iDungeonPointAmt];
 

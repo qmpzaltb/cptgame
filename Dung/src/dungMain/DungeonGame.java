@@ -20,7 +20,9 @@ import java.util.Vector;
 
 import javax.swing.JOptionPane;
 
+import dungUserInterface.EventType;
 import dungUserInterface.GameActions;
+import dungUserInterface.GameEvents;
 import dungUserInterface.GameGraphics;
 import dungUserInterface.GameInput;
 import dungUserInterface.GameMainMenu;
@@ -142,7 +144,14 @@ public class DungeonGame {
 
 		//Tells the entity controllers of every entity to do their next action.
 		for (Entity toUpdate : entveCurrentEntities){
+			if (!toUpdate.isNull()){
 			toUpdate.encController.doNextAction();
+			if (toUpdate.encController.isEntityDead()){
+				removeEntity(toUpdate.iEntityID);
+				GameEvents.doAction(EventType.SPREE);
+			}
+			}
+			
 		}
 
 
