@@ -1,9 +1,14 @@
 package dungContent;
 
+import java.util.Random;
+
+import javax.swing.JOptionPane;
+
 import dungEntity.EntityController;
 import dungEntity.AnimationType;
 import dungEntity.EntitySpatialKnowledge;
 import dungEntity.Item;
+import dungMain.Dungeon;
 import dungMain.DungeonGame;
 import static dungMain.DungeonGame.handleEntity;
 import dungUserInterface.EventType;
@@ -115,6 +120,20 @@ public class ControllerPlayer extends EntityController{
 
 
 
+
+		//CODE BLOCK:
+		//Checks if the player is on the exit point
+		if (Dungeon.iExitX == currentX && Dungeon.iExitX == currentX) {
+			Dungeon.iNextDungeon++;
+			Random newRandDung = new Random(DungeonGame.iCurrentMapSeed);
+			int newSeed = DungeonGame.iCurrentMapSeed;
+			for (int i = 0; i < Dungeon.iNextDungeon; i++)
+				newSeed = newRandDung.nextInt();
+			
+			GameEvents.doAction(EventType.ROUNDEND);
+			JOptionPane.showMessageDialog(null, "GAME OVER. YOU WIN.", "CLEANSANITY", JOptionPane.PLAIN_MESSAGE);
+			System.exit(0);
+		}
 		//Glitch : the speed modified will continue even if shift is not pressed. This is done by holding shift, then pressing and holding down any WASD keys, then releasing the shift key.
 		//That is a feature, not a glitch. Instead of being a push-to-sprint, the game can also be a toggle-to-sprint. This is controllable in GameSettings with the boolean bModifiersAreToggled.
 		//Why did I make this feature? Key ghosting. My keyboard can't sprint up-right, because it doesnt allow those three keys to be pressed at the same time.

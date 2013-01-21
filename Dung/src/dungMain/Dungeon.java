@@ -34,7 +34,15 @@ import java.util.Random;
 import java.util.Vector;
 
 import sun.audio.*;
+import dungContent.ContentLibrary;
+import dungContent.ControllerAI;
+import dungContent.ControllerItem;
 import dungContent.ControllerPlayer;
+import dungContent.SkeletonBroom;
+import dungContent.SkeletonBubble;
+import dungContent.SkeletonDuster;
+import dungContent.SkeletonHumanoid;
+import dungEntity.Item;
 import dungUserInterface.EventType;
 import dungUserInterface.GameEvents;
 import dungUserInterface.GameSounds;
@@ -59,7 +67,11 @@ public class Dungeon {
 	int iDungeonYSize; //the max range of the y co-ordinates of the map
 	int iSpawnX;	   //the x for the spawn
 	int iSpawnY;	   //the y for the spawn
+	public static int iExitX;	       //the x for the exit
+	public static int iExitY;	       //the y for the exit
 	Random rngDungeon; //random seed for the dungeon
+	
+	public static int iNextDungeon = 0;
 
 	public Dungeon(int seed){
 		DungeonGame.iGameReadinessState -= 1;
@@ -117,12 +129,17 @@ public class Dungeon {
 		cullLoneTiles(TileType.WALL, 4, TileType.FLOOR, true); //A dungeon-smoothing method.
 		dungSimpGrid = getSimpDungGrid(dungSimpGrid);
 		setExit();
-
+		spawnEnemies();
 		
-		DungeonGame.iGameReadinessState += 1;
-
 		GameEvents.doAction(EventType.LEVELMUSICINC);
 		GameEvents.doAction(EventType.ROUNDSTART);
+		
+		DungeonGame.iGameReadinessState += 1;
+		
+		
+		//Point[] test = FindPath(dungSimpGrid, iSpawnX, iSpawnY, iExitX, iExitY);
+		
+		
 	}
 
 	
@@ -200,20 +217,24 @@ public class Dungeon {
 	
 	@SuppressWarnings("unused")
 	private void makeChamber() {
-		//for ()
-
+		
+		
 	}
-	//
 	@SuppressWarnings("unused")
 	private void makeRoom() {
 
+		
 	}
 	@SuppressWarnings("unused")
 	private void makeHallway() {
-		//for (int iuP1 = 0; iuP1 < iDungeonPointAmt; iuP1 ++){
 
-		//}
+		
 	}
+	
+	
+	
+	
+	
 	private void setSpawn() {
 		Point pntRand = setRandomPoint(TileType.FLOOR,TileType.ENTRANCE); //Creates a random spawn point using another method
 		iSpawnX = pntRand.x;
@@ -225,6 +246,20 @@ public class Dungeon {
 		//TEMORARY CODE PLACEMENT TEMPORARY TEMPORARY LEVEL 3 TEMPORARY
 	}
 	
+	private void spawnEnemies() {
+		int iNumUntilNextSpawn = (iDungeonXSize / 5) + (iDungeonYSize / 5);
+		for (int iuP1 = 0; iuP1 < iDungeonXSize; iuP1 ++){
+			for (int iuP2 = 0; iuP2 < iDungeonYSize; iuP2 ++){
+				if (dtlve2DungeonTiles.get(iuP1).get(iuP2).getTileType() == TileType.FLOOR) {
+					iNumUntilNextSpawn--;
+					if (iNumUntilNextSpawn == 0) {
+						iNumUntilNextSpawn = (iDungeonXSize / 5) + (iDungeonYSize / 5);
+						DungeonGame.addEntity(ContentLibrary.DIRTY_BUBBLE_BLUEPRINT, (iuP1 + 0.5), (iuP2 + 0.5), 0, new ControllerAI(), new SkeletonBubble(), ContentLibrary.DIRTY_BUBBLE_COLORS);
+					}
+				}
+			}
+		}
+	}
 	
 	private void setExit() {
 		
@@ -280,7 +315,9 @@ public class Dungeon {
 					if (iCurrentEligibleFloorTile == randSpawnTile){
 						dtlve2DungeonTiles.get(iuP1).get(iuP2).setTileType(TileType.EXIT); //then spawn exit point
 						isOneExitInstance = true;
-						System.out.println(iuP1 + " X and " + iuP2 + " Y is the EXIT LOCATION :D");
+						iExitX = iuP1;
+						iExitY = iuP2;
+						//System.out.println(iuP1 + " X and " + iuP2 + " Y is the EXIT LOCATION :D");
 						break placingExit;
 					}
 				}
@@ -349,33 +386,37 @@ public class Dungeon {
 	
 	
 	
-	
 	/*
 	
 	//-------------------------------------------------------
 	//Algorithm for Path Finding using A* by Anthony Zhang
 	//Translated and incorporated to Java by Justin Baradi
 	//-------------------------------------------------------
-	private Point[] FindPath (int[][] dungGrid, int iStartX, int iStartY, int iTargetX, int iTargetY) {
+	private Point[] FindPath (final int[][] dungGrid, int iStartX, int iStartY, int iTargetX, int iTargetY) {
 		
 	//start or end position is not passable
-	if (dtlve2DungeonTiles.get(iStartX).get(iStartY).tileType == TileType.WALL || dtlve2DungeonTiles.get(iStartX).get(iStartY).tileType == TileType.WALLEDGE || dtlve2DungeonTiles.get(iTargetX).get(iTargetY).tileType == TileType.WALL || dtlve2DungeonTiles.get(iTargetX).get(iTargetY).tileType == TileType.WALLEDGE)
+	if (dungGrid[iStartX][iStartY] == 1 || dungGrid[iTargetX][iTargetY] == 1) {
+		System.out.println("OH BOY ITS NOT WORKING");
 		return null; //could not find path
-	if (dungGrid[iStartX][iStartY] == 1 || dungGrid[iTargetX][iTargetY] == 1)
-		return null; //could not find path
-
+	}
+		
     int CurrentScores[][] = new int[iStartX][iStartY]; //map of current scores
     int HeuristicScores[][] = new int[iDungeonXSize][iDungeonYSize]; //map of heuristic scores
     int TotalScores[][] = new int[iDungeonXSize][iDungeonYSize];
     TotalScores[iStartX][iStartY] = 0;
 
-
+    		
     PriorityQueue<String> OpenHeap = new PriorityQueue<String>(11,
     		new Comparator<String>() {
-    	public int compare(String o1, String o2) {
-    		int node1 = Integer.parseInt(o1.split("|")[1].trim());
-    		int node2 = Integer.parseInt(o2.split("|")[1].trim());
-    		return dungGrid[node1][node2];
+    	public String compare(String o1, String o2) {
+    		int node1x = Integer.parseInt(o1.split("|")[1].trim());
+    		int node1y = Integer.parseInt(o1.split("|")[2].trim());
+    		int node2x = Integer.parseInt(o2.split("|")[1].trim());
+    		int node2y = Integer.parseInt(o2.split("|")[2].trim());
+    		if (TotalScores[node1x][node1y] < TotalScores[node2x][node2y])
+    			return node1x + "|" + node1y;
+    		else
+    			return node2x + "|" + node2y;
     	}
     });
     
@@ -388,10 +429,11 @@ public class Dungeon {
     Point Parents[][] = new Point[iDungeonXSize][iDungeonYSize]; //mapping of nodes to their parents
     	
 
-    int iMaxIndex = 0;
     
-    while (iMaxIndex == OpenHeap.size()) //loop while there are entries in the open list
+    while (OpenHeap.size() > 0) //loop while there are entries in the open list
     {
+        int iMaxIndex = OpenHeap.size();
+        
         //select the node having the lowest total score
         String Node = OpenHeap.poll();
         int NodeX = Integer.parseInt(Node.split("|")[1].trim());
@@ -405,16 +447,24 @@ public class Dungeon {
         if (NodeX == iTargetX && NodeY == iTargetY)
         {
         	Point[] Path = new Point[iDungeonXSize*iDungeonYSize];
-            for (int i = 0; i < (iDungeonXSize*iDungeonYSize); i++)
-            {
-                Path[i] = new Point(NodeX, NodeY);
-                Parents[] = 
-                Node = Parents[NodeX][NodeY];
-                if (!IsObject(Node))
-                    break;
-                NodeX = Node.X;
-                NodeY = Node.Y;
-            }
+        	
+            //for (int i = 0; i < (iDungeonXSize*iDungeonYSize); i++)
+            //{
+            //    Path[i] = new Point(NodeX, NodeY);
+            //    break;
+            //    
+            //    Parents[][] = new Point(iNodeX, iNodeY);
+            //    Node = Parents[NodeX][NodeY];
+            //    
+            //    if (!IsObject(Node))
+            //        break;
+            //    NodeX = Node.X;
+            //    NodeY = Node.Y;
+            //}
+            
+        	for (Point testPoint : Path) {
+    			System.out.println(testPoint.x + ", " + testPoint.y);
+    		}
             return Path;
         }
 
@@ -437,8 +487,9 @@ public class Dungeon {
 	
 	private void ScoreNode(int iTargetX, int iTargetY, int iNodeX, int iNodeY, int[][] dungGrid, int iNextNodeX, int iNextNodeY, PriorityQueue<String> OpenHeap, boolean[][] OpenMap, boolean[][] VisitedNodes, int[][] CurrentScores, int[][] HeuristicScores, int[][] TotalScores, Point[][] Parents)
 	{
-	    if (dungGrid[iNextNodeX][iNextNodeY] == 1 || VisitedNodes[iNextNodeX][iNextNodeY] == true); //next node is a wall or is in the closed list
+	    if (dungGrid[iNextNodeX][iNextNodeY] == 1 || VisitedNodes[iNextNodeX][iNextNodeY] == true) //next node is a wall or is in the closed list
 	        return;
+	        
 	    int iBestCurrentScore = CurrentScores[iNodeX][iNodeY] + 1; //add the distance between the current node and the next to the current distance
 
 	    if (!(OpenMap[iNextNodeX][iNextNodeY]))
@@ -458,15 +509,14 @@ public class Dungeon {
 	    {
 	        CurrentScores[iNextNodeX][iNextNodeY] = iBestCurrentScore;
 	        TotalScores[iNextNodeX][iNextNodeY] = iBestCurrentScore + HeuristicScores[iNextNodeX][iNextNodeY];
-	        Parents[iNextNodeX][iNextNodeY] = Object("X",NodeX,"Y",NodeY);
+	        Parents[iNextNodeX][iNextNodeY] = new Point(iNodeX, iNodeY);
 	    }
 	}
 	
 	
-	
-	
-	
 	*/
+	
+	
 	
 	
 	
