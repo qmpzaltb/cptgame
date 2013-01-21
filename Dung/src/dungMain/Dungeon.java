@@ -131,8 +131,11 @@ public class Dungeon {
 		dungSimpGrid = getSimpDungGrid(dungSimpGrid);
 		setExit();
 		spawnEnemies();
+
+		makePath(iSpawnX , iSpawnY , iExitX, iExitY); //makes a path from spawn to exit
 		
 		GameEvents.doAction(EventType.LEVELMUSICINC);
+		//--Plays ALL levels of music
 		GameEvents.doAction(EventType.ROUNDSTART);
 		
 		DungeonGame.iGameReadinessState += 1;
@@ -175,9 +178,11 @@ public class Dungeon {
 		while (iCurrentX != endX && iCurrentY != endY){
 			if (iCurrentX == endX){
 				iCurrentY += iVerticalShift;
-			} else if (iCurrentY == endY){
+			} 
+			if (iCurrentY == endY){
 				iCurrentX += iHorizontalShift;
-			} else {
+			} 
+			if (!(iCurrentX == endX && iCurrentY == endY)) {
 				dRandPerc = rngDungeon.nextDouble();
 				if (dRandPerc < 0.5){
 					if (dRandPerc < 0.125 && iCurrentX > 0 && iCurrentX < iDungeonXSize - 1){
@@ -193,6 +198,8 @@ public class Dungeon {
 					}
 
 				}
+			} else {
+				break;
 			}
 			dtlve2DungeonTiles.get(iCurrentX).get(iCurrentY).setTileType(TileType.FLOOR);
 		}
@@ -248,7 +255,7 @@ public class Dungeon {
 	}
 	
 	private void spawnEnemies() {
-		int iNumUntilNextSpawn = (iDungeonXSize / 5) + (iDungeonYSize / 5);
+		int iNumUntilNextSpawn = (iDungeonXSize / 3) + (iDungeonYSize / 3);
 		for (int iuP1 = 0; iuP1 < iDungeonXSize; iuP1 ++){
 			for (int iuP2 = 0; iuP2 < iDungeonYSize; iuP2 ++){
 				if (dtlve2DungeonTiles.get(iuP1).get(iuP2).getTileType() == TileType.FLOOR) {

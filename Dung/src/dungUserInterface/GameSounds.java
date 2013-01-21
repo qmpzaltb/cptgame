@@ -156,7 +156,7 @@ public class GameSounds {
 	//Used ONLY if there is no music running in the background
 	public static void playIniMusic(SoundType typeOfMusic) {
 		playMusicType(typeOfMusic);
-		
+		GameEvents.doAction(EventType.LEVELMUSICINC); //comment out to disable play ALL music
 	}
 	
 	public static void requestMusicPlay(SoundType typeOfMusic){
@@ -173,6 +173,7 @@ public class GameSounds {
 					//then play the selected music
 					playMusicType(typeOfMusicRequested);
 					musicPlayRequested = false;
+					GameEvents.doAction(EventType.LEVELMUSICINC); //comment out to disable play ALL music
 				}
 			}
 		}
