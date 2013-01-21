@@ -69,6 +69,7 @@ public class Dungeon {
 	int iSpawnY;	   //the y for the spawn
 	public static int iExitX;	       //the x for the exit
 	public static int iExitY;	       //the y for the exit
+	public static int iNumberOfEnemies;
 	Random rngDungeon; //random seed for the dungeon
 	
 	public static int iNextDungeon = 0;
@@ -263,6 +264,7 @@ public class Dungeon {
 					if (iNumUntilNextSpawn == 0) {
 						iNumUntilNextSpawn = (iDungeonXSize / 3) + (iDungeonYSize / 3);
 						DungeonGame.addEntity(ContentLibrary.DIRTY_BUBBLE_BLUEPRINT, (iuP1 + 0.5), (iuP2 + 0.5), 0, new ControllerAI(), new SkeletonBubble(), ContentLibrary.DIRTY_BUBBLE_COLORS);
+						iNumberOfEnemies++;
 					}
 				}
 			}
@@ -325,7 +327,7 @@ public class Dungeon {
 						isOneExitInstance = true;
 						iExitX = iuP1;
 						iExitY = iuP2;
-						System.out.println(iuP1 + " X and " + iuP2 + " Y is the EXIT LOCATION :D");
+						//System.out.println(iuP1 + " X and " + iuP2 + " Y is the EXIT LOCATION :D");
 						break placingExit;
 					}
 				}

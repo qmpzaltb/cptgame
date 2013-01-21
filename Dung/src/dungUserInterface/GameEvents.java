@@ -70,6 +70,11 @@ public class GameEvents {
 			GameSounds.playSound(SoundType.NEWITEM);
 			break;
 		}
+		case ACE:{
+			iFrameBeforeRemove = 360;
+			strDisplay = "SPOTLESS! All enemies has been cleaned, now you must find the exit.";
+			GameSounds.playSound(SoundType.ACE);
+		}
 		case ITEM:{
 			iFrameBeforeRemove = 120;
 			strDisplay = "";
