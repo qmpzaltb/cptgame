@@ -1,5 +1,6 @@
 package dungContent;
 
+import java.awt.Point;
 import java.util.Random;
 
 import javax.swing.JOptionPane;
@@ -10,6 +11,7 @@ import dungEntity.EntitySpatialKnowledge;
 import dungEntity.Item;
 import dungMain.Dungeon;
 import dungMain.DungeonGame;
+import dungMain.TileType;
 import static dungMain.DungeonGame.handleEntity;
 import dungUserInterface.EventType;
 import dungUserInterface.GameActions;
@@ -146,6 +148,9 @@ public class ControllerPlayer extends EntityController{
 			JOptionPane.showMessageDialog(null, "GAME OVER. YOU WIN.", "CLEANSANITY", JOptionPane.PLAIN_MESSAGE);
 			System.exit(0);
 		}
+		if (DungeonGame.handleTile((int)handleEntity(iEntityID).getXPos() , (int)handleEntity(iEntityID).getYPos()).getTileType() == TileType.WALLEDGE){
+			handleEntity(0).incrementIntegrity(-1);
+		}
 
 
 
@@ -160,7 +165,7 @@ public class ControllerPlayer extends EntityController{
 				GameInput.baActions[GameActions.SPEED_MODIFIER] = false;
 			}
 			if (iStamina >= 5){
-				handleEntity(iEntityID).dMovementMagnitude = handleEntity(iEntityID).dNormalSpeed * 6; 	//Change the entity's speed.
+				handleEntity(iEntityID).dMovementMagnitude = handleEntity(iEntityID).dNormalSpeed * 2; 	//Change the entity's speed.
 				iStamina -=5;
 			}
 
