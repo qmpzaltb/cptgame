@@ -18,6 +18,9 @@ public class Item extends Entity {
 	public Item(ItemBlueprint ibp, ControllerItem controller, EntitySkeleton itemSkeleton, Color[] itemColorSet, int parentEntityID, SkeletonLimb limbGrabbed){
 		
 		super(-2, ibp, -1000, -1000, 0, controller, itemSkeleton, itemColorSet);
+		dDamageAreaRadius = ibp.getDamageAreaRadius();
+		dDamageAreaXPos = ibp.getDamageAreaX();
+		dDamageAreaYPos = ibp.getDamageAreaY();
 		attachLimb(limbGrabbed);
 		encController = controller;
 		dRadius = ibp.getRadius();
@@ -52,7 +55,7 @@ public class Item extends Entity {
 		return dXPos;
 	}
 	public double getDamageXPos(){
-		return getXPos() + ((Math.cos(getHeading()) * (dDamageAreaXPos)) - (Math.sin(getHeading()) * (dDamageAreaYPos)));
+		return getXPos() + ((Math.cos(sklLimbAttachedTo.getAttachHeading()) * (dDamageAreaXPos)) - (Math.sin(sklLimbAttachedTo.getAttachHeading()) * (dDamageAreaYPos)));
 	}
 	
 	public double getYPos(){
@@ -62,9 +65,9 @@ public class Item extends Entity {
 		return dYPos;
 	}
 	public double getDamageYPos(){
-		System.out.println("YPOS:: " + getYPos());
-		System.out.println("DAMAGEYPOS: " + (getYPos() +  ((Math.cos(getHeading()) * (dDamageAreaYPos)) + (Math.sin(getHeading()) * (dDamageAreaXPos)))));
-		return getYPos() + ((Math.cos(getHeading()) * (dDamageAreaYPos)) + (Math.sin(getHeading()) * (dDamageAreaXPos)));
+		System.out.println("YPOS: " + getYPos());
+		System.out.println("DAMAGEYPOS: " + (((Math.cos(sklLimbAttachedTo.getAttachHeading()) * (dDamageAreaYPos)) + (Math.sin(sklLimbAttachedTo.getAttachHeading()) * (dDamageAreaXPos)))));
+		return getYPos() + ((Math.cos(sklLimbAttachedTo.getAttachHeading()) * (dDamageAreaYPos)) + (Math.sin(sklLimbAttachedTo.getAttachHeading()) * (dDamageAreaXPos)));
 	}
 	
 	public double getHeading(){

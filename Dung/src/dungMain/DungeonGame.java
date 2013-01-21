@@ -84,8 +84,15 @@ public class DungeonGame {
 				"Press SHIFT to toggle sprint.\n" + 
 				"Use P and O to increase/decrease the volume.", "CLEANSANITY", JOptionPane.PLAIN_MESSAGE);
 
-		iCurrentMapSeed = JOptionPane.showInputDialog(null, "Input a game seed:", "CLEANSANITY", JOptionPane.INFORMATION_MESSAGE).hashCode();
-
+		
+		
+		String strSeedToSetTo = JOptionPane.showInputDialog(null, "Input a game seed:", "CLEANSANITY", JOptionPane.INFORMATION_MESSAGE);
+		try{
+			iCurrentMapSeed = Integer.parseInt(strSeedToSetTo);
+		} catch (NumberFormatException e){
+			iCurrentMapSeed = strSeedToSetTo.hashCode();
+		}
+		
 		JOptionPane.showMessageDialog(null, "CLEANSANITY\n" +
 				"NOW PLAYING: " + iCurrentMapSeed, "CLEANSANITY", JOptionPane.PLAIN_MESSAGE);
 
@@ -149,8 +156,8 @@ public class DungeonGame {
 			if (toUpdate.encController.isEntityDead()){
 				removeEntity(toUpdate.iEntityID);
 				ControllerPlayer.iEntitiesCleaned ++;
-				if (ControllerPlayer.iEntitiesCleaned == 10){
-					
+				if (ControllerPlayer.iEntitiesCleaned == Dungeon.iNumberOfEnemies){
+					GameEvents.doAction(EventType.ACE);
 				} else {
 				GameEvents.doAction(EventType.SPREE);
 				}
