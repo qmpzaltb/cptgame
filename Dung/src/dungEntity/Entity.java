@@ -150,7 +150,7 @@ public class Entity {
 	}
 	
 	public int addItem(Item toAdd){
-		return DungeonGame.addItem(toAdd);
+		return DungeonGame.addItem(toAdd, this);
 	}
 	
 	

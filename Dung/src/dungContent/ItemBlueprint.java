@@ -7,17 +7,8 @@ package dungContent;
  */
 public class ItemBlueprint extends EntityBlueprint {
 	
-	private double dDamageAreaX;
-	private double dDamageAreaY;
-	private double dDamageAreaRadius;
-	
 	public ItemBlueprint(double damageAreaX, double damageAreaY, double damageAreaRadius){
-		super(0,0,-1,false,false);
-		
-		dDamageAreaX = damageAreaX;
-		dDamageAreaY = damageAreaY;
-		dDamageAreaRadius = damageAreaRadius;
-		
+		super(0,0,-1,false,false,damageAreaX,damageAreaY,damageAreaRadius);
 		
 	}
 	public double getDamageAreaX(){

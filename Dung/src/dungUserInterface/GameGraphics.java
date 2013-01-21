@@ -237,9 +237,11 @@ public class GameGraphics extends JPanel{
 			gfx2D.drawString("MSPFO (game): " + DungeonGame.getLastMSPFO() + ", which means that FPS: " + 1000.0 / DungeonGame.getLastMSPFO() , 5, getHeight() - 60);
 		}
 		gfx2D.setColor(ColorList.GUI_RED);
-		gfx2D.drawString("Health: sqrt(1/0) ---  PROTIP: PRESS WASD, M1, M2, SHIFT, UP, DOWN, COMMA, PERIOD", 5, getHeight() - 40);
+		gfx2D.drawString("Health: " + DungeonGame.handleEntity(ControllerPlayer.iPlayerEntityID).getIntegrity(), 5, getHeight() - 40);
+		gfx2D.setColor(ColorList.PALE_SKIN);
+		gfx2D.drawString("Stamina: " + ControllerPlayer.getStamina(), 5, getHeight() - 30);
 		gfx2D.setColor(ColorList.GOLD);
-		gfx2D.drawString("Volume of Music (in dB): " + GameSounds.fCurrentVolume , 5, getHeight() - 30);
+		gfx2D.drawString("Volume of Music (in dB): " + GameSounds.fCurrentVolume , 5, getHeight() - 20);
 
 		if (bDebugView) {
 			gfx2D.setColor(ColorList.GUI_BLACK);

@@ -81,12 +81,12 @@ public class DungeonGame {
 				"Use COMMA and PERIOD to zoom in and out.\n" +
 				"Press SHIFT to toggle sprint.\n" + 
 				"Use P and O to increase/decrease the volume.", "CLEANSANITY", JOptionPane.PLAIN_MESSAGE);
-		
+
 		iCurrentMapSeed = JOptionPane.showInputDialog(null, "Input a game seed:", "CLEANSANITY", JOptionPane.INFORMATION_MESSAGE).hashCode();
-		
+
 		JOptionPane.showMessageDialog(null, "CLEANSANITY\n" +
 				"NOW PLAYING: " + iCurrentMapSeed, "CLEANSANITY", JOptionPane.PLAIN_MESSAGE);
-		
+
 		strGamePath = new File("").getAbsolutePath();
 
 		//Initialization begins
@@ -108,8 +108,8 @@ public class DungeonGame {
 		//addEntity(ContentLibrary.RAT_BLUEPRINT, 10,17,0, new ControllerAI(), new SkeletonCreature(), ContentLibrary.CREATURE_COLORS);
 		addEntity(ContentLibrary.DIRTY_BUBBLE_BLUEPRINT, 12,12,0, new ControllerAI(), new SkeletonBubble(), ContentLibrary.DIRTY_BUBBLE_COLORS);
 		//addEntity(ContentLibrary.DIRTY_BUBBLE_BLUEPRINT, 15,15,0, new ControllerAI(), new SkeletonBubble(), ContentLibrary.DIRTY_BUBBLE_COLORS);
-		entveCurrentEntities.get(0).addItem(new Item(ContentLibrary.DUSTER_BLUEPRINT, new ControllerItem(), new SkeletonDuster(), ContentLibrary.DUSTER_COLORS, 0, handleEntity(0).ensSkeleton.sklaSkeleton[5]));
-		entveCurrentEntities.get(0).addItem(new Item(ContentLibrary.DUSTER_BLUEPRINT, new ControllerItem(), new SkeletonBroom(), ContentLibrary.BROOM_COLORS, 0, handleEntity(0).ensSkeleton.sklaSkeleton[6]));
+		addItem(new Item(ContentLibrary.DUSTER_BLUEPRINT, new ControllerItem(), new SkeletonDuster(), ContentLibrary.DUSTER_COLORS, 0, handleEntity(0).ensSkeleton.sklaSkeleton[5]), handleEntity(0));
+		addItem(new Item(ContentLibrary.DUSTER_BLUEPRINT, new ControllerItem(), new SkeletonBroom(), ContentLibrary.BROOM_COLORS, 0, handleEntity(0).ensSkeleton.sklaSkeleton[6]), handleEntity(0));
 
 		dngCurrentDungeon = new Dungeon(iCurrentMapSeed);
 
@@ -122,9 +122,9 @@ public class DungeonGame {
 		mainGameWindow.show();
 		//The Gameplay Loop
 		while (true){
-			
+
 			lGameLoopStartTime = System.currentTimeMillis();
-			
+
 			if (bRenderGame){
 				doGameLoop();
 				ColorScheme.updateColorList();
@@ -147,36 +147,36 @@ public class DungeonGame {
 
 
 	}
-	
+
 	private static void regulateFramerate(){
-	//CODE BLOCK:
-			//Framerate regulator
-			lGameLoopEndTime = System.currentTimeMillis();
-			lGameLoopTimeTaken = (lGameLoopEndTime - lGameLoopStartTime);
-			lLastMSPFO = lGameLoopTimeTaken;
+		//CODE BLOCK:
+		//Framerate regulator
+		lGameLoopEndTime = System.currentTimeMillis();
+		lGameLoopTimeTaken = (lGameLoopEndTime - lGameLoopStartTime);
+		lLastMSPFO = lGameLoopTimeTaken;
 
-			//Framerate regulator for stable gameplay.
-			if (lCurrentFrame % GameSettings.iFPSRegulationPeriod == 0){ //Every "GameSettings.iFPSRegulationPeriod" amount of frames,
-				if (iMSPFOGmAdj < lGameLoopTimeTaken){ //If the current framerate is insufficient,
-					iMSPFOGmAdj ++; //slow the game down.
-				} else if (lGameLoopTimeTaken > GameSettings.iMSPFOGm){ //But if the framerate is slower than the max and the framerate is more than sufficient,
-					iMSPFOGmAdj --; //speed the game up.
-				}
+		//Framerate regulator for stable gameplay.
+		if (lCurrentFrame % GameSettings.iFPSRegulationPeriod == 0){ //Every "GameSettings.iFPSRegulationPeriod" amount of frames,
+			if (iMSPFOGmAdj < lGameLoopTimeTaken){ //If the current framerate is insufficient,
+				iMSPFOGmAdj ++; //slow the game down.
+			} else if (lGameLoopTimeTaken > GameSettings.iMSPFOGm){ //But if the framerate is slower than the max and the framerate is more than sufficient,
+				iMSPFOGmAdj --; //speed the game up.
 			}
+		}
 
-			//System.out.println("ms for gameplay frame: " + lGameLoopTimeTaken);
-			lTimeToSleep = iMSPFOGmAdj - lGameLoopTimeTaken;
-			if (lTimeToSleep > 0){ //Because we don't want to sleep for negative times. Because we don't know what that does.
-				try {
-					//Thread.yield(); Unknown effects
-					Thread.sleep(iMSPFOGmAdj - lGameLoopTimeTaken);
-				} catch (InterruptedException e) {
-					System.err.println("Who interrupted the main thread's slumber?");
-				}
+		//System.out.println("ms for gameplay frame: " + lGameLoopTimeTaken);
+		lTimeToSleep = iMSPFOGmAdj - lGameLoopTimeTaken;
+		if (lTimeToSleep > 0){ //Because we don't want to sleep for negative times. Because we don't know what that does.
+			try {
+				//Thread.yield(); Unknown effects
+				Thread.sleep(iMSPFOGmAdj - lGameLoopTimeTaken);
+			} catch (InterruptedException e) {
+				System.err.println("Who interrupted the main thread's slumber?");
 			}
-			//END OF CODE BLOCK
+		}
+		//END OF CODE BLOCK
 	}
-	
+
 	public static void moveEntity(int iEntityID){
 
 		boolean bXHandled = false;
@@ -286,7 +286,7 @@ public class DungeonGame {
 		if (handleEntity(iEntityID).collidesWithEntities()){
 			for (int iuP1 = 0; iuP1 < entveCurrentEntities.size(); iuP1 ++){
 				if (iuP1 != iEntityID){
-					if (handleEntity(iuP1).collidesWithEntities()){ //TODO "Does-not-collide-with-other-entities" flag on entities. This is where it would go.
+					if (handleEntity(iuP1).collidesWithEntities()){
 						double distance = (dNewXPosCenter - handleEntity(iuP1).getXPos()) * (dNewXPosCenter - handleEntity(iuP1).getXPos()) + (dNewYPosCenter - handleEntity(iuP1).getYPos()) * (dNewYPosCenter - handleEntity(iuP1).getYPos());
 						if (distance < (dCurrentSize + handleEntity(iuP1).getSize()) * (dCurrentSize + handleEntity(iuP1).getSize())){
 							dEntityXShift = 0;
@@ -355,7 +355,14 @@ public class DungeonGame {
 
 	}
 
-	public static int addItem(Item toAdd){
+	public static int addItem(Item toAdd, Entity addToEntity){
+
+		for (int iuP1 = 0; iuP1 < addToEntity.itmaInventory.length; iuP1 ++){
+			if (addToEntity.itmaInventory[iuP1] == null){
+				addToEntity.itmaInventory[iuP1] = toAdd;
+			}
+		}
+
 		for (int iuP1 = 0; iuP1 < entveCurrentEntities.size(); iuP1 ++){
 			if (entveCurrentEntities.get(iuP1).isNull()){
 				entveCurrentEntities.set(iuP1, toAdd);

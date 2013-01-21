@@ -20,26 +20,28 @@ import dungUserInterface.GameInput;
  */
 public class ControllerPlayer extends EntityController{
 
+
+	public static int iStamina = 500; //Temporary quick-fix solution for game release.
+
 	public static int iPlayerEntityID; //A variable that tells other classes which entity is the player's entity.
-	
+
 	public static int iCleanSpree; //Gets and sets the amount of "Cleans" the player has committed
-	
+
 	private static EntitySpatialKnowledge spkKnowledge; //The "knowledge" of the player - what the player sees, has seen, and has not seen.
 	private int currentX; //For updating EntitySpatialKnowledge in a conservative matter (i.e., not every frame, but only when the tile changes.)
 	private int currentY;
-	
+
 	private int iInventoryLimit = 12; //out of 240 max limit
-	
+
 	public ControllerPlayer(){
 		super();
 		spkKnowledge = new EntitySpatialKnowledge(iPlayerEntityID, 5); //Initializes the "knowledge" variables
 		currentX = -1;
 		currentY = -1;
 	}
-	
+
 	@Override
 	public boolean isEntityDead() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
@@ -49,14 +51,14 @@ public class ControllerPlayer extends EntityController{
 		super.setEntityID(entityID);
 		iPlayerEntityID = entityID;
 	}
-	
-	
+
+
 	public void doNextAction() {
-		
+
 		handleEntity(iEntityID).dHeading = GameInput.getHeading(); 	//Sets the Player entity's heading relative to the mouse.
 		handleEntity(iEntityID).bEntityMoving = false;				//Assumes the player is not moving.
-		
-		
+
+
 		//CODE BLOCK:
 		//Updating the Entity's knowledge
 		if (currentX != (int)handleEntity(iEntityID).getXPos() || currentY != (int)handleEntity(iEntityID).getYPos()){ 	//If the entity has changed position (block-wise)
@@ -65,7 +67,7 @@ public class ControllerPlayer extends EntityController{
 			spkKnowledge.updateKnowledge();						//Then tell the knowledge to update his knowledge.
 		}
 		//END OF CODE BLOCK
-		
+
 		//CODE BLOCK:
 		//Handling movement input
 		if (GameInput.baActions[GameActions.MOVE_UP] && GameInput.baActions[GameActions.MOVE_LEFT]){ //Moves Up Left
@@ -100,33 +102,49 @@ public class ControllerPlayer extends EntityController{
 			handleEntity(iEntityID).setMovementDirection(handleEntity(iEntityID).dHeading + Math.PI); //Moves player backwards where they are facing
 		}
 		//END OF CODE BLOCK
-		
+
 		//CODE BLOCK:
 		//Handles sounds for movement
 		if (handleEntity(iEntityID).bEntityMoving == true) {
 			GameEvents.doAction(EventType.MOVEMENT);
 		}
 		//END OF CODE BLOCK
-		
-		
-		
-		
-		
-		
+
+
+
+
+
+
 		//Glitch : the speed modified will continue even if shift is not pressed. This is done by holding shift, then pressing and holding down any WASD keys, then releasing the shift key.
 		//That is a feature, not a glitch. Instead of being a push-to-sprint, the game can also be a toggle-to-sprint. This is controllable in GameSettings with the boolean bModifiersAreToggled.
 		//Why did I make this feature? Key ghosting. My keyboard can't sprint up-right, because it doesnt allow those three keys to be pressed at the same time.
-		
+
 		//CODE BLOCK:
 		//Handling sprinting
 		if(GameInput.baActions[GameActions.SPEED_MODIFIER]){ 	//If Sprinting is requested...
-			handleEntity(iEntityID).dMovementMagnitude = handleEntity(iEntityID).dNormalSpeed * 6; 	//Change the entity's speed.
-		} else {												//But if not...
+			if (iStamina < 5){
+				GameInput.baActions[GameActions.SPEED_MODIFIER] = false;
+			}
+			if (iStamina >= 5){
+				handleEntity(iEntityID).dMovementMagnitude = handleEntity(iEntityID).dNormalSpeed * 6; 	//Change the entity's speed.
+				iStamina -=5;
+			}
+			
+		} 
+		if (GameInput.baActions[GameActions.SPEED_MODIFIER] == false) {												//But if not...
 			handleEntity(iEntityID).dMovementMagnitude = handleEntity(iEntityID).dNormalSpeed;		//Set it back to normal. 
+			if (iStamina < 500){
+				iStamina += 1;
+			}
+		}
+		if (handleEntity(iEntityID).bEntityMoving == false){
+			if (iStamina < 500){
+				iStamina += 1;
+			}
 		}
 		//END OF CODE BLOCK
-		
-		
+
+
 		//CODE BLOCK:
 		//Handling movement animations
 		if (handleEntity(iEntityID).bEntityMoving){ 		//If the player is moving,
@@ -135,53 +153,56 @@ public class ControllerPlayer extends EntityController{
 		} else {											//But if not
 			handleEntity(iEntityID).lEntityMovingTime = 0;	//Then he has been moving for 0 frames. 
 		}
-		
+
 		handleEntity(iEntityID).ensSkeleton.doAnimation( AnimationType.MOVE , handleEntity(iEntityID).lEntityMovingTime); //Do the movement animation.
 		//END OF CODE BLOCK
-		
-		
+
+
 		//CODE BLOCK
 		//Handling special animations
 		if (handleEntity(iEntityID).lEntityActionTime <= 0){ //If the special animation is done,
 			handleEntity(iEntityID).entityAction = AnimationType.IDLE; //then set them to be idle.
 			handleEntity(iEntityID).lEntityActionTime = 0;
 		}
-		
+
 		//SUB-CODE-BLOCK
 		//Handling actions requested
 		if (handleEntity(iEntityID).entityAction == AnimationType.IDLE){ //If the entity is idle, they are eligible to do a special action/animation
 			if (GameInput.baActions[GameActions.ATTACK_USE_PRIMARY]){ //such as swing their fist
-					handleEntity(iEntityID).lEntityActionTime = 45;
-					handleEntity(iEntityID).entityAction = AnimationType.ATTACK_SWORD_RIGHTHAND;
-			}
-			if (GameInput.baActions[GameActions.ATTACK_USE_SECONDARY]){ //and swing their other fist
+				handleEntity(iEntityID).lEntityActionTime = 45;
+				handleEntity(iEntityID).entityAction = AnimationType.ATTACK_SWORD_RIGHTHAND;
+				handleEntity(iEntityID).itmaInventory[0].bDamageAreaActive = true;
+			} else if (GameInput.baActions[GameActions.ATTACK_USE_SECONDARY]){ //and swing their other fist
 				handleEntity(iEntityID).lEntityActionTime = 45;
 				handleEntity(iEntityID).entityAction = AnimationType.ATTACK_SPEAR_LEFTHAND;
+			} else {
+				handleEntity(iEntityID).itmaInventory[0].bDamageAreaActive = false;
+				handleEntity(iEntityID).itmaInventory[1].bDamageAreaActive = false;
+			}
 		}
-		}
-		
+
 		handleEntity(iEntityID).ensSkeleton.doAnimation(handleEntity(iEntityID).entityAction, handleEntity(iEntityID).lEntityActionTime); //Tells the skeleton to move the entity accordingly.
-			
-		
-		
-		
+
+
+
+
 		handleEntity(iEntityID).lEntityActionTime -= 1;
 		//END OF CODE BLOCKS
-		
-		
-		
+
+
+
 	}
 
 	@Override
 	public void doIntersectionAction() {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
+
 	public static EntitySpatialKnowledge getKnowledge(){
 		return spkKnowledge;
 	}
-	
+
 	public Item[] initializeInventory(){
 		return new Item[240];
 	}
@@ -192,5 +213,8 @@ public class ControllerPlayer extends EntityController{
 	public static int getCleanSpree() { //sets the current clean spree
 		return iCleanSpree;
 	}
-	
+	public static int getStamina(){
+		return iStamina;
+	}
+
 }
