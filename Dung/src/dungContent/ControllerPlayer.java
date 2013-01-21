@@ -1,9 +1,12 @@
 package dungContent;
 
+import java.util.Random;
+
 import dungEntity.EntityController;
 import dungEntity.AnimationType;
 import dungEntity.EntitySpatialKnowledge;
 import dungEntity.Item;
+import dungMain.Dungeon;
 import dungMain.DungeonGame;
 import static dungMain.DungeonGame.handleEntity;
 import dungUserInterface.EventType;
@@ -108,7 +111,19 @@ public class ControllerPlayer extends EntityController{
 		}
 		//END OF CODE BLOCK
 		
-		
+		//CODE BLOCK:
+		//Checks if the player is on the exit point
+		if (Dungeon.iExitX == currentX && Dungeon.iExitX == currentX) {
+			Dungeon.iNextDungeon++;
+			Random newRandDung = new Random(DungeonGame.iCurrentMapSeed);
+			int newSeed = DungeonGame.iCurrentMapSeed;
+			for (int i = 0; i < Dungeon.iNextDungeon; i++)
+				newSeed = newRandDung.nextInt();
+			
+			
+			DungeonGame.dngCurrentDungeon = new Dungeon(DungeonGame.iCurrentMapSeed);
+			
+		}
 		
 		
 		

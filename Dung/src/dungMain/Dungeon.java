@@ -59,7 +59,11 @@ public class Dungeon {
 	int iDungeonYSize; //the max range of the y co-ordinates of the map
 	int iSpawnX;	   //the x for the spawn
 	int iSpawnY;	   //the y for the spawn
+	public static int iExitX;	       //the x for the exit
+	public static int iExitY;	       //the y for the exit
 	Random rngDungeon; //random seed for the dungeon
+	
+	public static int iNextDungeon = 0;
 
 	public Dungeon(int seed){
 		DungeonGame.iGameReadinessState -= 1;
@@ -118,11 +122,15 @@ public class Dungeon {
 		dungSimpGrid = getSimpDungGrid(dungSimpGrid);
 		setExit();
 
-		
-		DungeonGame.iGameReadinessState += 1;
-
 		GameEvents.doAction(EventType.LEVELMUSICINC);
 		GameEvents.doAction(EventType.ROUNDSTART);
+		
+		DungeonGame.iGameReadinessState += 1;
+		
+		
+		Point[] test = FindPath(dungSimpGrid, iSpawnX, iSpawnY, iExitX, iExitY);
+		
+		
 	}
 
 	
@@ -280,7 +288,9 @@ public class Dungeon {
 					if (iCurrentEligibleFloorTile == randSpawnTile){
 						dtlve2DungeonTiles.get(iuP1).get(iuP2).setTileType(TileType.EXIT); //then spawn exit point
 						isOneExitInstance = true;
-						System.out.println(iuP1 + " X and " + iuP2 + " Y is the EXIT LOCATION :D");
+						iExitX = iuP1;
+						iExitY = iuP2;
+						//System.out.println(iuP1 + " X and " + iuP2 + " Y is the EXIT LOCATION :D");
 						break placingExit;
 					}
 				}
@@ -350,20 +360,20 @@ public class Dungeon {
 	
 	
 	
-	/*
 	
 	//-------------------------------------------------------
 	//Algorithm for Path Finding using A* by Anthony Zhang
 	//Translated and incorporated to Java by Justin Baradi
 	//-------------------------------------------------------
-	private Point[] FindPath (int[][] dungGrid, int iStartX, int iStartY, int iTargetX, int iTargetY) {
+	private Point[] FindPath (final int[][] dungGrid, int iStartX, int iStartY, int iTargetX, int iTargetY) {
 		
 	//start or end position is not passable
-	if (dtlve2DungeonTiles.get(iStartX).get(iStartY).tileType == TileType.WALL || dtlve2DungeonTiles.get(iStartX).get(iStartY).tileType == TileType.WALLEDGE || dtlve2DungeonTiles.get(iTargetX).get(iTargetY).tileType == TileType.WALL || dtlve2DungeonTiles.get(iTargetX).get(iTargetY).tileType == TileType.WALLEDGE)
+	if (dungGrid[iStartX][iStartY] == 1 || dungGrid[iTargetX][iTargetY] == 1) {
+		System.out.println("OH BOY ITS NOT WORKING");
 		return null; //could not find path
-	if (dungGrid[iStartX][iStartY] == 1 || dungGrid[iTargetX][iTargetY] == 1)
-		return null; //could not find path
-
+	}
+	System.out.println("OH BOY ITS WORKING");
+		
     int CurrentScores[][] = new int[iStartX][iStartY]; //map of current scores
     int HeuristicScores[][] = new int[iDungeonXSize][iDungeonYSize]; //map of heuristic scores
     int TotalScores[][] = new int[iDungeonXSize][iDungeonYSize];
@@ -388,10 +398,11 @@ public class Dungeon {
     Point Parents[][] = new Point[iDungeonXSize][iDungeonYSize]; //mapping of nodes to their parents
     	
 
-    int iMaxIndex = 0;
     
-    while (iMaxIndex == OpenHeap.size()) //loop while there are entries in the open list
+    while (OpenHeap.size() > 0) //loop while there are entries in the open list
     {
+        int iMaxIndex = OpenHeap.size();
+        
         //select the node having the lowest total score
         String Node = OpenHeap.poll();
         int NodeX = Integer.parseInt(Node.split("|")[1].trim());
@@ -405,16 +416,24 @@ public class Dungeon {
         if (NodeX == iTargetX && NodeY == iTargetY)
         {
         	Point[] Path = new Point[iDungeonXSize*iDungeonYSize];
+        	/*
             for (int i = 0; i < (iDungeonXSize*iDungeonYSize); i++)
             {
                 Path[i] = new Point(NodeX, NodeY);
-                Parents[] = 
+                break;
+                
+                Parents[][] = new Point(iNodeX, iNodeY);
                 Node = Parents[NodeX][NodeY];
+                
                 if (!IsObject(Node))
                     break;
                 NodeX = Node.X;
                 NodeY = Node.Y;
             }
+            */
+        	for (Point testPoint : Path) {
+    			System.out.println(testPoint.x + ", " + testPoint.y);
+    		}
             return Path;
         }
 
@@ -437,8 +456,9 @@ public class Dungeon {
 	
 	private void ScoreNode(int iTargetX, int iTargetY, int iNodeX, int iNodeY, int[][] dungGrid, int iNextNodeX, int iNextNodeY, PriorityQueue<String> OpenHeap, boolean[][] OpenMap, boolean[][] VisitedNodes, int[][] CurrentScores, int[][] HeuristicScores, int[][] TotalScores, Point[][] Parents)
 	{
-	    if (dungGrid[iNextNodeX][iNextNodeY] == 1 || VisitedNodes[iNextNodeX][iNextNodeY] == true); //next node is a wall or is in the closed list
+	    if (dungGrid[iNextNodeX][iNextNodeY] == 1 || VisitedNodes[iNextNodeX][iNextNodeY] == true) //next node is a wall or is in the closed list
 	        return;
+	        
 	    int iBestCurrentScore = CurrentScores[iNodeX][iNodeY] + 1; //add the distance between the current node and the next to the current distance
 
 	    if (!(OpenMap[iNextNodeX][iNextNodeY]))
@@ -458,7 +478,7 @@ public class Dungeon {
 	    {
 	        CurrentScores[iNextNodeX][iNextNodeY] = iBestCurrentScore;
 	        TotalScores[iNextNodeX][iNextNodeY] = iBestCurrentScore + HeuristicScores[iNextNodeX][iNextNodeY];
-	        Parents[iNextNodeX][iNextNodeY] = Object("X",NodeX,"Y",NodeY);
+	        Parents[iNextNodeX][iNextNodeY] = new Point(iNodeX, iNodeY);
 	    }
 	}
 	
@@ -466,7 +486,6 @@ public class Dungeon {
 	
 	
 	
-	*/
 	
 	
 	
