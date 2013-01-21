@@ -82,6 +82,7 @@ public class GameSettings {
 		iaActionOfButton[KeyEvent.VK_PERIOD]	= GameActions.ZOOM_OUT;
 		iaActionOfButton[KeyEvent.VK_P] = GameActions.VOLUME_INCREASE;
 		iaActionOfButton[KeyEvent.VK_O] = GameActions.VOLUME_DECREASE;
+		iaActionOfButton[KeyEvent.VK_M] = GameActions.VIEW_DEBUG;
 	}
 	
 	

@@ -398,6 +398,10 @@ public class DungeonGame {
 			GameSounds.decVolume();
 			GameInput.baActions[GameActions.VOLUME_DECREASE] = false;
 		}
+		if (GameInput.baActions[GameActions.VIEW_DEBUG]){
+			GameGraphics.bDebugView = !(GameGraphics.bDebugView);
+			GameInput.baActions[GameActions.VIEW_DEBUG] = false;
+		}
 
 
 

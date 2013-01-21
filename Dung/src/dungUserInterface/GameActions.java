@@ -76,14 +76,17 @@ public class GameActions {
 	public static final int VOLUME_INCREASE				= 57;
 	public static final int VOLUME_DECREASE				= 58;
 	public static final int VOLUME_MUTE					= 59;
+	public static final int VIEW_DEBUG					= 60;
 	
-	public static final int TOP_INDEX_OF_REQUESTS		= 59;
+	public static final int TOP_INDEX_OF_REQUESTS		= 60;
 	
 	//Request on button release, derequest on action complete or button press.
-	public static final int ATTACK_RELEASE_PRIMARY		= 60; //Special case, triggered when button is released. Uses same key as ATTACK_USE_PRIMARY. Derequest on press as well.
-	public static final int ATTACK_RELEASE_SECONDARY	= 61; //Special case, triggered when button is released. Uses same key as ATTACK_USE_SECONDARY. Derequest on press as well.
+	public static final int ATTACK_RELEASE_PRIMARY		= 61; //Special case, triggered when button is released. Uses same key as ATTACK_USE_PRIMARY. Derequest on press as well.
+	public static final int ATTACK_RELEASE_SECONDARY	= 62; //Special case, triggered when button is released. Uses same key as ATTACK_USE_SECONDARY. Derequest on press as well.
 	
-	public static final int TOP_INDEX_OF_RELEASES		= 61;
+	public static final int TOP_INDEX_OF_RELEASES		= 62;
 	
-	public static final int ACTIONS_VARIETY 			= 62;
+	public static final int ACTIONS_VARIETY 			= 63;
+	
+	
 }
