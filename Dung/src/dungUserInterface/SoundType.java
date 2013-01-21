@@ -16,6 +16,7 @@ public enum SoundType {
 	NEWITEM,
 	GAMEOVER,
 	ITEM,
+	ITEMBROOM,
 	
 	//music
 	LAV,

@@ -7,7 +7,9 @@ public enum EventType {
 	SPREE,
 	GAMEOVER,
 	NEWITEM,
+	SWINGITEM,
 	ITEM,
+	
 	
 	LEVELMUSICINC
 }

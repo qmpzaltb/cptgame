@@ -31,6 +31,10 @@ public class GameSounds {
 	private static final float VOLUME_MIN = -60.0f;
 	public static float fCurrentVolume = 0.0f;
 	
+	private static int iTimeBeforeNextMove = 0;
+	private static boolean bNewMoveMade;
+	private static String strMove;
+	
 	//Not sure if we need this to implement multi sounds
 	//int[] maxSimultSounds = new int[15];
 
@@ -40,7 +44,7 @@ public class GameSounds {
 				wavPlayer("STARTROUND.wav"); break;
 			}
 			case ENDROUND:{
-				int rand = (int) Math.random() * 2;
+				int rand = (int) (Math.random() * 2);
 				if (rand == 0) {
 					wavPlayer("ENDROUND.wav"); break;
 				} else if (rand == 1) {
@@ -48,7 +52,7 @@ public class GameSounds {
 				}
 			}
 			case DIRTY:{
-				int rand = (int) Math.random() * 2;
+				int rand = (int) (Math.random() * 2);
 				if (rand == 0) {
 					wavPlayer("OHBOY.wav"); break;
 				} else if (rand == 1) {
@@ -71,7 +75,7 @@ public class GameSounds {
 				wavPlayer("SPREE5.wav"); break;
 			}
 			case SPREE6:{
-				int rand = (int) Math.random() * 3;
+				int rand = (int) (Math.random() * 3);
 				if (rand == 0) {
 					wavPlayer("SANITARY.wav"); break;
 				} else if (rand == 1) {
@@ -88,19 +92,32 @@ public class GameSounds {
 				wavPlayer("GAMEOVER.wav"); break;
 			}
 			case MOVE:{
-				int rand = (int) Math.random() * 4;
-				if (rand == 0) {
-					wavPlayer("MOVE.wav"); break;
-				} else if (rand == 1) {
-					wavPlayer("MOVE2.wav"); break;
-				} else if (rand == 2) {
-					wavPlayer("MOVE3.wav"); break;
-				} else if (rand == 3) {
-					wavPlayer("MOVE4.wav"); break;
+				if (bNewMoveMade == false && iTimeBeforeNextMove <= 0) {
+					bNewMoveMade = true;
+					iTimeBeforeNextMove = 900;
+					int rand = (int) (Math.random() * 4);
+					if (rand == 0) {
+						strMove = "MOVE.wav"; break;
+					} else if (rand == 1) {
+						strMove = "MOVE2.wav"; break;
+					} else if (rand == 2) {
+						strMove = "MOVE3.wav"; break;
+					} else if (rand == 3) {
+						strMove = "MOVE4.wav"; break;
+					}
 				}
+				break;
 			}
 			case NEWITEM:{
 				wavPlayer("NEWITEM.wav"); break;
+			}
+			case ITEMBROOM:{
+				int rand = (int) (Math.random() * 2);
+				if (rand == 0) {
+					wavPlayer("BROOM.wav"); break;
+				} else if (rand == 1) {
+					wavPlayer("BROOM2.wav"); break;
+				}
 			}
 			case ITEM:{
 				wavPlayer("DUSTER.wav"); break;
@@ -147,8 +164,7 @@ public class GameSounds {
 		typeOfMusicRequested = typeOfMusic;
 	}
 	
-	public static void updateMusic() {
-		
+	public static void updateGameSounds() {
 		if (musicPlayRequested){
 			//waits for the initial music to stop
 			if (currentMusic.isActive() == true) {
@@ -158,6 +174,16 @@ public class GameSounds {
 					playMusicType(typeOfMusicRequested);
 					musicPlayRequested = false;
 				}
+			}
+		}
+		
+		//handles next move sound
+		if (bNewMoveMade) {
+			if (iTimeBeforeNextMove == 900) wavPlayer(strMove);
+			if (iTimeBeforeNextMove <= 0) {
+				bNewMoveMade = false;
+			} else if (iTimeBeforeNextMove > 0) {
+				iTimeBeforeNextMove--;
 			}
 		}
 	}
