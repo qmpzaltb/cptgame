@@ -204,9 +204,6 @@ public class Dungeon {
 			}
 			dtlve2DungeonTiles.get(iCurrentX).get(iCurrentY).setTileType(TileType.FLOOR);
 		}
-
-
-
 	}
 
 	
