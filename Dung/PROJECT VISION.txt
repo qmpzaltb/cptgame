@@ -1,14 +1,10 @@
 Dungeon Game
 ------------
-
 * - Completed Tasks
-
-
 EVEN MORE PRIMARY GOALS:
 * 1. Do something
 
 PRIMARY GOALS: (We must have these)
-
 1. Mouse/Keyboard Input (generally complete)
 2. The While-True Game Loop 
 3. Graphics and its relevant loop
@@ -21,7 +17,7 @@ SECONDARY GOALS: (These would be good to have)
 2. Network/Multiplayer
 3. Procedurally generated (random) dungeons.
 4. Dynamic dungeon environment (liquids, gases, and their effects)
-5. Levelling up, skills,
+5. Levelling up, skills
 
 TERTIARY GOALS: (We should add these if we have time or if it is super easy)
 
